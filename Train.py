@@ -1,8 +1,9 @@
-import numpy as np
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.utils import to_categorical
-import matplotlib.pyplot as plt
 
 # 1. Chargement des données MNIST (Téléchargement auto si nécessaire)
 print("Chargement des données...")

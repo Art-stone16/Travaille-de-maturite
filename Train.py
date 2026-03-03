@@ -1,9 +1,11 @@
+import tensorflow as tf
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-import tensorflow as tf
-from tensorflow.keras import layers, models
+from tensorflow import layers, models
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.utils import plot_model
+
 
 # 1. Chargement des données MNIST (Téléchargement auto si nécessaire)
 print("Chargement des données...")
@@ -45,3 +47,10 @@ model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=
 # 6. Sauvegarde du modèle
 model.save('mon_modele_chiffres.h5')
 print("Modèle sauvegardé sous 'mon_modele_chiffres.h5' !")
+plot_model(
+    model,
+    to_file='mon_reseau.png',   # l'image sera créée dans ton dossier projet
+    show_shapes=True,            # montre les dimensions des données à chaque étape
+    show_layer_names=True        # montre le nom de chaque couche
+)
+print("Image du réseau sauvegardée !")

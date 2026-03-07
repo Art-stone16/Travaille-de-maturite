@@ -1,56 +1,65 @@
-import tensorflow as tf
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
-
-from tensorflow import layers, models
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.utils import plot_model
+import numpy as np
+import os
+os.environ["KERAS_BACKEND"] = "tensorflow"
+import keras
 
 
-# 1. Chargement des données MNIST (Téléchargement auto si nécessaire)
-print("Chargement des données...")
-(train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
+(x_train,y_train),(x_test,y_test) = keras.datasets.mnist.load_data()
+# Fait en sorte que les images soie entre 0 et 1
+x_train = x_train.astype("float32") / 255
+x_test = x_test.astype("float32") / 255
+# Fait en sorte que les images soient en 28 x 28
+x_train = np.expand_dims(x_train, -1)
+x_test = np.expand_dims(x_test, -1)
+print("x_train shape:", x_train.shape)
+print("y_train shape:", y_train.shape)
+print(x_train.shape[0], "train samples")
+print(x_test.shape[0], "test samples")
 
-# 2. Prétraitement des données
-# On normalise les pixels (valeurs entre 0 et 1 au lieu de 0 à 255)
-train_images = train_images.reshape((60000, 28, 28, 1)).astype('float32') / 255
-test_images = test_images.reshape((10000, 28, 28, 1)).astype('float32') / 255
+# Model parameters
+num_classes = 10
+input_shape = (28, 28, 1)
 
-# On convertit les étiquettes (ex: le chiffre '5' devient [0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
-train_labels = to_categorical(train_labels)
-test_labels = to_categorical(test_labels)
-
-# 3. Création de l'architecture du Réseau de Neurones (CNN)
-model = models.Sequential()
-
-# Couches de convolution (pour extraire les caractéristiques visuelles)
-model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-
-# Couches de classification (le "cerveau" qui décide)
-model.add(layers.Flatten())
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(10, activation='softmax')) # 10 neurones pour les 10 chiffres (0-9)
-
-# 4. Compilation du modèle
-model.compile(optimizer='adam',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
-
-# 5. Entraînement
-print("Début de l'entraînement...")
-model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.1)
-
-# 6. Sauvegarde du modèle
-model.save('mon_modele_chiffres.h5')
-print("Modèle sauvegardé sous 'mon_modele_chiffres.h5' !")
-plot_model(
-    model,
-    to_file='mon_reseau.png',   # l'image sera créée dans ton dossier projet
-    show_shapes=True,            # montre les dimensions des données à chaque étape
-    show_layer_names=True        # montre le nom de chaque couche
+model = keras.Sequential(
+    [
+        keras.layers.Input(shape=input_shape),
+        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        keras.layers.Conv2D(128, kernel_size=(3, 3), activation="relu"),
+        keras.layers.Conv2D(128, kernel_size=(3, 3), activation="relu"),
+        keras.layers.GlobalAveragePooling2D(),
+        keras.layers.Dropout(0.5),
+        keras.layers.Dense(num_classes, activation="softmax"),
+    ]
 )
-print("Image du réseau sauvegardée !")
+
+model.summary()
+
+model.compile(
+    loss=keras.losses.SparseCategoricalCrossentropy(),
+    optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+    metrics=[
+        keras.metrics.SparseCategoricalAccuracy(name="acc"),
+    ],
+)
+
+batch_size = 128
+epochs = 20
+
+callbacks = [
+    keras.callbacks.ModelCheckpoint(filepath="model_at_epoch_{epoch}.keras"),
+    keras.callbacks.EarlyStopping(monitor="val_loss", patience=2),
+]
+
+model.fit(
+    x_train,
+    y_train,
+    batch_size=batch_size,
+    epochs=epochs,
+    validation_split=0.15,
+    callbacks=callbacks,
+)
+score = model.evaluate(x_test, y_test, verbose=0)
+
+model.save("final_model.keras")

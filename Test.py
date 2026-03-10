@@ -15,7 +15,7 @@ print("y_train shape:", y_train.shape)
 print(x_train.shape[0], "train samples")
 print(x_test.shape[0], "test samples")
 
-model = keras.saving.load_model("model_at_epoch_1.keras")
+model = keras.saving.load_model("final_model.keras")
 # Assume 'model' is your compiled and trained Keras model
 # Assume 'x_test' and 'y_test' are your test features and labels
 

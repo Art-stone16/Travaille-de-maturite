@@ -19,6 +19,7 @@ model = keras.saving.load_model("final_model.keras")
 # Assume 'model' is your compiled and trained Keras model
 # Assume 'x_test' and 'y_test' are your test features and labels
 
+
 print("Evaluating model on test data...")
 results = model.evaluate(x_test, y_test, batch_size=128, verbose=1)
 

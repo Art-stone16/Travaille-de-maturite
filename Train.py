@@ -60,6 +60,7 @@ model.fit(
     validation_split=0.15,
     callbacks=callbacks,
 )
+
 score = model.evaluate(x_test, y_test, verbose=0)
 
 model.save("final_model.keras")

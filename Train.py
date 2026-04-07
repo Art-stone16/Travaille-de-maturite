@@ -2,7 +2,7 @@ import numpy as np
 import os
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import keras
-
+import matplotlib.pyplot as plt
 
 (x_train,y_train),(x_test,y_test) = keras.datasets.mnist.load_data()
 # Fait en sorte que les images soie entre 0 et 1
@@ -23,10 +23,15 @@ input_shape = (28, 28, 1)
 model = keras.Sequential(
     [
         keras.layers.Input(shape=input_shape),
+        
         keras.layers.Conv2D(2, kernel_size=(5, 5), activation="relu"),
+        keras.layers.BatchNormalization(),
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        
         keras.layers.Conv2D(4, kernel_size=(3, 3), activation="relu"),
+        keras.layers.BatchNormalization(),
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        
         keras.layers.Flatten(), 
         keras.layers.Dropout(0.5),
         keras.layers.Dense(num_classes, activation="softmax"),
@@ -51,7 +56,7 @@ callbacks = [
     keras.callbacks.EarlyStopping(monitor="val_loss", patience=2),
 ]
 
-model.fit(
+history = model.fit(
     x_train,
     y_train,
     batch_size=batch_size,
@@ -61,5 +66,27 @@ model.fit(
 )
 
 score = model.evaluate(x_test, y_test, verbose=0)
-
 model.save("final_model.keras")
+
+# --- Visualisation à la fin ---
+plt.figure(figsize=(12, 4))
+
+plt.subplot(1, 2, 1)
+plt.plot(history.history['loss'], label='Train Loss')
+plt.plot(history.history['val_loss'], label='Val Loss')
+plt.title('Loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.subplot(1, 2, 2)
+plt.plot(history.history['acc'], label='Train Acc')
+plt.plot(history.history['val_acc'], label='Val Acc')
+plt.title('Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+
+plt.tight_layout()
+plt.savefig('training_curves.png')
+plt.show()

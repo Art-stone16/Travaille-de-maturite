@@ -23,12 +23,11 @@ input_shape = (28, 28, 1)
 model = keras.Sequential(
     [
         keras.layers.Input(shape=input_shape),
-        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        keras.layers.Conv2D(2, kernel_size=(5, 5), activation="relu"),
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
-        keras.layers.Conv2D(128, kernel_size=(3, 3), activation="relu"),
-        keras.layers.Conv2D(128, kernel_size=(3, 3), activation="relu"),
-        keras.layers.GlobalAveragePooling2D(),
+        keras.layers.Conv2D(4, kernel_size=(3, 3), activation="relu"),
+        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        keras.layers.Flatten(), 
         keras.layers.Dropout(0.5),
         keras.layers.Dense(num_classes, activation="softmax"),
     ]

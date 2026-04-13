@@ -1,9 +1,13 @@
+print("importation en cours...")
 import numpy as np
+print("numpy importé")
 import os
 os.environ["KERAS_BACKEND"] = "tensorflow"
+print("os importé")
 import keras
+print("kearas importé")
 import matplotlib.pyplot as plt
-
+print("matplotlib importé")
 (x_train,y_train),(x_test,y_test) = keras.datasets.mnist.load_data()
 # Fait en sorte que les images soie entre 0 et 1
 x_train = x_train.astype("float32") / 255

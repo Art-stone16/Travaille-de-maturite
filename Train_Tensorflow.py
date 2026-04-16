@@ -1,13 +1,12 @@
-print("importation en cours...")
-import numpy as np
-print("numpy importé")
 import os
+
 os.environ["KERAS_BACKEND"] = "tensorflow"
-print("os importé")
+import tensorflow as tf
+import numpy as np
 import keras
-print("kearas importé")
 import matplotlib.pyplot as plt
-print("matplotlib importé")
+
+
 (x_train,y_train),(x_test,y_test) = keras.datasets.mnist.load_data()
 # Fait en sorte que les images soie entre 0 et 1
 x_train = x_train.astype("float32") / 255
@@ -52,11 +51,15 @@ model.compile(
     ],
 )
 
+MODEL_NAME = "2conv_5x5-3x3_dropout50"
+os.makedirs(f"Models/{MODEL_NAME}", exist_ok=True)
+os.makedirs("Graphe", exist_ok=True)
+
 batch_size = 128
 epochs = 20
 
 callbacks = [
-    keras.callbacks.ModelCheckpoint(filepath="model_at_epoch_{epoch}.keras"),
+    keras.callbacks.ModelCheckpoint(filepath=f"Models/{MODEL_NAME}/best_model.keras", save_best_only=True),
     keras.callbacks.EarlyStopping(monitor="val_loss", patience=2),
 ]
 
@@ -70,7 +73,8 @@ history = model.fit(
 )
 
 score = model.evaluate(x_test, y_test, verbose=0)
-model.save("final_model.keras")
+model.save(f"Models/{MODEL_NAME}/final_model.keras")
+
 
 # --- Visualisation à la fin ---
 plt.figure(figsize=(12, 4))
@@ -92,5 +96,5 @@ plt.ylabel('Accuracy')
 plt.legend()
 
 plt.tight_layout()
-plt.savefig('training_curves.png')
+plt.savefig(f"Graphe/{MODEL_NAME}_training_curves.png")
 plt.show()

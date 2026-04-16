@@ -14,13 +14,17 @@ print("sklearn réuissit")
 import keras
 print("keras réuissit")
 
+#nom de la matrice
+MODEL_NAME = "2conv_5x5-3x3_dropout50"
+os.makedirs("Matrice", exist_ok=True)
+
 # ====== Charger les données de test ======
 (_, _), (x_test, y_test) = keras.datasets.mnist.load_data()
 x_test = x_test.astype("float32") / 255
 x_test = np.expand_dims(x_test, -1)
 
 # ====== Charger le modèle ======
-model = keras.models.load_model("final_model.keras")
+model = keras.models.load_model(f"Models/{MODEL_NAME}/best_model.keras")
 
 # ====== Faire les prédictions ======
 y_pred_proba = model.predict(x_test)          # Probabilités pour chaque classe
@@ -43,7 +47,7 @@ plt.title("Matrice de Confusion")
 plt.xlabel("Prédit")
 plt.ylabel("Vrai")
 plt.tight_layout()
-plt.savefig("confusion_matrix.png")
+plt.savefig(f"Matrice/{MODEL_NAME}_confusion_matrix.png")
 plt.show()
 
 # ====== Afficher en pourcentages ======
@@ -62,7 +66,7 @@ plt.title("Matrice de Confusion (en %)")
 plt.xlabel("Prédit")
 plt.ylabel("Vrai")
 plt.tight_layout()
-plt.savefig("confusion_matrix_percent.png")
+plt.savefig(f"Matrice/{MODEL_NAME}_confusion_matrix_percent.png")
 plt.show()
 
 # ====== Rapport détaillé par classe ======

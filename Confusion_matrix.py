@@ -15,7 +15,7 @@ import keras
 print("keras réuissit")
 
 #nom de la matrice
-MODEL_NAME = "2conv_5x5-3x3_dropout50"
+MODEL_NAME = "2conv_5x5f16-3x3f32_dropout50"
 os.makedirs("Matrice", exist_ok=True)
 
 # ====== Charger les données de test ======

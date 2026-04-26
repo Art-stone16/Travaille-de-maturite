@@ -27,15 +27,15 @@ model = keras.Sequential(
     [
         keras.layers.Input(shape=input_shape),
         
-        keras.layers.Conv2D(2, kernel_size=(5, 5), activation="relu"),
+        keras.layers.Conv2D(16, kernel_size=(5, 5), activation="relu"),
         keras.layers.BatchNormalization(),
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
         
-        keras.layers.Conv2D(4, kernel_size=(3, 3), activation="relu"),
+        keras.layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
         keras.layers.BatchNormalization(),
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
         
-        keras.layers.Flatten(), 
+        keras.layers.Flatten(),
         keras.layers.Dropout(0.5),
         keras.layers.Dense(num_classes, activation="softmax"),
     ]
@@ -51,7 +51,7 @@ model.compile(
     ],
 )
 
-MODEL_NAME = "2conv_5x5-3x3_dropout50"
+MODEL_NAME = "2conv_5x5f16-3x3f32_dropout50"
 os.makedirs(f"Models/{MODEL_NAME}", exist_ok=True)
 os.makedirs("Graphe", exist_ok=True)
 

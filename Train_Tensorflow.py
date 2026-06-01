@@ -72,7 +72,7 @@ os.makedirs("Graphe", exist_ok=True)
 
 
 
-callbacks = [
+callbacks = [   
     keras.callbacks.ModelCheckpoint(filepath=f"Models/{MODEL_NAME}/best_model.keras", save_best_only=True),
     keras.callbacks.EarlyStopping(monitor="val_loss", patience=2),
 ]

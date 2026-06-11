@@ -1,5 +1,6 @@
 # Environnement virtuel
 .venv/
+.cache/
 
 # Modèles Keras (lourds, pas besoin sur git)
 *.keras

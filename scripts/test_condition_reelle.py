@@ -5,7 +5,7 @@ import numpy as np
 
 
 # Image a analyser.
-IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "image_reelle.jpg"
+IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "image_reelle_Grand.jpg"
 
 # Nom du modele utilise. Il sera aussi ecrit sur l'image finale.
 MODEL_NAME = "Best_COLOR_MAP"
@@ -30,11 +30,13 @@ AFFICHER_IMAGES = False
 # Parametres de detection. Ils sont regroupes ici pour pouvoir les ajuster
 # facilement si tu prends une nouvelle photo avec un cadrage ou un eclairage
 # different.
-CONTRASTE_MINIMUM = 45
 SIGMA_FOND_LOCAL = 35
+TAILLE_FOND_MORPHOLOGIQUE = 51
+TAILLE_REGROUPEMENT = 15
 MARGE_RECTANGLE = 20
 EPAISSEUR_RECTANGLE = 6
-LIMITE_BASSE_IMAGE = 0.65
+LIMITE_BASSE_IMAGE = 0.85
+SAUVEGARDER_DIAGNOSTICS = True
 
 
 def charger_image(image_path):
@@ -68,55 +70,56 @@ def creer_chemin_sortie(output_dir):
         numero_test += 1
 
 
+def formater_confiance(confiance):
+    """Affiche trois decimales sans suggerer une certitude absolue."""
+    if confiance >= 0.999995:
+        return ">99.999%"
+
+    return f"{confiance:.3%}"
+
+
 def detecter_chiffres(image):
     """Detecte les zones qui ressemblent a des chiffres manuscrits."""
     hauteur_image, largeur_image = image.shape[:2]
-
-    # Conversion en niveaux de gris: les rectangles n'ont pas besoin des
-    # couleurs, seulement de l'information clair/sombre.
     gris = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # Estimation du fond local. Le flou large gomme les traits fins des
-    # chiffres, mais garde les variations lentes de lumiere et de papier.
-    fond_local = cv2.GaussianBlur(
-        gris,
-        (0, 0),
-        sigmaX=SIGMA_FOND_LOCAL,
-        sigmaY=SIGMA_FOND_LOCAL,
+    # Une fermeture morphologique remplit les traits sombres et estime ainsi
+    # la couleur locale du papier, meme lorsqu'il est gris ou mal eclaire.
+    noyau_fond = cv2.getStructuringElement(
+        cv2.MORPH_ELLIPSE,
+        (TAILLE_FOND_MORPHOLOGIQUE, TAILLE_FOND_MORPHOLOGIQUE),
     )
-
-    # Les chiffres sont plus fonces que le papier: on soustrait l'image grise
-    # au fond local pour faire ressortir uniquement les traits sombres.
+    fond_local = cv2.morphologyEx(
+        gris,
+        cv2.MORPH_CLOSE,
+        noyau_fond,
+    )
     traits_sombres = cv2.subtract(fond_local, gris)
 
-    # Normalisation du contraste pour garder des seuils comparables meme si la
-    # photo est legerement plus claire ou plus sombre.
-    contraste = cv2.normalize(traits_sombres, None, 0, 255, cv2.NORM_MINMAX)
-
-    # Creation d'un masque noir/blanc: blanc = zone probablement manuscrite.
-    _, masque = cv2.threshold(
-        contraste,
-        CONTRASTE_MINIMUM,
+    # Otsu choisit automatiquement le seuil qui separe le bruit clair des
+    # traits fonces. Il est plus robuste qu'une constante pour une autre photo.
+    _, masque_brut = cv2.threshold(
+        traits_sombres,
+        0,
         255,
-        cv2.THRESH_BINARY,
+        cv2.THRESH_BINARY + cv2.THRESH_OTSU,
     )
 
-    # Nettoyage du masque:
-    # - ouverture: enleve les petits points isoles du papier;
-    # - dilatation: epaissit les traits pour relier les morceaux d'un chiffre;
-    # - fermeture: bouche les petites coupures dans les caracteres.
-    noyau_ouverture = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-    noyau_dilatation = cv2.getStructuringElement(cv2.MORPH_RECT, (17, 17))
-    noyau_fermeture = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 25))
+    # Cette dilatation sert seulement a reunir les morceaux d'un meme chiffre.
+    # Le masque d'Otsu est deja propre: un nettoyage supplementaire retirerait
+    # certaines parties horizontales utiles des chiffres.
+    noyau_regroupement = cv2.getStructuringElement(
+        cv2.MORPH_ELLIPSE,
+        (TAILLE_REGROUPEMENT, TAILLE_REGROUPEMENT),
+    )
+    masque_regroupe = cv2.dilate(masque_brut, noyau_regroupement)
 
-    masque = cv2.morphologyEx(masque, cv2.MORPH_OPEN, noyau_ouverture)
-    masque = cv2.dilate(masque, noyau_dilatation)
-    masque = cv2.morphologyEx(masque, cv2.MORPH_CLOSE, noyau_fermeture)
+    if SAUVEGARDER_DIAGNOSTICS:
+        cv2.imwrite(str(OUTPUT_DIR / "diagnostic_1_traits_sombres.jpg"), traits_sombres)
+        cv2.imwrite(str(OUTPUT_DIR / "diagnostic_2_masque_brut.jpg"), masque_brut)
 
-    # Recherche des contours blancs dans le masque. Chaque contour peut devenir
-    # un rectangle si sa taille ressemble a celle d'un chiffre.
     contours, _ = cv2.findContours(
-        masque,
+        masque_regroupe,
         cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_SIMPLE,
     )
@@ -128,16 +131,16 @@ def detecter_chiffres(image):
         aire = largeur * hauteur
         rapport_largeur_hauteur = largeur / hauteur
 
-        # Filtrage des faux positifs: on ignore les zones trop petites, trop
-        # grandes, trop allongees, ou situees dans le bas vide de cette photo.
+        # Les limites sont assez larges pour accepter les 1 tres fins et les 9
+        # plus hauts, tout en rejetant les points et les longues lignes.
         est_taille_chiffre = (
-            25 <= largeur <= 250
-            and 50 <= hauteur <= 250
-            and 1_500 <= aire <= 40_000
+            45 <= largeur <= 320
+            and 100 <= hauteur <= 600
+            and 4_500 <= aire <= 180_000
         )
-        est_forme_chiffre = 0.12 <= rapport_largeur_hauteur <= 1.50
+        est_forme_chiffre = 0.10 <= rapport_largeur_hauteur <= 1.30
         est_dans_zone_utile = (
-            150 <= y
+            100 <= y
             and y + hauteur <= hauteur_image * LIMITE_BASSE_IMAGE
             and x + largeur <= largeur_image
         )
@@ -225,6 +228,7 @@ def reconnaitre_chiffres(image, rectangles, modele):
         probabilites = modele.predict(chiffre_28, verbose=0)[0]
         chiffre_predit = int(np.argmax(probabilites))
         confiance = float(probabilites[chiffre_predit])
+        print(confiance)
         predictions.append((rectangle, chiffre_predit, confiance))
 
     return predictions
@@ -267,7 +271,7 @@ def dessiner_rectangles(image, predictions):
         # Texte au-dessus du rectangle: chiffre predit + confiance du modele.
         cv2.putText(
             image_encadree,
-            f"{chiffre_predit} ({confiance:.0%})",
+            f"{chiffre_predit} ({formater_confiance(confiance)})",
             (x1, max(y1 - 15, 40)),
             cv2.FONT_HERSHEY_SIMPLEX,
             1.4,
@@ -294,7 +298,11 @@ def main():
 
     print(f"{len(rectangles)} chiffre(s) encadre(s).")
     for _, chiffre_predit, confiance in predictions:
-        print(f"Prediction: {chiffre_predit} avec {confiance:.1%} de confiance")
+        confiance_affichee = formater_confiance(confiance)
+        print(
+            f"Prediction: {chiffre_predit} avec "
+            f"{confiance_affichee} de confiance"
+        )
 
     print(f"Image sauvegardee ici: {output_path}")
 

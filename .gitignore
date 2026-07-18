@@ -7,10 +7,15 @@
 
 # Images générées
 training_curves*.png
+sorties/tests_condition_reelle/test_*.jpg
+sorties/cascade_top_n/
 
 # Python cache
 __pycache__/
 *.pyc
+
+# Configuration locale de l’éditeur
+.vscode/
 
 # OS
 .DS_Store

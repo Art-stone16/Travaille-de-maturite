@@ -5,7 +5,7 @@ import numpy as np
 
 
 # Image a analyser.
-IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "image_reelle_Grand.jpg"
+IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "CTN_2.jpg"
 
 # Nom du modele utilise. Il sera aussi ecrit sur l'image finale.
 MODEL_NAME = "Best_COLOR_MAP"
@@ -31,11 +31,23 @@ AFFICHER_IMAGES = False
 # facilement si tu prends une nouvelle photo avec un cadrage ou un eclairage
 # different.
 SIGMA_FOND_LOCAL = 35
-TAILLE_FOND_MORPHOLOGIQUE = 51
-TAILLE_REGROUPEMENT = 15
+PROPORTION_FOND_MORPHOLOGIQUE = 0.04
+TAILLE_FOND_MINIMUM = 31
+TAILLE_FOND_MAXIMUM = 151
+PROPORTION_REGROUPEMENT = 0.0075
+TAILLE_REGROUPEMENT_MINIMUM = 3
+PROPORTION_LARGEUR_MINIMUM = 0.01
+PROPORTION_LARGEUR_MAXIMUM = 0.16
+PROPORTION_HAUTEUR_MINIMUM = 0.014
+PROPORTION_HAUTEUR_MAXIMUM = 0.20
+PROPORTION_AIRE_MINIMUM = 0.0002
+PROPORTION_AIRE_MAXIMUM = 0.04
+SEUIL_OTSU_FAIBLE = 30
+PERCENTILE_CONTRASTE_FAIBLE = 99.5
+PROPORTION_AIRE_MINIMUM_FAIBLE = 0.001
 MARGE_RECTANGLE = 20
 EPAISSEUR_RECTANGLE = 6
-LIMITE_BASSE_IMAGE = 0.85
+LIMITE_BASSE_IMAGE = 0.995
 SAUVEGARDER_DIAGNOSTICS = True
 
 
@@ -78,16 +90,36 @@ def formater_confiance(confiance):
     return f"{confiance:.3%}"
 
 
+def rendre_impair(valeur, minimum, maximum=None):
+    """Retourne une taille impaire utilisable comme noyau OpenCV."""
+    valeur = max(minimum, round(valeur))
+
+    if maximum is not None:
+        valeur = min(maximum, valeur)
+
+    if valeur % 2 == 0:
+        valeur += 1
+
+    return valeur
+
+
 def detecter_chiffres(image):
-    """Detecte les zones qui ressemblent a des chiffres manuscrits."""
+    """Detecte les chiffres avec des limites adaptees a la resolution."""
     hauteur_image, largeur_image = image.shape[:2]
+    aire_image = hauteur_image * largeur_image
+    petit_cote = min(hauteur_image, largeur_image)
     gris = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Une fermeture morphologique remplit les traits sombres et estime ainsi
-    # la couleur locale du papier, meme lorsqu'il est gris ou mal eclaire.
+    # la couleur locale du papier. Sa taille suit maintenant la resolution.
+    taille_fond = rendre_impair(
+        petit_cote * PROPORTION_FOND_MORPHOLOGIQUE,
+        TAILLE_FOND_MINIMUM,
+        TAILLE_FOND_MAXIMUM,
+    )
     noyau_fond = cv2.getStructuringElement(
         cv2.MORPH_ELLIPSE,
-        (TAILLE_FOND_MORPHOLOGIQUE, TAILLE_FOND_MORPHOLOGIQUE),
+        (taille_fond, taille_fond),
     )
     fond_local = cv2.morphologyEx(
         gris,
@@ -96,21 +128,41 @@ def detecter_chiffres(image):
     )
     traits_sombres = cv2.subtract(fond_local, gris)
 
-    # Otsu choisit automatiquement le seuil qui separe le bruit clair des
-    # traits fonces. Il est plus robuste qu'une constante pour une autre photo.
-    _, masque_brut = cv2.threshold(
+    # Otsu choisit automatiquement le seuil. S'il devient anormalement faible,
+    # le grain du papier domine l'image: on garde alors seulement les pixels
+    # les plus contrastes et on applique un filtre d'aire plus strict.
+    seuil_otsu, _ = cv2.threshold(
         traits_sombres,
         0,
         255,
         cv2.THRESH_BINARY + cv2.THRESH_OTSU,
     )
+    seuil_detection = seuil_otsu
+    proportion_aire_minimum = PROPORTION_AIRE_MINIMUM
 
-    # Cette dilatation sert seulement a reunir les morceaux d'un meme chiffre.
-    # Le masque d'Otsu est deja propre: un nettoyage supplementaire retirerait
-    # certaines parties horizontales utiles des chiffres.
+    if seuil_otsu < SEUIL_OTSU_FAIBLE:
+        seuil_detection = max(
+            seuil_otsu,
+            float(np.percentile(traits_sombres, PERCENTILE_CONTRASTE_FAIBLE)),
+        )
+        proportion_aire_minimum = PROPORTION_AIRE_MINIMUM_FAIBLE
+
+    _, masque_brut = cv2.threshold(
+        traits_sombres,
+        seuil_detection,
+        255,
+        cv2.THRESH_BINARY,
+    )
+
+    # Le regroupement suit lui aussi la resolution. Il relie les morceaux d'un
+    # meme chiffre sans fusionner les chiffres voisins.
+    taille_regroupement = rendre_impair(
+        petit_cote * PROPORTION_REGROUPEMENT,
+        TAILLE_REGROUPEMENT_MINIMUM,
+    )
     noyau_regroupement = cv2.getStructuringElement(
         cv2.MORPH_ELLIPSE,
-        (TAILLE_REGROUPEMENT, TAILLE_REGROUPEMENT),
+        (taille_regroupement, taille_regroupement),
     )
     masque_regroupe = cv2.dilate(masque_brut, noyau_regroupement)
 
@@ -125,28 +177,84 @@ def detecter_chiffres(image):
     )
 
     rectangles = []
+    composantes = []
 
     for contour in contours:
         x, y, largeur, hauteur = cv2.boundingRect(contour)
         aire = largeur * hauteur
         rapport_largeur_hauteur = largeur / hauteur
+        raisons_rejet = []
 
-        # Les limites sont assez larges pour accepter les 1 tres fins et les 9
-        # plus hauts, tout en rejetant les points et les longues lignes.
-        est_taille_chiffre = (
-            45 <= largeur <= 320
-            and 100 <= hauteur <= 600
-            and 4_500 <= aire <= 180_000
-        )
-        est_forme_chiffre = 0.10 <= rapport_largeur_hauteur <= 1.30
-        est_dans_zone_utile = (
-            100 <= y
-            and y + hauteur <= hauteur_image * LIMITE_BASSE_IMAGE
-            and x + largeur <= largeur_image
-        )
+        if not (
+            largeur_image * PROPORTION_LARGEUR_MINIMUM
+            <= largeur
+            <= largeur_image * PROPORTION_LARGEUR_MAXIMUM
+        ):
+            raisons_rejet.append("largeur")
 
-        if est_taille_chiffre and est_forme_chiffre and est_dans_zone_utile:
+        if not (
+            hauteur_image * PROPORTION_HAUTEUR_MINIMUM
+            <= hauteur
+            <= hauteur_image * PROPORTION_HAUTEUR_MAXIMUM
+        ):
+            raisons_rejet.append("hauteur")
+
+        if not (
+            aire_image * proportion_aire_minimum
+            <= aire
+            <= aire_image * PROPORTION_AIRE_MAXIMUM
+        ):
+            raisons_rejet.append("aire")
+
+        if not 0.08 <= rapport_largeur_hauteur <= 2.0:
+            raisons_rejet.append("forme")
+
+        if y + hauteur > hauteur_image * LIMITE_BASSE_IMAGE:
+            raisons_rejet.append("position")
+
+        acceptee = not raisons_rejet
+        composantes.append(((x, y, largeur, hauteur), acceptee, raisons_rejet))
+
+        if acceptee:
             rectangles.append((x, y, largeur, hauteur))
+
+    if SAUVEGARDER_DIAGNOSTICS:
+        diagnostic = image.copy()
+        echelle = max(0.35, min(0.8, petit_cote / 2000))
+
+        for rectangle, acceptee, raisons_rejet in composantes:
+            x, y, largeur, hauteur = rectangle
+            couleur = (0, 180, 0) if acceptee else (0, 0, 255)
+            cv2.rectangle(
+                diagnostic,
+                (x, y),
+                (x + largeur, y + hauteur),
+                couleur,
+                2,
+            )
+
+            if not acceptee and largeur * hauteur >= aire_image * 0.0001:
+                cv2.putText(
+                    diagnostic,
+                    ",".join(raisons_rejet),
+                    (x, max(y - 4, 12)),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    echelle,
+                    couleur,
+                    1,
+                    cv2.LINE_AA,
+                )
+
+        cv2.imwrite(
+            str(OUTPUT_DIR / "diagnostic_3_composantes.jpg"),
+            diagnostic,
+        )
+
+    print(
+        "Detection adaptive: "
+        f"{len(rectangles)} chiffre(s), seuil={seuil_detection:.1f}, "
+        f"fond={taille_fond}, regroupement={taille_regroupement}."
+    )
 
     # Tri de haut en bas puis de gauche a droite pour obtenir un ordre stable.
     return sorted(rectangles, key=lambda rectangle: (rectangle[1], rectangle[0]))
@@ -238,45 +346,51 @@ def dessiner_rectangles(image, predictions):
     """Dessine un rectangle rouge et le chiffre predit par le modele."""
     image_encadree = image.copy()
     hauteur_image, largeur_image = image_encadree.shape[:2]
+    echelle_titre = max(0.6, min(1.6, largeur_image / 1800))
+    epaisseur_titre = max(2, round(echelle_titre * 3))
 
     # Ecriture du nom du modele utilise sur l'image finale.
     cv2.putText(
         image_encadree,
         f"Modele utilise: {MODEL_NAME}",
-        (40, 80),
+        (20, max(40, round(55 * echelle_titre))),
         cv2.FONT_HERSHEY_SIMPLEX,
-        1.6,
+        echelle_titre,
         (0, 0, 255),
-        4,
+        epaisseur_titre,
         cv2.LINE_AA,
     )
 
     for rectangle, chiffre_predit, confiance in predictions:
         x, y, largeur, hauteur = rectangle
+        petite_dimension = min(largeur, hauteur)
+        marge = max(3, round(petite_dimension * 0.08))
+        echelle_texte = max(0.3, min(1.1, petite_dimension / 110))
+        epaisseur = max(1, round(echelle_texte * 3))
 
         # La marge evite que le cadre touche directement le trait du chiffre.
-        x1 = max(x - MARGE_RECTANGLE, 0)
-        y1 = max(y - MARGE_RECTANGLE, 0)
-        x2 = min(x + largeur + MARGE_RECTANGLE, largeur_image - 1)
-        y2 = min(y + hauteur + MARGE_RECTANGLE, hauteur_image - 1)
+        x1 = max(x - marge, 0)
+        y1 = max(y - marge, 0)
+        x2 = min(x + largeur + marge, largeur_image - 1)
+        y2 = min(y + hauteur + marge, hauteur_image - 1)
 
         cv2.rectangle(
             image_encadree,
             (x1, y1),
             (x2, y2),
             color=(0, 0, 255),
-            thickness=EPAISSEUR_RECTANGLE,
+            thickness=max(2, epaisseur),
         )
 
         # Texte au-dessus du rectangle: chiffre predit + confiance du modele.
         cv2.putText(
             image_encadree,
             f"{chiffre_predit} ({formater_confiance(confiance)})",
-            (x1, max(y1 - 15, 40)),
+            (x1, max(y1 - 5, 20)),
             cv2.FONT_HERSHEY_SIMPLEX,
-            1.4,
+            echelle_texte,
             (0, 0, 255),
-            4,
+            epaisseur,
             cv2.LINE_AA,
         )
 

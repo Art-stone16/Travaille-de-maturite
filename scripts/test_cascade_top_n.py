@@ -1,7 +1,6 @@
 """Mesure la cascade Top-N sur une feuille contenant un chiffre repete."""
 
 import csv
-from collections import Counter
 
 import env_config
 import cv2
@@ -14,10 +13,10 @@ import test_condition_reelle as detection
 # Reglages du test -----------------------------------------------------------
 
 # Photo de la feuille sur laquelle le meme chiffre est ecrit 100 fois.
-IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "CTN_1.jpg"
+IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "CTN_2.2.jpg"
 
 # Verite terrain commune a tous les chiffres de la feuille.
-CHIFFRE_ATTENDU = 1
+CHIFFRE_ATTENDU = 2
 NOMBRE_ATTENDU = 100
 
 MODEL_NAME = "Best_COLOR_MAP"
@@ -123,19 +122,27 @@ def analyser_predictions(rectangles, probabilites):
     return resultats
 
 
-def calculer_cascade(resultats):
-    """Calcule les succes cumules du Top-1 au Top-10."""
-    total = len(resultats)
-    cascade = []
+def calculer_classement_global(resultats):
+    """Classe les chiffres selon leur probabilite moyenne sur toute la feuille."""
+    if not resultats:
+        return []
 
-    for top_n in range(1, 11):
-        succes = sum(
-            resultat["rang_attendu"] <= top_n for resultat in resultats
-        )
-        taux = succes / total if total else 0.0
-        cascade.append((top_n, succes, taux))
+    sommes = np.zeros(10, dtype=np.float64)
 
-    return cascade
+    for resultat in resultats:
+        for chiffre, probabilite in zip(
+            resultat["classement"],
+            resultat["probabilites"],
+        ):
+            sommes[chiffre] += probabilite
+
+    probabilites_moyennes = sommes / len(resultats)
+    classement = np.argsort(probabilites_moyennes)[::-1]
+
+    return [
+        (int(chiffre), float(probabilites_moyennes[chiffre]))
+        for chiffre in classement
+    ]
 
 
 def dessiner_resultats(image, resultats):
@@ -243,16 +250,31 @@ def sauvegarder_csv(csv_path, resultats):
             writer.writerow(ligne)
 
 
-def creer_resume(resultats, cascade):
+def creer_resume(resultats, classement_global):
     """Cree le compte rendu lisible dans le terminal et dans un fichier."""
     total = len(resultats)
-    lignes = [
+    lignes = []
+
+    for rang, (chiffre, probabilite) in enumerate(
+        classement_global,
+        start=1,
+    ):
+        pourcentage = probabilite * 100
+        lignes.append(
+            f"Top {rang} : chiffre {chiffre} avec {pourcentage:.2f} %"
+        )
+
+    if not classement_global:
+        lignes.append("Aucun chiffre detecte: classement Top-N indisponible.")
+
+    lignes.extend([
+        "",
         f"Modele: {MODEL_NAME}",
         f"Image: {IMAGE_PATH}",
         f"Chiffre attendu: {CHIFFRE_ATTENDU}",
         f"Chiffres attendus: {NOMBRE_ATTENDU}",
         f"Chiffres detectes: {total}",
-    ]
+    ])
 
     if total != NOMBRE_ATTENDU:
         ecart = total - NOMBRE_ATTENDU
@@ -260,32 +282,6 @@ def creer_resume(resultats, cascade):
             "ATTENTION: le nombre detecte ne correspond pas au nombre "
             f"attendu (ecart: {ecart:+d})."
         )
-
-    lignes.extend(["", "Cascade Top-N cumulative:"])
-    for top_n, succes, taux in cascade:
-        lignes.append(f"Top-{top_n}: {succes}/{total} = {taux:.2%}")
-
-    if resultats:
-        rang_moyen = np.mean(
-            [resultat["rang_attendu"] for resultat in resultats]
-        )
-        lignes.extend(["", f"Rang moyen du bon chiffre: {rang_moyen:.3f}"])
-
-        erreurs = Counter(
-            resultat["prediction"]
-            for resultat in resultats
-            if resultat["prediction"] != CHIFFRE_ATTENDU
-        )
-        lignes.append("Confusions Top-1:")
-
-        if erreurs:
-            for chiffre, nombre in erreurs.most_common():
-                lignes.append(
-                    f"- {CHIFFRE_ATTENDU} confondu avec {chiffre}: "
-                    f"{nombre} fois"
-                )
-        else:
-            lignes.append("- Aucune confusion Top-1.")
 
     return "\n".join(lignes)
 
@@ -304,14 +300,14 @@ def main():
     rectangles = detection.detecter_chiffres(image)
     probabilites = calculer_predictions(image, rectangles, modele)
     resultats = analyser_predictions(rectangles, probabilites)
-    cascade = calculer_cascade(resultats)
+    classement_global = calculer_classement_global(resultats)
 
     image_annotee = dessiner_resultats(image, resultats)
     if not cv2.imwrite(str(image_path_sortie), image_annotee):
         raise OSError(f"Impossible de sauvegarder l'image: {image_path_sortie}")
 
     sauvegarder_csv(csv_path, resultats)
-    resume = creer_resume(resultats, cascade)
+    resume = creer_resume(resultats, classement_global)
     resume_path.write_text(resume + "\n", encoding="utf-8")
 
     print(resume)

@@ -5,10 +5,16 @@
 # Modèles Keras (lourds, pas besoin sur git)
 *.keras
 
-# Images générées
+# Sorties et données générées
 training_curves*.png
 sorties/tests_condition_reelle/test_*.jpg
+sorties/tests_condition_reelle/diagnostic_*.jpg
+sorties/tests_condition_reelle/diagnostics/
 sorties/cascade_top_n/
+sorties/analyse_chiffres_moyens/
+sorties/experiences_hyperparametres/
+sorties/tests_condition_reelle/*/
+donnees/datasets_synthetiques/
 
 # Python cache
 __pycache__/

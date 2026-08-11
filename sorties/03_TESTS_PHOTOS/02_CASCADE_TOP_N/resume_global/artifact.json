@@ -1,0 +1,528 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Bilan des tests Cascade Top-N",
+    "description": "Synthèse des 13 exécutions enregistrées dans sorties/cascade_top_n.",
+    "generatedAt": "2026-07-25T10:30:00+02:00",
+    "sources": [
+      {
+        "id": "coverage_sql",
+        "label": "Couverture de la cascade",
+        "path": "sorties/cascade_top_n/resume_global/summary.sqlite",
+        "query": {
+          "engine": "SQLite",
+          "language": "sql",
+          "executed_at": "2026-07-25T10:30:00+02:00",
+          "description": "Calcule la couverture cumulée Top-1, Top-2, Top-3 et Top-5.",
+          "sql": "SELECT * FROM cascade_coverage ORDER BY CAST(REPLACE(niveau, 'Top-', '') AS INTEGER);",
+          "tables_used": [
+            "cascade_coverage"
+          ],
+          "metric_definitions": [
+            "couverture_pct = zones où le rang du chiffre attendu est inférieur ou égal à N / toutes les zones détectées × 100"
+          ]
+        }
+      },
+      {
+        "id": "runs_sql",
+        "label": "Résultats détaillés par exécution",
+        "path": "sorties/cascade_top_n/resume_global/summary.sqlite",
+        "query": {
+          "engine": "SQLite",
+          "language": "sql",
+          "executed_at": "2026-07-25T10:30:00+02:00",
+          "description": "Lit les métriques agrégées des 13 exécutions.",
+          "sql": "SELECT * FROM runs ORDER BY image, execution;",
+          "tables_used": [
+            "runs"
+          ],
+          "metric_definitions": [
+            "top1_pct = prédictions Top-1 égales au chiffre attendu / zones détectées × 100",
+            "top3_pct et top5_pct = rang du chiffre attendu inférieur ou égal à 3 ou 5 / zones détectées × 100",
+            "detection_delta = nombre_detecte - nombre_attendu"
+          ]
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "cascade_coverage",
+        "title": "Couverture cumulée de la cascade Top-N",
+        "description": "Le passage du Top-1 au Top-3 récupère 314 zones supplémentaires; le Top-5 contient le bon chiffre pour 96,99 % des zones.",
+        "type": "bar",
+        "dataset": "cascade_coverage",
+        "encodings": {
+          "x": {
+            "field": "niveau"
+          },
+          "y": {
+            "field": "couverture_pct"
+          }
+        },
+        "options": {
+          "orientation": "vertical",
+          "grouping": "single"
+        },
+        "sourceId": "coverage_sql"
+      },
+      {
+        "id": "top1_by_run",
+        "title": "Exactitude Top-1 par image testée",
+        "description": "Pourcentage des zones détectées classées directement comme le chiffre attendu.",
+        "type": "bar",
+        "dataset": "runs",
+        "encodings": {
+          "x": {
+            "field": "image"
+          },
+          "y": {
+            "field": "top1_pct"
+          }
+        },
+        "options": {
+          "orientation": "vertical",
+          "grouping": "single"
+        },
+        "sourceId": "runs_sql"
+      },
+      {
+        "id": "detection_delta",
+        "title": "Écart entre le nombre détecté et le nombre attendu",
+        "description": "Une valeur positive indique des zones supplémentaires; une valeur négative indique des zones manquantes.",
+        "type": "bar",
+        "dataset": "runs",
+        "encodings": {
+          "x": {
+            "field": "image"
+          },
+          "y": {
+            "field": "detection_delta"
+          }
+        },
+        "options": {
+          "orientation": "vertical",
+          "grouping": "single"
+        },
+        "sourceId": "runs_sql"
+      }
+    ],
+    "tables": [
+      {
+        "id": "run_details",
+        "title": "Résultats détaillés des 13 exécutions",
+        "description": "Toutes les valeurs sont calculées sur les zones effectivement détectées; les variantes et les deux exécutions de CTN_3 sont conservées.",
+        "dataset": "runs",
+        "columns": [
+          {
+            "field": "image",
+            "label": "Image",
+            "type": "text"
+          },
+          {
+            "field": "execution",
+            "label": "Exécution",
+            "type": "text"
+          },
+          {
+            "field": "chiffre_attendu",
+            "label": "Chiffre",
+            "type": "number"
+          },
+          {
+            "field": "nombre_attendu",
+            "label": "Attendu",
+            "type": "number"
+          },
+          {
+            "field": "nombre_detecte",
+            "label": "Détecté",
+            "type": "number"
+          },
+          {
+            "field": "detection_delta",
+            "label": "Écart",
+            "type": "number"
+          },
+          {
+            "field": "top1_pct",
+            "label": "Top-1",
+            "type": "number",
+            "format": "percent"
+          },
+          {
+            "field": "top3_pct",
+            "label": "Top-3",
+            "type": "number",
+            "format": "percent"
+          },
+          {
+            "field": "top5_pct",
+            "label": "Top-5",
+            "type": "number",
+            "format": "percent"
+          },
+          {
+            "field": "confiance_attendue_pct",
+            "label": "Confiance attendue",
+            "type": "number",
+            "format": "percent"
+          },
+          {
+            "field": "confusion_principale",
+            "label": "Confusion principale",
+            "type": "text"
+          }
+        ],
+        "defaultSort": {
+          "field": "image",
+          "direction": "asc"
+        },
+        "sourceId": "runs_sql"
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Bilan des tests Cascade Top-N"
+      },
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- **La cascade apporte un gain important.** Sur 1 327 zones détectées, le chiffre attendu est premier dans 66,24 % des cas, présent dans le Top-3 dans 89,90 % des cas et dans le Top-5 dans 96,99 % des cas.\n- **Le réseau est très performant sur 0, 2, 5 et 8.** Les meilleurs essais atteignent 98,98 % pour le 0, 99,23 % pour CTN_2, 91,18 % pour CTN_2.2, 88,57 % pour le 5 et 83,17 % pour le 8 en Top-1.\n- **Les chiffres 1, 6, 7 et 9 restent prioritaires.** Le 1 est surtout pris pour un 7, le 6 pour un 5, le 7 pour un 2 et le 9 pour un 3 ou un 0.\n- **La détection est généralement stable, mais deux essais dominent les écarts.** Onze exécutions sur treize restent à ±2 zones du nombre attendu; CTN_2 ajoute 30 zones et CTN_6 en perd 9."
+      },
+      {
+        "id": "definitions",
+        "type": "markdown",
+        "body": "## Comment lire les résultats\n\nLe **Top-1** correspond à la réponse directe du réseau. Le **Top-3** et le **Top-5** indiquent si le chiffre attendu apparaît parmi les trois ou cinq propositions les plus probables. Ces pourcentages sont calculés sur les zones fournies par l’algorithme de détection, pas directement sur les chiffres réellement écrits. L’écart de détection compare simplement le nombre de zones trouvé au nombre déclaré comme attendu."
+      },
+      {
+        "id": "cascade_finding",
+        "type": "markdown",
+        "sourceId": "coverage_sql",
+        "body": "## Le Top-3 récupère une grande partie des erreurs du Top-1\n\nLe réseau donne immédiatement le bon chiffre pour 879 zones sur 1 327. En autorisant trois propositions, 1 193 zones contiennent le bon chiffre, soit 314 résultats supplémentaires. Le Top-5 atteint 1 287 zones. Cela montre que le réseau conserve souvent le bon chiffre parmi ses hypothèses, même lorsqu’il choisit une autre classe en premier."
+      },
+      {
+        "id": "cascade_chart_block",
+        "type": "chart",
+        "chartId": "cascade_coverage"
+      },
+      {
+        "id": "variation_finding",
+        "type": "markdown",
+        "sourceId": "runs_sql",
+        "body": "## La reconnaissance varie fortement selon la forme du chiffre\n\nLes résultats Top-1 vont de 25,00 % pour le 7 à 99,23 % pour CTN_2. Les essais difficiles ne sont pas seulement moins confiants: ils ont une confusion dominante et cohérente. Sur CTN_7, 43 zones sont classées comme 2 contre seulement 25 comme 7. Sur CTN_6.2, 49 zones sont classées comme 5 contre 34 comme 6. Cela indique en priorité un problème de séparation entre formes voisines dans les données d’entraînement ou dans le prétraitement."
+      },
+      {
+        "id": "top1_chart_block",
+        "type": "chart",
+        "chartId": "top1_by_run"
+      },
+      {
+        "id": "detection_finding",
+        "type": "markdown",
+        "sourceId": "runs_sql",
+        "body": "## Le comptage est proche de la cible dans la majorité des essais\n\nQuatre exécutions trouvent exactement le nombre déclaré et onze sur treize restent dans une marge de deux zones. Les deux anomalies importantes sont CTN_2 (+30) et CTN_6 (-9). L’agrégat net de +26 zones masque donc deux problèmes différents: des faux positifs ou un nombre attendu mal renseigné pour CTN_2, et des chiffres manqués ou fusionnés pour CTN_6."
+      },
+      {
+        "id": "detection_chart_block",
+        "type": "chart",
+        "chartId": "detection_delta"
+      },
+      {
+        "id": "detail_intro",
+        "type": "markdown",
+        "body": "## Détail de chaque exécution\n\nLe tableau conserve séparément les deux variantes du chiffre 2, les deux variantes du chiffre 6 et les deux exécutions de la même image CTN_3. Les pourcentages de reconnaissance ne doivent pas être interprétés comme une exactitude absolue de la feuille lorsque le détecteur ajoute du bruit ou manque des chiffres."
+      },
+      {
+        "id": "detail_table_block",
+        "type": "table",
+        "tableId": "run_details"
+      },
+      {
+        "id": "next_steps",
+        "type": "markdown",
+        "sourceId": "runs_sql",
+        "body": "## Priorités recommandées\n\n1. **Contrôler manuellement CTN_2 et CTN_6.** Vérifier si le nombre attendu est exact et si chaque rectangle correspond bien à un chiffre avant d’utiliser ces feuilles pour évaluer le réseau.\n2. **Renforcer les paires de confusion.** Ajouter des exemples manuscrits variés pour 1/7, 6/5, 7/2 et 9/3/0, puis mesurer une matrice de confusion sur un jeu de validation séparé.\n3. **Conserver les métriques Top-1, Top-3 et Top-5.** Le Top-3 est particulièrement utile pour mesurer les progrès sans cacher les erreurs du premier choix.\n4. **Séparer les deux étapes dans les futurs tests.** Mesurer d’abord le rappel et les faux positifs du détecteur sur des rectangles annotés manuellement, puis mesurer l’exactitude du réseau uniquement sur les vrais chiffres découpés."
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## Questions à vérifier lors des prochains essais\n\n- Les 130 zones de CTN_2 correspondent-elles réellement à 100 chiffres et 30 bruits, ou la valeur attendue est-elle incorrecte ?\n- Les erreurs des chiffres 1, 6, 7 et 9 viennent-elles surtout de l’écriture, du cadrage, du redimensionnement ou du modèle ?\n- Le classement s’améliore-t-il lorsque le réseau est évalué sur des découpes validées manuellement ?"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Limites et hypothèses\n\nCe bilan couvre les 13 exécutions actuellement enregistrées, et non 13 jeux indépendants: CTN_3 est compté deux fois, tandis que CTN_2/CTN_2.2 et CTN_6/CTN_6.2 sont des variantes. Les agrégats pondèrent chaque zone détectée, y compris les éventuelles zones de bruit. Sans annotations manuelles indiquant les vrais chiffres et les faux positifs, l’écart de comptage ne permet pas de distinguer précisément les chiffres manqués, les fusions et les détections de bruit."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "status": "ready",
+    "generatedAt": "2026-07-25T10:30:00+02:00",
+    "datasets": {
+      "cascade_coverage": [
+        {
+          "niveau": "Top-1",
+          "couverture_pct": 66.2396,
+          "zones_couvertes": 879,
+          "zones_detectees": 1327,
+          "zones_supplementaires_vs_top1": 0
+        },
+        {
+          "niveau": "Top-2",
+          "couverture_pct": 82.8937,
+          "zones_couvertes": 1100,
+          "zones_detectees": 1327,
+          "zones_supplementaires_vs_top1": 221
+        },
+        {
+          "niveau": "Top-3",
+          "couverture_pct": 89.9020,
+          "zones_couvertes": 1193,
+          "zones_detectees": 1327,
+          "zones_supplementaires_vs_top1": 314
+        },
+        {
+          "niveau": "Top-5",
+          "couverture_pct": 96.9857,
+          "zones_couvertes": 1287,
+          "zones_detectees": 1327,
+          "zones_supplementaires_vs_top1": 408
+        }
+      ],
+      "runs": [
+        {
+          "image": "CTN_0.jpg",
+          "execution": "25.07.2026 09:56:17",
+          "chiffre_attendu": 0,
+          "nombre_attendu": 100,
+          "nombre_detecte": 98,
+          "detection_delta": -2,
+          "top1_correct": 97,
+          "top1_pct": 98.9796,
+          "top2_pct": 100.0,
+          "top3_pct": 100.0,
+          "top5_pct": 100.0,
+          "confiance_attendue_pct": 96.1124,
+          "confusion_principale": "5 (1 zone)"
+        },
+        {
+          "image": "CTN_1.jpg",
+          "execution": "24.07.2026 14:42:21",
+          "chiffre_attendu": 1,
+          "nombre_attendu": 100,
+          "nombre_detecte": 100,
+          "detection_delta": 0,
+          "top1_correct": 41,
+          "top1_pct": 41.0,
+          "top2_pct": 68.0,
+          "top3_pct": 83.0,
+          "top5_pct": 99.0,
+          "confiance_attendue_pct": 36.9627,
+          "confusion_principale": "7 (46 zones)"
+        },
+        {
+          "image": "CTN_2.2.jpg",
+          "execution": "24.07.2026 14:45:30",
+          "chiffre_attendu": 2,
+          "nombre_attendu": 100,
+          "nombre_detecte": 102,
+          "detection_delta": 2,
+          "top1_correct": 93,
+          "top1_pct": 91.1765,
+          "top2_pct": 96.0784,
+          "top3_pct": 96.0784,
+          "top5_pct": 96.0784,
+          "confiance_attendue_pct": 85.5509,
+          "confusion_principale": "1 (5 zones)"
+        },
+        {
+          "image": "CTN_2.jpg",
+          "execution": "24.07.2026 14:45:21",
+          "chiffre_attendu": 2,
+          "nombre_attendu": 100,
+          "nombre_detecte": 130,
+          "detection_delta": 30,
+          "top1_correct": 129,
+          "top1_pct": 99.2308,
+          "top2_pct": 99.2308,
+          "top3_pct": 100.0,
+          "top5_pct": 100.0,
+          "confiance_attendue_pct": 97.5065,
+          "confusion_principale": "4 (1 zone)"
+        },
+        {
+          "image": "CTN_3.jpg",
+          "execution": "24.07.2026 14:29:51",
+          "chiffre_attendu": 3,
+          "nombre_attendu": 100,
+          "nombre_detecte": 100,
+          "detection_delta": 0,
+          "top1_correct": 76,
+          "top1_pct": 76.0,
+          "top2_pct": 86.0,
+          "top3_pct": 95.0,
+          "top5_pct": 100.0,
+          "confiance_attendue_pct": 74.6619,
+          "confusion_principale": "2 (16 zones)"
+        },
+        {
+          "image": "CTN_3.jpg",
+          "execution": "24.07.2026 14:31:31",
+          "chiffre_attendu": 3,
+          "nombre_attendu": 100,
+          "nombre_detecte": 102,
+          "detection_delta": 2,
+          "top1_correct": 78,
+          "top1_pct": 76.4706,
+          "top2_pct": 86.2745,
+          "top3_pct": 95.0980,
+          "top5_pct": 100.0,
+          "confiance_attendue_pct": 75.1004,
+          "confusion_principale": "2 (16 zones)"
+        },
+        {
+          "image": "CTN_4.jpg",
+          "execution": "25.07.2026 09:09:24",
+          "chiffre_attendu": 4,
+          "nombre_attendu": 100,
+          "nombre_detecte": 99,
+          "detection_delta": -1,
+          "top1_correct": 52,
+          "top1_pct": 52.5253,
+          "top2_pct": 74.7475,
+          "top3_pct": 79.7980,
+          "top5_pct": 88.8889,
+          "confiance_attendue_pct": 44.0855,
+          "confusion_principale": "8 (19 zones)"
+        },
+        {
+          "image": "CTN_5.jpg",
+          "execution": "25.07.2026 09:16:56",
+          "chiffre_attendu": 5,
+          "nombre_attendu": 103,
+          "nombre_detecte": 105,
+          "detection_delta": 2,
+          "top1_correct": 93,
+          "top1_pct": 88.5714,
+          "top2_pct": 93.3333,
+          "top3_pct": 95.2381,
+          "top5_pct": 97.1429,
+          "confiance_attendue_pct": 86.2674,
+          "confusion_principale": "2 (5 zones)"
+        },
+        {
+          "image": "CTN_6.2.jpg",
+          "execution": "25.07.2026 09:30:33",
+          "chiffre_attendu": 6,
+          "nombre_attendu": 98,
+          "nombre_detecte": 98,
+          "detection_delta": 0,
+          "top1_correct": 34,
+          "top1_pct": 34.6939,
+          "top2_pct": 77.5510,
+          "top3_pct": 87.7551,
+          "top5_pct": 94.8980,
+          "confiance_attendue_pct": 34.9569,
+          "confusion_principale": "5 (49 zones)"
+        },
+        {
+          "image": "CTN_6.jpg",
+          "execution": "25.07.2026 09:23:41",
+          "chiffre_attendu": 6,
+          "nombre_attendu": 100,
+          "nombre_detecte": 91,
+          "detection_delta": -9,
+          "top1_correct": 44,
+          "top1_pct": 48.3516,
+          "top2_pct": 75.8242,
+          "top3_pct": 89.0110,
+          "top5_pct": 93.4066,
+          "confiance_attendue_pct": 39.1677,
+          "confusion_principale": "5 (27 zones)"
+        },
+        {
+          "image": "CTN_7.jpg",
+          "execution": "25.07.2026 09:39:36",
+          "chiffre_attendu": 7,
+          "nombre_attendu": 100,
+          "nombre_detecte": 100,
+          "detection_delta": 0,
+          "top1_correct": 25,
+          "top1_pct": 25.0,
+          "top2_pct": 48.0,
+          "top3_pct": 67.0,
+          "top5_pct": 97.0,
+          "confiance_attendue_pct": 23.3163,
+          "confusion_principale": "2 (43 zones)"
+        },
+        {
+          "image": "CTN_8.jpg",
+          "execution": "25.07.2026 09:56:38",
+          "chiffre_attendu": 8,
+          "nombre_attendu": 100,
+          "nombre_detecte": 101,
+          "detection_delta": 1,
+          "top1_correct": 84,
+          "top1_pct": 83.1683,
+          "top2_pct": 90.0990,
+          "top3_pct": 93.0693,
+          "top5_pct": 98.0198,
+          "confiance_attendue_pct": 70.2741,
+          "confusion_principale": "0 (7 zones)"
+        },
+        {
+          "image": "CTN_9.jpg",
+          "execution": "25.07.2026 09:56:55",
+          "chiffre_attendu": 9,
+          "nombre_attendu": 100,
+          "nombre_detecte": 101,
+          "detection_delta": 1,
+          "top1_correct": 33,
+          "top1_pct": 32.6733,
+          "top2_pct": 76.2376,
+          "top3_pct": 84.1584,
+          "top5_pct": 95.0495,
+          "confiance_attendue_pct": 34.2054,
+          "confusion_principale": "3 (35 zones)"
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "coverage_sql",
+      "label": "Couverture de la cascade",
+      "path": "sorties/cascade_top_n/resume_global/summary.sqlite",
+      "query": {
+        "engine": "SQLite",
+        "language": "sql",
+        "executed_at": "2026-07-25T10:30:00+02:00",
+        "description": "Calcule la couverture cumulée Top-1, Top-2, Top-3 et Top-5.",
+        "sql": "SELECT * FROM cascade_coverage ORDER BY CAST(REPLACE(niveau, 'Top-', '') AS INTEGER);",
+        "tables_used": [
+          "cascade_coverage"
+        ]
+      }
+    },
+    {
+      "id": "runs_sql",
+      "label": "Résultats détaillés par exécution",
+      "path": "sorties/cascade_top_n/resume_global/summary.sqlite",
+      "query": {
+        "engine": "SQLite",
+        "language": "sql",
+        "executed_at": "2026-07-25T10:30:00+02:00",
+        "description": "Lit les métriques agrégées des 13 exécutions.",
+        "sql": "SELECT * FROM runs ORDER BY image, execution;",
+        "tables_used": [
+          "runs"
+        ]
+      }
+    }
+  ]
+}

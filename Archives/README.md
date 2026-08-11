@@ -14,4 +14,5 @@ Le dossier contient notamment :
 Les scripts actuels ne lisent ni n'écrivent automatiquement dans `Archives/`.
 Ce dossier sert uniquement de mémoire historique du projet.
 
-Les modèles `.keras` restent locaux et ne sont pas publiés sur GitHub.
+Les modèles `.keras` et les résultats historiques conservés ici sont publiés
+sur GitHub afin de documenter l'évolution du projet.

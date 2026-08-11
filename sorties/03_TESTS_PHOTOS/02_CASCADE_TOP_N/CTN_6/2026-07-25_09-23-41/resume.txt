@@ -1,0 +1,27 @@
+TEST CASCADE TOP-N
+==================
+Image utilisee : CTN_6.jpg
+Chemin source  : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/CTN_6.jpg
+Date du test   : 25.07.2026 a 09:23:41 CEST
+Modele         : Best_COLOR_MAP
+Chiffre attendu: 6
+
+DETECTION
+---------
+Nombre attendu : 100
+Nombre detecte : 91
+Seuils faible/fort : 63.0 / 133.0
+ATTENTION : le nombre detecte ne correspond pas au nombre attendu (ecart -9).
+
+CLASSEMENT GLOBAL
+-----------------
+Top 1 : chiffre 6 avec 39.17 %
+Top 2 : chiffre 5 avec 30.87 %
+Top 3 : chiffre 0 avec 11.91 %
+Top 4 : chiffre 1 avec 6.94 %
+Top 5 : chiffre 8 avec 5.01 %
+Top 6 : chiffre 2 avec 2.79 %
+Top 7 : chiffre 7 avec 1.29 %
+Top 8 : chiffre 4 avec 0.82 %
+Top 9 : chiffre 3 avec 0.63 %
+Top 10 : chiffre 9 avec 0.58 %

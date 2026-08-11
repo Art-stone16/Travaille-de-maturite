@@ -1,0 +1,208 @@
+{
+  "type": "analyse_chiffres_moyens_mnist",
+  "cree_le": "2026-08-07T10:36:29+02:00",
+  "dossier_experience": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/sorties/analyse_chiffres_moyens/comparaison_tous_mes_chiffres_2026-08-07",
+  "entrees": {
+    "origine_mnist": "/Users/arthurperret/.keras/datasets/mnist.npz",
+    "partition": "entrainement",
+    "nombre_images_utilisees": 60000,
+    "limite_par_classe": null,
+    "images_personnelles": [
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_0.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_1.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_2.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_3.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_4.jpg",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_5.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_6.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_7.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_8.JPG",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_9.JPG"
+    ]
+  },
+  "sorties": {
+    "figure_generale": "figures/moyennes_et_ecarts_types_mnist.png",
+    "resume_classes": "statistiques/resume_par_classe.csv",
+    "matrices": "statistiques/matrices/",
+    "images_statistiques": "statistiques/images/",
+    "comparaisons_personnelles": "rapports/comparaisons_personnelles.csv"
+  },
+  "classes": [
+    {
+      "classe": 0,
+      "nombre_images": 5923,
+      "intensite_moyenne": 0.17339932918548584,
+      "ecart_type_moyen": 0.1762910634279251,
+      "ecart_type_maximum": 0.4433397948741913
+    },
+    {
+      "classe": 1,
+      "nombre_images": 6742,
+      "intensite_moyenne": 0.07599864155054092,
+      "ecart_type_moyen": 0.09480278939008713,
+      "ecart_type_maximum": 0.4485507011413574
+    },
+    {
+      "classe": 2,
+      "nombre_images": 5958,
+      "intensite_moyenne": 0.14897513389587402,
+      "ecart_type_moyen": 0.18461021780967712,
+      "ecart_type_maximum": 0.4461126923561096
+    },
+    {
+      "classe": 3,
+      "nombre_images": 6131,
+      "intensite_moyenne": 0.14153015613555908,
+      "ecart_type_moyen": 0.1693161129951477,
+      "ecart_type_maximum": 0.43907225131988525
+    },
+    {
+      "classe": 4,
+      "nombre_images": 5842,
+      "intensite_moyenne": 0.12136560678482056,
+      "ecart_type_moyen": 0.16014300286769867,
+      "ecart_type_maximum": 0.4396285116672516
+    },
+    {
+      "classe": 5,
+      "nombre_images": 5421,
+      "intensite_moyenne": 0.12874940037727356,
+      "ecart_type_moyen": 0.1757352352142334,
+      "ecart_type_maximum": 0.43960312008857727
+    },
+    {
+      "classe": 6,
+      "nombre_images": 5918,
+      "intensite_moyenne": 0.13730178773403168,
+      "ecart_type_moyen": 0.16013169288635254,
+      "ecart_type_maximum": 0.4379691779613495
+    },
+    {
+      "classe": 7,
+      "nombre_images": 6265,
+      "intensite_moyenne": 0.11452770233154297,
+      "ecart_type_moyen": 0.14910176396369934,
+      "ecart_type_maximum": 0.44023647904396057
+    },
+    {
+      "classe": 8,
+      "nombre_images": 5851,
+      "intensite_moyenne": 0.15015597641468048,
+      "ecart_type_moyen": 0.16769008338451385,
+      "ecart_type_maximum": 0.43457716703414917
+    },
+    {
+      "classe": 9,
+      "nombre_images": 5949,
+      "intensite_moyenne": 0.12258994579315186,
+      "ecart_type_moyen": 0.14861859381198883,
+      "ecart_type_maximum": 0.4380764961242676
+    }
+  ],
+  "comparaisons_personnelles": [
+    {
+      "identifiant": "classe_0_mon_0_01",
+      "classe_attendue": 0,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_0.JPG",
+      "matrice_28x28": "personnels/classe_0_mon_0_01/matrice_28x28.npy",
+      "figure": "personnels/classe_0_mon_0_01/comparaison.png",
+      "mae_vers_moyenne": 0.1401914358139038,
+      "rmse_vers_moyenne": 0.2437109798192978,
+      "correlation_avec_moyenne": 0.6393556865769339
+    },
+    {
+      "identifiant": "classe_1_mon_1_01",
+      "classe_attendue": 1,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_1.JPG",
+      "matrice_28x28": "personnels/classe_1_mon_1_01/matrice_28x28.npy",
+      "figure": "personnels/classe_1_mon_1_01/comparaison.png",
+      "mae_vers_moyenne": 0.0850633904337883,
+      "rmse_vers_moyenne": 0.21272481977939606,
+      "correlation_avec_moyenne": 0.47973644162753276
+    },
+    {
+      "identifiant": "classe_2_mon_2_01",
+      "classe_attendue": 2,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_2.JPG",
+      "matrice_28x28": "personnels/classe_2_mon_2_01/matrice_28x28.npy",
+      "figure": "personnels/classe_2_mon_2_01/comparaison.png",
+      "mae_vers_moyenne": 0.1342747062444687,
+      "rmse_vers_moyenne": 0.23266597092151642,
+      "correlation_avec_moyenne": 0.6074256424736469
+    },
+    {
+      "identifiant": "classe_3_mon_3_01",
+      "classe_attendue": 3,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_3.JPG",
+      "matrice_28x28": "personnels/classe_3_mon_3_01/matrice_28x28.npy",
+      "figure": "personnels/classe_3_mon_3_01/comparaison.png",
+      "mae_vers_moyenne": 0.11423885822296143,
+      "rmse_vers_moyenne": 0.20271584391593933,
+      "correlation_avec_moyenne": 0.7256758310739483
+    },
+    {
+      "identifiant": "classe_4_mon_4_01",
+      "classe_attendue": 4,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_4.jpg",
+      "matrice_28x28": "personnels/classe_4_mon_4_01/matrice_28x28.npy",
+      "figure": "personnels/classe_4_mon_4_01/comparaison.png",
+      "mae_vers_moyenne": 0.13192041218280792,
+      "rmse_vers_moyenne": 0.25421595573425293,
+      "correlation_avec_moyenne": 0.5655284970251809
+    },
+    {
+      "identifiant": "classe_5_mon_5_01",
+      "classe_attendue": 5,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_5.JPG",
+      "matrice_28x28": "personnels/classe_5_mon_5_01/matrice_28x28.npy",
+      "figure": "personnels/classe_5_mon_5_01/comparaison.png",
+      "mae_vers_moyenne": 0.13781245052814484,
+      "rmse_vers_moyenne": 0.24453037977218628,
+      "correlation_avec_moyenne": 0.6489314920060564
+    },
+    {
+      "identifiant": "classe_6_mon_6_01",
+      "classe_attendue": 6,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_6.JPG",
+      "matrice_28x28": "personnels/classe_6_mon_6_01/matrice_28x28.npy",
+      "figure": "personnels/classe_6_mon_6_01/comparaison.png",
+      "mae_vers_moyenne": 0.11742864549160004,
+      "rmse_vers_moyenne": 0.21844454109668732,
+      "correlation_avec_moyenne": 0.6114167001721137
+    },
+    {
+      "identifiant": "classe_7_mon_7_01",
+      "classe_attendue": 7,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_7.JPG",
+      "matrice_28x28": "personnels/classe_7_mon_7_01/matrice_28x28.npy",
+      "figure": "personnels/classe_7_mon_7_01/comparaison.png",
+      "mae_vers_moyenne": 0.148617684841156,
+      "rmse_vers_moyenne": 0.2887534201145172,
+      "correlation_avec_moyenne": 0.36820730789504197
+    },
+    {
+      "identifiant": "classe_8_mon_8_01",
+      "classe_attendue": 8,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_8.JPG",
+      "matrice_28x28": "personnels/classe_8_mon_8_01/matrice_28x28.npy",
+      "figure": "personnels/classe_8_mon_8_01/comparaison.png",
+      "mae_vers_moyenne": 0.11955070495605469,
+      "rmse_vers_moyenne": 0.2123229205608368,
+      "correlation_avec_moyenne": 0.6994675004514036
+    },
+    {
+      "identifiant": "classe_9_mon_9_01",
+      "classe_attendue": 9,
+      "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/ecritures_personnelles/mon_9.JPG",
+      "matrice_28x28": "personnels/classe_9_mon_9_01/matrice_28x28.npy",
+      "figure": "personnels/classe_9_mon_9_01/comparaison.png",
+      "mae_vers_moyenne": 0.12425092607736588,
+      "rmse_vers_moyenne": 0.24103069305419922,
+      "correlation_avec_moyenne": 0.6727284272123979
+    }
+  ],
+  "notes": [
+    "Les intensites sont normalisees entre 0 (fond) et 1 (encre).",
+    "La distance a la moyenne est descriptive et ne remplace pas l'evaluation du modele de classification."
+  ]
+}

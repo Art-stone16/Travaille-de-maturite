@@ -1,0 +1,42 @@
+ÉTUDE DE STABILITÉ
+===================
+
+Identifiant du protocole : 0fa8ef3761ea0bfe263610bc6ef4d6640f16d919dd856270d32640519b8ff7cd
+Configuration de référence : f1_16__f2_32__dropout_0p4__activation_relu
+Niveau de confiance : 95.0%
+
+REPÉRAGE
+--------
+configuration.json
+    Protocole immuable, provenance, graines demandées et chemins.
+donnees/resultats_bruts.csv
+    Une ligne par configuration et par graine ; écrit après chaque run.
+donnees/courbes_par_epoque.csv
+    Une ligne par époque demandée. Les époques non atteintes après l'early
+    stopping portent reached=False et des valeurs NaN ; elles ne sont pas
+    inventées lors de l'agrégation.
+donnees/resultats_agreges.csv
+    Moyenne, écart-type échantillonnal (ddof=1), SEM, intervalle de Student,
+    médiane, quartiles, minimum et maximum.
+donnees/comparaisons_pairees.csv
+    Différences d'accuracy candidate-référence pour les mêmes graines.
+donnees/erreurs.csv
+    Runs en erreur, conservés sans interrompre toute la grille.
+donnees/indices_split.npz
+    Indices fixes train/validation/test utilisés par tous les runs.
+graphiques/
+    Figures de moyenne+IC, distributions, paires par seed et apprentissage.
+catalogue_sorties.csv
+    Inventaire de tous les fichiers et indication de leur présence.
+
+REPRISE
+-------
+Relancer le même protocole et le même nom d'expérience ignore les run_id déjà
+réussis. Les runs en erreur sont retentés. --force remplace aussi les succès.
+Un protocol_id différent est refusé dans ce dossier afin d'éviter tout mélange.
+
+INTERPRÉTATION
+--------------
+L'écart-type décrit la variabilité entre entraînements. L'intervalle de
+confiance décrit l'incertitude sur leur moyenne. Ces deux quantités ne mesurent
+pas l'incertitude d'échantillonnage du jeu de test MNIST.

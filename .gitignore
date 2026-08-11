@@ -7,17 +7,8 @@
 !modeles/**/*.keras
 !Archives/modeles/**/*.keras
 
-# Données et résultats générés localement
-training_curves*.png
+# Données générées localement
 donnees/datasets_synthetiques/
-
-# Les dossiers d'expérience restent visibles grâce aux fichiers .gitkeep.
-sorties/01_RECHERCHE_MODELE/01_HYPERPARAMETRES/*/
-sorties/01_RECHERCHE_MODELE/02_STABILITE/*/
-sorties/02_EVALUATION_MODELE/01_PERFORMANCES_PAR_CHIFFRE/*/
-sorties/02_EVALUATION_MODELE/02_CHIFFRES_MOYENS/*/
-sorties/03_TESTS_PHOTOS/01_TESTS_TERRAIN/*/
-sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/*/
 
 # Python cache
 __pycache__/

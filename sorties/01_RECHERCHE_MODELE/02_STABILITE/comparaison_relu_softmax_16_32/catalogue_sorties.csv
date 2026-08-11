@@ -1,0 +1,13 @@
+path,type,description,exists,catalogued_at_utc
+configuration.json,configuration,"Protocole, provenance et exécution.",True,2026-08-11T04:45:02+00:00
+LISEZ_MOI.txt,documentation,"Guide de repérage, reprise et interprétation.",True,2026-08-11T04:45:02+00:00
+donnees/resultats_bruts.csv,données brutes,Une ligne par configuration et graine.,True,2026-08-11T04:45:02+00:00
+donnees/courbes_par_epoque.csv,données brutes,"Valeurs par époque, NaN après arrêt.",True,2026-08-11T04:45:02+00:00
+donnees/resultats_agreges.csv,données agrégées,"Moyenne, SD, SEM, IC Student et quartiles.",True,2026-08-11T04:45:02+00:00
+donnees/comparaisons_pairees.csv,données agrégées,Comparaisons appariées par graine.,True,2026-08-11T04:45:02+00:00
+donnees/erreurs.csv,journal d'erreurs,Runs échoués sans arrêt global.,True,2026-08-11T04:45:02+00:00
+donnees/indices_split.npz,provenance,Indices fixes des trois partitions.,True,2026-08-11T04:45:02+00:00
+graphiques/accuracy_moyenne_ic95.png,figure PNG,Accuracy moyenne et intervalle de confiance.,True,2026-08-11T04:45:02+00:00
+graphiques/distribution_accuracy_runs.png,figure PNG,Distribution et points par run.,True,2026-08-11T04:45:02+00:00
+graphiques/trajectoires_appariees_par_seed.png,figure PNG,Trajectoires de configurations pour une même seed.,True,2026-08-11T04:45:02+00:00
+graphiques/courbes_moyennes_ecart_type.png,figure PNG,Validation moyenne ± SD sans padding.,True,2026-08-11T04:45:02+00:00

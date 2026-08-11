@@ -1,0 +1,34 @@
+EXPÉRIENCE : limite_128_criblage
+DOSSIER : limite_128_criblage
+
+ENTRÉE
+- MNIST est chargé par Keras, normalisé entre 0 et 1, puis remodelé en 28 x 28 x 1.
+- Les paramètres exacts de la dernière invocation sont dans configuration.json.
+- Le protocole v2 contient les SHA-256 du fichier MNIST local et du générateur.
+
+À OUVRIR EN PREMIER
+1. graphiques/surfaces_3d_detaillees/ : résultat principal, lisible et séparé
+   par activation. Chaque panneau correspond à une valeur de dropout.
+2. graphiques/heatmaps_2d_accuracy_moyenne.png : vue 2D plus simple pour
+   comparer précisément les nombres de filtres.
+3. Les autres graphiques sont des analyses complémentaires ; ils ne remplacent
+   pas les surfaces détaillées.
+
+SORTIES
+- donnees/resultats_bruts.csv : une ligne par combinaison et par graine.
+- donnees/resultats_agreges.csv : moyenne, écart-type et étendue par combinaison.
+- donnees/analyse/ : tables de corrélations et catalogue de l'analyse descriptive.
+- graphiques/heatmaps_2d_accuracy_moyenne.png : une heatmap filter_1 x filter_2 par dropout.
+- graphiques/surfaces_3d_detaillees/ : l'unique présentation active sous forme
+  de surface, avec accuracy en hauteur et en couleur.
+- graphiques/nuage_3d_accuracy_moyenne.png : analyse complémentaire où filter_1,
+  filter_2 et dropout sont les trois axes ; l'accuracy est uniquement la couleur.
+- graphiques/correlations/ : scatter plots, coût/performance et matrice de corrélation.
+- graphiques/distributions/ : histogrammes des scores, dispersions et durées.
+- catalogue_sorties.csv : inventaire des fichiers produits et de leur rôle.
+
+REPRISE
+Relancer la même commande reprend automatiquement le CSV. Seules les lignes uniques dont
+status=success et dont les métadonnées/métriques sont finies et cohérentes sont ignorées.
+--force les réentraîne ; --plot-only lit le protocol_id enregistré et ne fait que recalculer
+l'agrégation et les figures à partir du CSV brut.

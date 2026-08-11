@@ -46,14 +46,14 @@ L'environnement a été vérifié avec Python 3.11.9. Les dépendances de
 | `donnees/` | Photographies, écritures personnelles et données synthétiques à importer |
 | `modeles/` | Modèles validés utilisés par les scripts |
 | `scripts/` | Entraînement, analyse, évaluation et préparation des données |
-| `sorties/` | Destination locale des résultats générés, classés par objectif |
+| `sorties/` | Résultats générés et publiés, classés par objectif |
 | `Sécurité/` | Contrôles automatiques rapides du code et des calculs |
 | `Archives/` | Modèles et résultats historiques volontairement conservés |
 
 Un clone GitHub fournit le code, sa documentation, les photographies de test,
-les exemples d'écriture personnelle et les modèles `.keras`. La majorité des
-résultats générés dans `sorties/` restent locaux afin de ne pas alourdir le
-dépôt ; l'arborescence des catégories reste néanmoins visible sur GitHub.
+les exemples d'écriture personnelle, les modèles `.keras` et tous les résultats
+présents dans `sorties/` au moment du dernier commit. Une nouvelle expérience
+reste locale jusqu'à sa prochaine publication avec Git.
 
 Les photographies ne doivent pas être déposées directement à la racine de
 `donnees/` :
@@ -114,8 +114,8 @@ Comparer deux écritures personnelles avec les moyennes MNIST :
 
 L'option `--personnel` peut être répétée pour ajouter les autres chiffres.
 
-Lorsqu'une expérience existe déjà localement dans `sorties/`, ses graphiques
-peuvent être recréés sans entraînement :
+Lorsqu'une expérience est présente dans `sorties/`, ses graphiques peuvent être
+recréés sans entraînement :
 
 ```bash
 .venv/bin/python scripts/generer_color_map.py \

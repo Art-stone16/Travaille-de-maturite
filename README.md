@@ -18,11 +18,10 @@ sur de vraies photographies.
   expériences séparées et reprenables.
 
 Le modèle utilisé dans l'environnement local se trouve dans
-`modeles/modeles_valides/Best_COLOR_MAP/best_model.keras`. Les fichiers
-`.keras` ne sont pas versionnés sur GitHub en raison de leur taille. Après un
-nouveau clone, il faut donc placer un modèle compatible avec les dix classes à
-ce chemin ou fournir explicitement son chemin avec l'option `--modele` des
-scripts concernés.
+`modeles/modeles_valides/Best_COLOR_MAP/best_model.keras`. Les modèles `.keras`
+conservés dans `modeles/` et `Archives/modeles/` sont versionnés avec le dépôt.
+Après un clone, le modèle principal est donc disponible immédiatement. L'option
+`--modele` permet d'en sélectionner un autre dans les scripts concernés.
 
 ## Installation
 
@@ -45,16 +44,16 @@ L'environnement a été vérifié avec Python 3.11.9. Les dépendances de
 | Dossier | Contenu |
 |---|---|
 | `donnees/` | Photographies, écritures personnelles et données synthétiques à importer |
-| `modeles/` | Destination locale des modèles validés ou en cours |
+| `modeles/` | Modèles validés utilisés par les scripts |
 | `scripts/` | Entraînement, analyse, évaluation et préparation des données |
 | `sorties/` | Destination locale des résultats générés, classés par objectif |
 | `Sécurité/` | Contrôles automatiques rapides du code et des calculs |
 | `Archives/` | Modèles et résultats historiques volontairement conservés |
 
-Un clone GitHub fournit le code, sa documentation et les photographies de test
-du projet, y compris les exemples d'écriture personnelle. Les modèles `.keras`
-et la majorité des résultats générés restent locaux ; ils doivent être produits
-ou ajoutés séparément.
+Un clone GitHub fournit le code, sa documentation, les photographies de test,
+les exemples d'écriture personnelle et les modèles `.keras`. La majorité des
+résultats générés dans `sorties/` restent locaux afin de ne pas alourdir le
+dépôt ; l'arborescence des catégories reste néanmoins visible sur GitHub.
 
 Les photographies ne doivent pas être déposées directement à la racine de
 `donnees/` :
@@ -93,7 +92,7 @@ TensorFlow ni lancer d'entraînement :
   --dry-run
 ```
 
-Les exemples suivants nécessitent les fichiers locaux indiqués.
+Les exemples suivants utilisent les fichiers fournis dans le dépôt.
 
 Tester une photographie terrain :
 
@@ -115,8 +114,8 @@ Comparer deux écritures personnelles avec les moyennes MNIST :
 
 L'option `--personnel` peut être répétée pour ajouter les autres chiffres.
 
-Lorsqu'une expérience existe déjà localement, ses graphiques peuvent être
-recréés sans entraînement :
+Lorsqu'une expérience existe déjà localement dans `sorties/`, ses graphiques
+peuvent être recréés sans entraînement :
 
 ```bash
 .venv/bin/python scripts/generer_color_map.py \

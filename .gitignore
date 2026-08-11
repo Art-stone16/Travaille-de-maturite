@@ -2,14 +2,16 @@
 .venv/
 .cache/
 
-# Modèles Keras (lourds, pas besoin sur git)
+# Modèles Keras publiés uniquement depuis les dossiers dédiés
 *.keras
+!modeles/**/*.keras
+!Archives/modeles/**/*.keras
 
-# Sorties et données générées
+# Données et résultats générés localement
 training_curves*.png
 donnees/datasets_synthetiques/
 
-# Nouvelle arborescence des résultats
+# Les dossiers d'expérience restent visibles grâce aux fichiers .gitkeep.
 sorties/01_RECHERCHE_MODELE/01_HYPERPARAMETRES/*/
 sorties/01_RECHERCHE_MODELE/02_STABILITE/*/
 sorties/02_EVALUATION_MODELE/01_PERFORMANCES_PAR_CHIFFRE/*/

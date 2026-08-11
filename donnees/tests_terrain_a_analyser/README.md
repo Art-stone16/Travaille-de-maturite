@@ -5,6 +5,7 @@ protocole :
 
 ```text
 tests_terrain_a_analyser/
+├── historiques/                 anciennes photos déjà utilisées
 └── papier_blanc_stylo_noir/
     ├── classe_0.jpg
     ├── classe_1.jpg
@@ -16,4 +17,4 @@ Une photo `classe_7.jpg` doit contenir uniquement des 7 si elle est évaluée av
 des limites du système.
 
 Le script ne modifie pas ces fichiers. Toutes les sorties vont dans
-`sorties/tests_condition_reelle/`.
+`sorties/03_TESTS_PHOTOS/01_TESTS_TERRAIN/`.

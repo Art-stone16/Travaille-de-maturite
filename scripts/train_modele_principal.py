@@ -66,10 +66,10 @@ model.compile(
         keras.metrics.SparseCategoricalAccuracy(name="acc"),
     ],
 )
-# Nom du modèle
-MODEL_NAME = "A_SUprimer"
-MODEL_DIR = env_config.PROJECT_ROOT / "modeles" / "modeles_valides"
-GRAPH_DIR = env_config.PROJECT_ROOT / "sorties" / "graphiques"
+# Nom neutre du prochain entraînement manuel.
+MODEL_NAME = "modele_manuel"
+MODEL_DIR = env_config.MODELES_EN_COURS
+GRAPH_DIR = env_config.SORTIES_ENTRAINEMENTS_MANUELS / "courbes"
 os.makedirs(MODEL_DIR / MODEL_NAME, exist_ok=True)
 os.makedirs(GRAPH_DIR, exist_ok=True)
 

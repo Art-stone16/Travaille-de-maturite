@@ -7,14 +7,15 @@
 
 # Sorties et données générées
 training_curves*.png
-sorties/tests_condition_reelle/test_*.jpg
-sorties/tests_condition_reelle/diagnostic_*.jpg
-sorties/tests_condition_reelle/diagnostics/
-sorties/cascade_top_n/
-sorties/analyse_chiffres_moyens/
-sorties/experiences_hyperparametres/
-sorties/tests_condition_reelle/*/
 donnees/datasets_synthetiques/
+
+# Nouvelle arborescence des résultats
+sorties/01_RECHERCHE_MODELE/01_HYPERPARAMETRES/*/
+sorties/01_RECHERCHE_MODELE/02_STABILITE/*/
+sorties/02_EVALUATION_MODELE/01_PERFORMANCES_PAR_CHIFFRE/*/
+sorties/02_EVALUATION_MODELE/02_CHIFFRES_MOYENS/*/
+sorties/03_TESTS_PHOTOS/01_TESTS_TERRAIN/*/
+sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/*/
 
 # Python cache
 __pycache__/

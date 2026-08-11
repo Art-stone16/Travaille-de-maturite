@@ -30,9 +30,7 @@ from matplotlib.patches import Patch
 import detection_chiffres as detection
 
 
-SORTIE_PAR_DEFAUT = (
-    env_config.PROJECT_ROOT / "sorties" / "analyse_chiffres_moyens"
-)
+SORTIE_PAR_DEFAUT = env_config.SORTIES_CHIFFRES_MOYENS
 COULEUR_MNIST = np.array([0.18, 0.43, 0.72], dtype=np.float32)
 COULEUR_PERSONNELLE = np.array([0.93, 0.49, 0.16], dtype=np.float32)
 
@@ -69,7 +67,8 @@ def construire_parser() -> argparse.ArgumentParser:
         metavar="CHIFFRE=IMAGE",
         help=(
             "Image d'un seul chiffre a comparer a sa classe. L'option peut "
-            "etre repetee, par exemple --personnel 7=donnees/mon_7.jpg."
+            "etre repetee, par exemple "
+            "--personnel 7=donnees/ecritures_personnelles/mon_7.JPG."
         ),
     )
     parser.add_argument(

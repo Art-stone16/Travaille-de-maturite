@@ -5,4 +5,5 @@ opencv-python
 matplotlib
 pandas
 scikit-learn
+scipy
 seaborn

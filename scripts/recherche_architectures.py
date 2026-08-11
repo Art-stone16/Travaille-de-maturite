@@ -42,8 +42,8 @@ activation_value = [
 results = []
 
 # Création des dossiers
-MODEL_DIR = env_config.PROJECT_ROOT / "modeles" / "recherche_architectures"
-RESULTS_DIR = env_config.PROJECT_ROOT / "sorties" / "resultats"
+MODEL_DIR = env_config.MODELES_RECHERCHE_ARCHITECTURES
+RESULTS_DIR = env_config.SORTIES_RECHERCHE_ARCHITECTURES
 os.makedirs(MODEL_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
 #boucle pour tester plusieurs architecture

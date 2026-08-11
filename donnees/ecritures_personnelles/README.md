@@ -4,7 +4,7 @@ Place ici les images utilisées pour la superposition avec les chiffres moyens
 MNIST. Chaque fichier doit contenir un seul chiffre, bien cadré, avec un trait
 noir sur un fond clair.
 
-Exemples de noms : `mon_2.jpg`, `mon_7.jpg`, `essai_fin_9.png`.
+Exemples de noms : `mon_2.JPG`, `mon_7.JPG`, `essai_fin_9.png`.
 
 Ces fichiers sont lus par `scripts/analyser_chiffres_moyens.py` avec une option
-comme `--personnel 7=donnees/ecritures_personnelles/mon_7.jpg`.
+comme `--personnel 7=donnees/ecritures_personnelles/mon_7.JPG`.

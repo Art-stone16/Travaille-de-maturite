@@ -24,16 +24,14 @@ import detection_chiffres as detection
 
 # Reglages par defaut --------------------------------------------------------
 
-IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "test_terrain.jpg"
+IMAGE_PATH = env_config.DONNEES_TESTS_TERRAIN / "historiques" / "test_terrain.jpg"
 MODEL_NAME = "Best_COLOR_MAP"
 MODEL_PATH = (
-    env_config.PROJECT_ROOT
-    / "modeles"
-    / "modeles_valides"
+    env_config.MODELES_VALIDES
     / MODEL_NAME
     / "best_model.keras"
 )
-OUTPUT_DIR = env_config.PROJECT_ROOT / "sorties" / "tests_condition_reelle"
+OUTPUT_DIR = env_config.SORTIES_TESTS_TERRAIN
 
 # Mettre un entier de 0 a 9 pour forcer la valeur. Avec None, le script tente
 # de la deduire du nom de l'image (par exemple CTN_7.jpg ou chiffre_7.jpg).

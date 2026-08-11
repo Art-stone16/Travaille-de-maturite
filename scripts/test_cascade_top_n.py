@@ -14,19 +14,17 @@ import detection_chiffres as detection
 
 # Reglages du test -----------------------------------------------------------
 
-IMAGE_PATH = env_config.PROJECT_ROOT / "donnees" / "CTN_9.jpg"
+IMAGE_PATH = env_config.DONNEES_CASCADE_TOP_N / "CTN_9.JPG"
 CHIFFRE_ATTENDU = 9
 NOMBRE_ATTENDU = 100
 
 MODEL_NAME = "Best_COLOR_MAP"
 MODEL_PATH = (
-    env_config.PROJECT_ROOT
-    / "modeles"
-    / "modeles_valides"
+    env_config.MODELES_VALIDES
     / MODEL_NAME
     / "best_model.keras"
 )
-OUTPUT_DIR = env_config.PROJECT_ROOT / "sorties" / "cascade_top_n"
+OUTPUT_DIR = env_config.SORTIES_CASCADE_TOP_N
 TOP_N_ORANGE = 9
 
 

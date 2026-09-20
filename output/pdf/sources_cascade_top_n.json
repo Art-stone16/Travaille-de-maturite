@@ -1,0 +1,107 @@
+[
+  {
+    "pdf": "output/pdf/bilan_cascade_top_n_2026-07-24_25.pdf",
+    "period": "Campagne des 24 et 25 juillet 2026",
+    "model": "Best_COLOR_MAP",
+    "runs": 13,
+    "distinct_images": 12,
+    "detected": 1327,
+    "expected": 1301,
+    "top_counts": [
+      879,
+      1100,
+      1193,
+      1263,
+      1287,
+      1297,
+      1308,
+      1316,
+      1322,
+      1327
+    ],
+    "top_percent": [
+      66.23963828183874,
+      82.89374529012811,
+      89.90203466465712,
+      95.17709118311983,
+      96.98568198944989,
+      97.73926149208741,
+      98.5681989449887,
+      99.17106254709871,
+      99.62321024868123,
+      100.0
+    ],
+    "latest_only": {
+      "detected": 1227,
+      "top1": 65.4441727791361,
+      "top5": 96.7400162999185
+    },
+    "sources": [
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_0/2026-07-25_09-56-17/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_1/2026-07-24_14-42-21/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_2/2026-07-24_14-45-21/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_2.2/2026-07-24_14-45-30/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_3/2026-07-24_14-29-51/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_3/2026-07-24_14-31-31/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_4/2026-07-25_09-09-24/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_5/2026-07-25_09-16-56/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_6/2026-07-25_09-23-41/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_6.2/2026-07-25_09-30-33/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_7/2026-07-25_09-39-36/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_8/2026-07-25_09-56-38/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_9/2026-07-25_09-56-55/predictions.csv"
+    ]
+  },
+  {
+    "pdf": "output/pdf/bilan_cascade_top_n_2026-09-05.pdf",
+    "period": "Campagne du 5 septembre 2026",
+    "model": "best_relu_MNIST_cascade_V2",
+    "runs": 12,
+    "distinct_images": 12,
+    "detected": 1227,
+    "expected": 1201,
+    "top_counts": [
+      1138,
+      1177,
+      1195,
+      1207,
+      1213,
+      1218,
+      1221,
+      1223,
+      1227,
+      1227
+    ],
+    "top_percent": [
+      92.74653626731867,
+      95.92502037489812,
+      97.3920130399348,
+      98.37000814995925,
+      98.85900570497147,
+      99.26650366748166,
+      99.51100244498777,
+      99.67400162999185,
+      100.0,
+      100.0
+    ],
+    "latest_only": {
+      "detected": 1227,
+      "top1": 92.74653626731867,
+      "top5": 98.85900570497147
+    },
+    "sources": [
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_0/2026-09-05_15-53-31/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_1/2026-09-05_15-53-35/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_2/2026-09-05_15-53-38/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_2.2/2026-09-05_15-53-38/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_3/2026-09-05_15-53-39/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_4/2026-09-05_15-53-43/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_5/2026-09-05_15-53-46/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_6/2026-09-05_15-53-47/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_6.2/2026-09-05_15-53-49/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_7/2026-09-05_15-53-50/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_8/2026-09-05_15-53-53/predictions.csv",
+      "sorties/03_TESTS_PHOTOS/02_CASCADE_TOP_N/CTN_9/2026-09-05_15-53-57/predictions.csv"
+    ]
+  }
+]

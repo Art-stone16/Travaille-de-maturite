@@ -1,21 +1,26 @@
-# Environnement virtuel
+# Environnement virtuel et caches locaux
 .venv/
 .cache/
 
-# Modèles Keras publiés uniquement depuis les dossiers dédiés
+# Modèles Keras autorisés dans les dossiers dédiés
 *.keras
 !modeles/**/*.keras
-!Archives/modeles/**/*.keras
+!archives/modeles/**/*.keras
 
-# Données générées localement
-donnees/datasets_synthetiques/
+# Données préparées localement : reconstruction/validation avant entraînement
+donnees/preparees/synthetiques/
+donnees/preparees/cascade/
 
-# Python cache
+# Fichiers temporaires locaux
+tmp/
+
+# Caches et métadonnées Python
 __pycache__/
 *.pyc
+*.egg-info/
 
-# Configuration locale de l’éditeur
+# Configuration locale de l'éditeur
 .vscode/
 
-# OS
+# Système d'exploitation
 .DS_Store

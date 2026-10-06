@@ -1,205 +1,208 @@
 # Reconnaissance de chiffres manuscrits
 
-Projet de travail de maturité consacré à la reconnaissance des chiffres de 0 à
-9 avec un réseau de neurones convolutif. Le dépôt permet d'entraîner et comparer
-des modèles, d'étudier leurs hyperparamètres, puis de les tester sur MNIST et
-sur de vraies photographies.
-
-## Fonctionnalités principales
-
-- détection de plusieurs chiffres dans une photographie ;
-- contrôle visuel du prétraitement réellement envoyé au modèle en 28×28 ;
-- comparaison de l'écriture personnelle avec le chiffre moyen de MNIST ;
-- exploration des filtres, du dropout et des activations ReLU/Softmax ;
-- étude de stabilité avec plusieurs graines et intervalles de confiance ;
-- matrice de confusion, sensibilité et spécificité pour chaque chiffre ;
-- import, validation et augmentation de datasets synthétiques ;
-- grilles d'hyperparamètres et études de stabilité enregistrées dans des
-  expériences séparées et reprenables.
-
-Le modèle utilisé dans l'environnement local se trouve dans
-`modeles/modeles_valides/Best_COLOR_MAP/best_model.keras`. Les modèles `.keras`
-conservés dans `modeles/` et `Archives/modeles/` sont versionnés avec le dépôt.
-Après un clone, le modèle principal est donc disponible immédiatement. L'option
-`--modele` permet d'en sélectionner un autre dans les scripts concernés.
+Travail de maturité consacré à la reconnaissance des chiffres de 0 à 9 avec un
+réseau de neurones convolutif. Le projet permet d'entraîner et comparer des
+modèles, d'étudier leurs hyperparamètres, puis de les évaluer sur MNIST et sur
+des photographies réelles.
 
 ## Installation
+
+Depuis la racine du dépôt :
 
 ```bash
 git clone https://github.com/Art-stone16/Travaille-de-maturite.git
 cd Travaille-de-maturite
-
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+python -m pip install -e . --no-deps --no-build-isolation
 ```
 
-Les commandes de ce README doivent être lancées depuis la racine du dépôt.
-L'environnement a été vérifié avec Python 3.11.9. Les dépendances de
-`requirements.txt` ne sont pas encore verrouillées à une version exacte.
+L'environnement de référence utilise Python 3.11.9. Les dépendances de
+`requirements.txt` ne sont pas verrouillées à une version exacte. L'installation
+éditable rend le package `reconnaissance_chiffres` importable. Les commandes
+`python scripts/<categorie>/<script>.py` fonctionnent aussi directement depuis
+ce dépôt grâce à leur initialisation commune.
 
 ## Organisation du dépôt
 
-| Dossier | Contenu |
-|---|---|
-| `donnees/` | Photographies, écritures personnelles et données synthétiques à importer |
-| `modeles/` | Modèles validés utilisés par les scripts |
-| `scripts/` | Entraînement, analyse, évaluation et préparation des données |
-| `sorties/` | Résultats générés et publiés, classés par objectif |
-| `Sécurité/` | Contrôles automatiques rapides du code et des calculs |
-| `Archives/` | Modèles et résultats historiques volontairement conservés |
+```text
+.
+├── src/reconnaissance_chiffres/    code commun : chemins, données, prétraitement, modèles, rapports
+├── scripts/
+│   ├── entrainement/              entraînement des modèles
+│   ├── evaluation/                MNIST, photographies et cascade Top-N
+│   ├── experiences/               hyperparamètres, architectures et stabilité
+│   ├── preparation_donnees/       extraction et validation des datasets
+│   ├── visualisation/             planches, motifs et rapports Markdown
+│   └── webcam/                    reconnaissance en direct
+├── donnees/
+│   ├── brutes/                    sources conservées sans transformation
+│   └── preparees/                 datasets générés et validés localement
+├── modeles/actifs/                les huit modèles utilisés actuellement
+├── resultats/                     résultats détaillés et diagnostics
+├── rapports/
+│   ├── comparaisons/              scripts, modèles, cascade et terrain en Markdown
+│   ├── figures/                   figures sélectionnées pour le TM
+│   └── tableaux/                  tableaux sélectionnés pour le TM
+├── docs/                          guides et inventaire des graphiques
+├── configurations/               emplacement des configurations partagées
+├── tests/                         contrôles automatiques du code
+├── archives/                      modèles, résultats et documents historiques
+└── tmp/                           fichiers temporaires locaux
+```
 
-Un clone GitHub fournit le code, sa documentation, les photographies de test,
-les exemples d'écriture personnelle, les modèles `.keras` et tous les résultats
-présents dans `sorties/` au moment du dernier commit. Une nouvelle expérience
-reste locale jusqu'à sa prochaine publication avec Git.
+Tous les modèles actifs sont regroupés sous `modeles/actifs/<nom_modele>/`.
+Les anciens modèles restent dans `archives/modeles/`. Le package commun contient
+`config.py`, `detection.py`, `pretraitement.py`, `datasets.py`, `modeles.py` et
+`rapports.py` ; les scripts sont les points d'entrée des commandes. `scripts/_bootstrap.py` initialise leur accès au package.
 
-Les photographies ne doivent pas être déposées directement à la racine de
-`donnees/` :
+Les photographies et les lots sources se rangent dans :
 
-- `donnees/tests_terrain_a_analyser/` pour les tests sur une photo libre ;
-- `donnees/tests_cascade_top_n/` pour les feuilles CTN ;
-- `donnees/ecritures_personnelles/` pour une image contenant un seul chiffre ;
-- `donnees/synthetiques_a_importer/` pour un lot brut généré artificiellement.
+- `donnees/brutes/terrain/` : photographies libres, regroupées par protocole ;
+- `donnees/brutes/cascade_top_n/` : feuilles CTN contenant un chiffre répété ;
+- `donnees/brutes/ecritures_personnelles/` : images contenant un seul chiffre ;
+- `donnees/brutes/synthetiques/` : lots bruts générés artificiellement.
 
-## Scripts principaux
+## Commandes principales
+
+Les chemins des modèles peuvent être fournis avec `--modele` aux commandes
+d'évaluation. Les valeurs par défaut restent propres à chaque script :
+`best_relu_10xcascade` pour le test terrain, `Best_relu_cascade_V2` pour Cascade
+Top-N et `Best_COLOR_MAP` pour la matrice de confusion.
 
 | Objectif | Script |
 |---|---|
-| Tester une photographie et inspecter le 28×28 | `scripts/test_condition_reelle.py` |
-| Tester une feuille contenant un chiffre répété | `scripts/test_cascade_top_n.py` |
-| Calculer les chiffres moyens MNIST | `scripts/analyser_chiffres_moyens.py` |
-| Explorer les hyperparamètres | `scripts/generer_color_map.py` |
-| Recréer corrélations et histogrammes | `scripts/analyser_hyperparametres.py` |
-| Mesurer la stabilité statistique | `scripts/test_stabilite.py` |
-| Évaluer les performances par chiffre | `scripts/matrice_confusion.py` |
-| Préparer un dataset synthétique | `scripts/preparer_dataset_synthetique.py` |
-| Entraîner manuellement un modèle | `scripts/train_modele_principal.py` |
+| Tester une photographie et inspecter le 28×28 | `scripts/evaluation/test_condition_reelle.py` |
+| Tester une feuille contenant un chiffre répété | `scripts/evaluation/test_cascade_top_n.py` |
+| Évaluer les performances par chiffre sur MNIST | `scripts/evaluation/matrice_confusion.py` |
+| Explorer les hyperparamètres | `scripts/experiences/generer_color_map.py` |
+| Recréer corrélations et histogrammes | `scripts/experiences/analyser_hyperparametres.py` |
+| Mesurer la stabilité statistique | `scripts/experiences/test_stabilite.py` |
+| Entraîner un modèle avec les données de cascade | `scripts/entrainement/train_modele_principal.py` |
+| Préparer un dataset de cascade | `scripts/preparation_donnees/preparer_dataset_cascade.py` |
+| Préparer un dataset synthétique | `scripts/preparation_donnees/preparer_dataset_synthetique.py` |
+| Calculer les chiffres moyens MNIST | `scripts/visualisation/analyser_chiffres_moyens.py` |
+| Régénérer les synthèses Cascade Top-N | `scripts/visualisation/generer_rapports_cascade_md.py` |
+| Reconnaître les chiffres avec la webcam | `scripts/webcam/reconnaissance_webcam.py` |
 
-`scripts/env_config.py` centralise les chemins du projet. Ce n'est pas un
-programme à lancer directement.
-
-## Premières commandes
-
-Afficher le plan de l'étude jusqu'à 128 filtres, sans créer de résultat, charger
-TensorFlow ni lancer d'entraînement :
+Afficher le plan de l'étude jusqu'à 128 filtres sans lancer d'entraînement :
 
 ```bash
-.venv/bin/python scripts/generer_color_map.py \
-  --nom-experience limite_128_criblage \
+.venv/bin/python scripts/experiences/generer_color_map.py \
+  --nom-experience plan_limite_128 \
   --preset-limite-128 \
   --dry-run
 ```
 
-Les exemples suivants utilisent les fichiers fournis dans le dépôt.
-
-Tester une photographie terrain :
+Tester une photographie existante avec un modèle explicitement choisi :
 
 ```bash
-.venv/bin/python scripts/test_condition_reelle.py \
-  --image donnees/tests_terrain_a_analyser/historiques/test_terrain.jpg \
+.venv/bin/python scripts/evaluation/test_condition_reelle.py \
+  --image donnees/brutes/terrain/historiques/test_terrain.jpg \
+  --modele modeles/actifs/Best_COLOR_MAP/best_model.keras \
   --nom-experience essai_photo
 ```
 
 Comparer deux écritures personnelles avec les moyennes MNIST :
 
 ```bash
-.venv/bin/python scripts/analyser_chiffres_moyens.py \
+.venv/bin/python scripts/visualisation/analyser_chiffres_moyens.py \
   --source entrainement \
   --nom-experience comparaison_personnelle \
-  --personnel 2=donnees/ecritures_personnelles/mon_2.JPG \
-  --personnel 7=donnees/ecritures_personnelles/mon_7.JPG
+  --personnel 2=donnees/brutes/ecritures_personnelles/mon_2.JPG \
+  --personnel 7=donnees/brutes/ecritures_personnelles/mon_7.JPG
 ```
 
-L'option `--personnel` peut être répétée pour ajouter les autres chiffres.
-
-Lorsqu'une expérience est présente dans `sorties/`, ses graphiques peuvent être
-recréés sans entraînement :
+L'option `--personnel` peut être répétée. Pour recréer les graphiques d'une
+expérience déjà présente, utiliser `--plot-only` :
 
 ```bash
-.venv/bin/python scripts/generer_color_map.py \
+.venv/bin/python scripts/experiences/generer_color_map.py \
   --nom-experience limite_128_criblage \
   --plot-only
 ```
 
-Les protocoles complets et les commandes pour les expériences longues sont
-réunis dans [GUIDE_EXPERIENCES.md](GUIDE_EXPERIENCES.md).
-
-## Résultats
-
-Les sorties actives sont séparées en trois catégories :
+## Résultats et rapports
 
 ```text
-sorties/
-├── 01_RECHERCHE_MODELE/
-│   ├── 01_HYPERPARAMETRES/
-│   ├── 02_STABILITE/
-│   ├── 03_RECHERCHE_ARCHITECTURES/
-│   └── 04_ENTRAINEMENTS_MANUELS/
-├── 02_EVALUATION_MODELE/
-│   ├── 01_PERFORMANCES_PAR_CHIFFRE/
-│   └── 02_CHIFFRES_MOYENS/
-└── 03_TESTS_PHOTOS/
-    ├── 01_TESTS_TERRAIN/
-    └── 02_CASCADE_TOP_N/
+resultats/
+├── recherche/
+│   ├── hyperparametres/
+│   ├── stabilite/
+│   ├── architectures/
+│   └── entrainements/
+├── evaluation_mnist/performances_par_chiffre/
+├── visualisations/
+│   ├── chiffres_moyens/
+│   ├── exemples_mnist/
+│   └── motifs_classes/
+├── photos_terrain/
+│   ├── journal_global_tests_terrain.csv
+│   └── <nom_image>/<date_heure>/
+├── cascade_top_n/<nom_feuille>/<date_heure>/
+└── webcam/
 ```
 
-La cartographie des hyperparamètres cherche les meilleures configurations. Une
-étude de stabilité répète ensuite quelques configurations avec plusieurs
-graines pour vérifier que leur résultat est reproductible : ce sont deux étapes
-différentes.
+Tous les essais terrain d'une même photographie sont regroupés sous son nom.
+Le nom d'expérience et celui du modèle sont conservés dans les paramètres et
+le journal global. Les diagnostics et les résultats bruts restent dans
+`resultats/` ; les synthèses Cascade Top-N se trouvent dans
+[rapports/comparaisons/cascade_top_n/comparaison_modeles.md](rapports/comparaisons/cascade_top_n/comparaison_modeles.md).
+Les figures et tableaux choisis pour le document final peuvent être copiés dans
+`rapports/figures/` et `rapports/tableaux/`.
 
-Pour les surfaces 3D, le résultat principal est le format détaillé situé dans
-`sorties/01_RECHERCHE_MODELE/01_HYPERPARAMETRES/<experience>/graphiques/surfaces_3d_detaillees/`.
-Les images ReLU et Softmax représentent deux activations réellement
-différentes, et non deux copies du même résultat.
+La cartographie des hyperparamètres cherche des configurations prometteuses ;
+l'étude de stabilité les compare ensuite avec plusieurs graines. Les surfaces
+3D détaillées sont dans
+`resultats/recherche/hyperparametres/<experience>/graphiques/surfaces_3d_detaillees/`.
 
-## Sécurité du code
+## Tests du code
 
-Le dossier `Sécurité/` contient 40 tests automatiques rapides. Ils utilisent de petites
-données synthétiques, des simulations et des dossiers temporaires. Ils ne
-lancent aucun entraînement long, aucune grille réelle et ne modifient pas les
-résultats présents dans `sorties/`.
+Le dossier `tests/` contient 40 contrôles rapides fondés sur de petites données
+synthétiques, des simulations et des dossiers temporaires. Ils vérifient le code
+et les calculs, sans mesurer l'accuracy réelle des modèles.
 
 | Fichier | Rôle | Nombre de tests |
 |---|---|---:|
-| `Sécurité/test_hyperparametres.py` | Vérifie les protocoles, identifiants, reprises, agrégations et graphiques des expériences d'hyperparamètres | 15 |
-| `Sécurité/test_matrice_confusion.py` | Vérifie TP/FN/FP/TN, sensibilité, précision, F1, normalisation et intervalles de Wilson | 10 |
-| `Sécurité/test_stabilite_statistique.py` | Vérifie les graines, intervalles de Student, comparaisons appariées, splits et reprises de l'étude de stabilité | 15 |
-
-Pour lancer les trois fichiers :
+| `tests/test_hyperparametres.py` | Protocoles, reprises, agrégations et graphiques | 15 |
+| `tests/test_matrice_confusion.py` | TP/FN/FP/TN, métriques et intervalles de Wilson | 10 |
+| `tests/test_stabilite_statistique.py` | Graines, intervalles de Student, splits et reprises | 15 |
 
 ```bash
-.venv/bin/python -m unittest discover -s 'Sécurité' -p 'test_*.py' -v
+.venv/bin/python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-Un résultat `ok` signifie que la règle vérifiée fonctionne toujours. Un résultat
-`FAILED` indique généralement qu'une modification du code a cassé un calcul,
-un format de fichier ou une règle de reprise. Ces tests contrôlent le logiciel ;
-ils ne mesurent pas l'accuracy réelle du modèle.
+## Reproductibilité et publication Git
 
-## Reproductibilité des expériences
+Git fournit les fichiers présents dans le dernier commit. `.gitignore` autorise
+les modèles `.keras` de `modeles/` et `archives/modeles/` : les modèles actifs,
+les nouveaux scripts et les résultats souhaités doivent être ajoutés au dépôt
+avant sa publication. La présence d'un fichier dans le workspace ne suffit pas
+à le rendre disponible après un clone.
 
-Les nouveaux workflows produisent notamment :
+Les environnements, caches, fichiers temporaires et datasets préparés de
+cascade ou synthétiques restent locaux. Les quatre scripts d'entraînement avec
+cascade nécessitent les tableaux sous
+`donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/`. Il faut disposer de
+ce dataset ou le reconstruire et le valider avant l'entraînement. Le script
+`train_best_color_map_cascade.py` exige aussi le fichier MNIST dans
+`.cache/keras/datasets/mnist.npz`. Les étapes sont décrites dans le
+[guide des expériences](docs/guide_experiences.md#7-prérequis-des-entraînements-avec-cascade).
 
-- `configuration.json` : paramètres, provenance et identité du protocole ;
-- `resultats_bruts.csv` : une ligne par configuration et par graine ;
-- `resultats_agreges.csv` : moyenne, écart-type et intervalle de confiance ;
-- `catalogue_sorties.csv` : rôle et présence des fichiers produits.
+Les expériences enregistrent notamment `configuration.json`,
+`resultats_bruts.csv`, `resultats_agreges.csv` et `catalogue_sorties.csv`.
+Les graines, paramètres et sauvegardes progressives permettent de comparer les
+configurations et de reprendre les essais compatibles.
 
-Une graine fixe les tirages pseudo-aléatoires d'un entraînement. Réutiliser les
-mêmes graines permet de comparer deux configurations dans les mêmes conditions.
-Les CSV sont sauvegardés progressivement afin qu'une expérience interrompue
-puisse être reprise sans recommencer les essais déjà validés.
+## Documentation
 
-## Documentation spécialisée
-
-- [Guide des expériences](GUIDE_EXPERIENCES.md)
-- [Format des écritures personnelles](donnees/ecritures_personnelles/README.md)
-- [Importer un dataset synthétique](donnees/synthetiques_a_importer/README.md)
-- [Préparer les photographies terrain](donnees/tests_terrain_a_analyser/README.md)
-- [Contenu des archives](Archives/README.md)
-
-Les éléments placés dans `Archives/` sont les anciens modèles et résultats que
-tu as choisi de conserver. Les scripts actifs n'écrivent jamais dans ce dossier.
+- [Guide des expériences](docs/guide_experiences.md)
+- [Vue d'ensemble des graphiques](docs/vue_ensemble_graphiques.md)
+- [Comparatif des scripts et modules](rapports/comparaisons/comparatifs_scripts.md)
+- [Comparatif des modèles actifs](rapports/comparaisons/comparatifs_modeles.md)
+- [Format des écritures personnelles](donnees/brutes/ecritures_personnelles/README.md)
+- [Préparation des datasets synthétiques](scripts/preparation_donnees/preparer_dataset_synthetique.py)
+- [Préparer les photographies terrain](donnees/brutes/terrain/README.md)
+- [Contenu des archives](archives/README.md)

@@ -1,0 +1,52 @@
+TEST EN CONDITIONS REELLES
+===========================
+Date                 : 2026-09-26T10:39:13.716179+02:00
+Experience           : test_terrain_Grand
+Image source         : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/image_reelle_Grand.jpg
+Modele               : best_relu_10xcascade
+Chemin du modele     : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras
+Chiffre reel         : inconnu
+Origine valeur reelle: nom_fichier_ambigu_ou_sans_chiffre
+
+DETECTION
+---------
+Chiffres detectes    : 22
+Seuil Otsu           : 84.000
+Seuil faible         : 84.000
+Seuil fort           : 113.400
+Taille fond          : 121
+Taille regroupement  : 23
+
+RESULTATS
+---------
+Accuracy terrain     : non calculable (chiffre reel inconnu)
+Chiffre 001        : 6 (99.991%)
+Chiffre 002        : 5 (>99.999%)
+Chiffre 003        : 1 (>99.999%)
+Chiffre 004        : 2 (>99.999%)
+Chiffre 005        : 3 (>99.999%)
+Chiffre 006        : 7 (99.998%)
+Chiffre 007        : 0 (99.998%)
+Chiffre 008        : 4 (>99.999%)
+Chiffre 009        : 5 (>99.999%)
+Chiffre 010        : 8 (>99.999%)
+Chiffre 011        : 6 (99.976%)
+Chiffre 012        : 2 (>99.999%)
+Chiffre 013        : 4 (99.999%)
+Chiffre 014        : 7 (>99.999%)
+Chiffre 015        : 9 (99.981%)
+Chiffre 016        : 5 (99.999%)
+Chiffre 017        : 2 (>99.999%)
+Chiffre 018        : 0 (>99.999%)
+Chiffre 019        : 1 (99.977%)
+Chiffre 020        : 3 (>99.999%)
+Chiffre 021        : 7 (99.388%)
+Chiffre 022        : 4 (99.960%)
+
+REPERAGE DES SORTIES
+--------------------
+00_source        : parametres et chemins des entrees
+01_detection     : masques et composantes de detection
+02_pretraitement : un dossier QC et une matrice 0/1 par chiffre
+03_resultats     : image annotee, CSV et ce resume
+Dossier complet : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/resultats/photos_terrain/image_reelle_Grand/2026-09-26_10-39-13

@@ -1,0 +1,57 @@
+TEST EN CONDITIONS REELLES
+===========================
+Date                 : 2026-10-06T08:49:18.210385+02:00
+Experience           : Test_terrain_TM_8_modeles
+Image source         : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/Test_terrain_TM.jpg
+Modele               : Best_relu_cascade_V2
+Chemin du modele     : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_relu_cascade_V2/best_model.keras
+Chiffre reel         : inconnu
+Origine valeur reelle: non_renseigne
+
+DETECTION
+---------
+Chiffres detectes    : 27
+Seuil Otsu           : 99.000
+Seuil faible         : 99.000
+Seuil fort           : 133.650
+Taille fond          : 69
+Taille regroupement  : 13
+
+RESULTATS
+---------
+Accuracy terrain     : non calculable (chiffre reel inconnu)
+Chiffre 001        : 8 (>99.999%)
+Chiffre 002        : 9 (94.091%)
+Chiffre 003        : 7 (99.992%)
+Chiffre 004        : 3 (>99.999%)
+Chiffre 005        : 6 (98.943%)
+Chiffre 006        : 5 (99.985%)
+Chiffre 007        : 1 (99.692%)
+Chiffre 008        : 4 (99.883%)
+Chiffre 009        : 2 (99.998%)
+Chiffre 010        : 5 (>99.999%)
+Chiffre 011        : 4 (99.999%)
+Chiffre 012        : 6 (99.980%)
+Chiffre 013        : 9 (99.154%)
+Chiffre 014        : 3 (>99.999%)
+Chiffre 015        : 7 (98.955%)
+Chiffre 016        : 8 (>99.999%)
+Chiffre 017        : 2 (>99.999%)
+Chiffre 018        : 1 (96.556%)
+Chiffre 019        : 4 (98.085%)
+Chiffre 020        : 3 (>99.999%)
+Chiffre 021        : 9 (88.226%)
+Chiffre 022        : 6 (99.809%)
+Chiffre 023        : 5 (>99.999%)
+Chiffre 024        : 7 (99.965%)
+Chiffre 025        : 8 (>99.999%)
+Chiffre 026        : 2 (>99.999%)
+Chiffre 027        : 1 (99.646%)
+
+REPERAGE DES SORTIES
+--------------------
+00_source        : parametres et chemins des entrees
+01_detection     : masques et composantes de detection
+02_pretraitement : un dossier QC et une matrice 0/1 par chiffre
+03_resultats     : image annotee, CSV et ce resume
+Dossier complet : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/resultats/photos_terrain/Test_terrain_TM/2026-10-06_08-49-18

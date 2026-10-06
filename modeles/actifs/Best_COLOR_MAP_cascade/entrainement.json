@@ -1,0 +1,221 @@
+{
+  "model_name": "Best_COLOR_MAP_cascade",
+  "created_at_utc": "2026-09-30T14:19:10+00:00",
+  "reference_model": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_COLOR_MAP/best_model.keras",
+  "reference_model_sha256": "a0abcc2de9ea8c96087f81c4f4d5e0a981c69cc1b93e3f2cf0346b5102d547d1",
+  "architecture_identical_to_reference": true,
+  "architecture": [
+    {
+      "type": "Conv2D",
+      "config": {
+        "filters": 4,
+        "kernel_size": [
+          5,
+          5
+        ],
+        "strides": [
+          1,
+          1
+        ],
+        "padding": "valid",
+        "activation": "softmax"
+      }
+    },
+    {
+      "type": "BatchNormalization",
+      "config": {}
+    },
+    {
+      "type": "MaxPooling2D",
+      "config": {
+        "strides": [
+          2,
+          2
+        ],
+        "padding": "valid",
+        "pool_size": [
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "type": "Conv2D",
+      "config": {
+        "filters": 8,
+        "kernel_size": [
+          4,
+          4
+        ],
+        "strides": [
+          1,
+          1
+        ],
+        "padding": "valid",
+        "activation": "softmax"
+      }
+    },
+    {
+      "type": "BatchNormalization",
+      "config": {}
+    },
+    {
+      "type": "MaxPooling2D",
+      "config": {
+        "strides": [
+          2,
+          2
+        ],
+        "padding": "valid",
+        "pool_size": [
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "type": "Flatten",
+      "config": {}
+    },
+    {
+      "type": "Dropout",
+      "config": {
+        "rate": 0.2
+      }
+    },
+    {
+      "type": "Dense",
+      "config": {
+        "activation": "softmax",
+        "units": 10
+      }
+    }
+  ],
+  "model_parameters": 1962,
+  "training": {
+    "seed": 42,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "SparseCategoricalCrossentropy",
+    "batch_size": 128,
+    "epochs_requested": 30,
+    "epochs_completed": 17,
+    "best_epoch_by_val_loss": 15,
+    "early_stopping_patience": 2,
+    "duration_seconds": 45.849
+  },
+  "datasets": {
+    "mnist_sha256": "731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1",
+    "mnist_train": 51000,
+    "mnist_validation": 9000,
+    "mnist_test": 10000,
+    "cascade_train": 1217,
+    "cascade_class_distribution": {
+      "0": 98,
+      "1": 100,
+      "2": 228,
+      "3": 102,
+      "4": 99,
+      "5": 103,
+      "6": 187,
+      "7": 100,
+      "8": 100,
+      "9": 100
+    },
+    "cascade_x_sha256": "8ad6d2105967c6c729faa9760f44435f83ff3dea144e7c2ea1b08f3dc22780d9",
+    "cascade_y_sha256": "c2f4f81e434567b2d51e894f5e10a7cc060ac1b15226790d4c75b6272604175c",
+    "cascade_ids_sha256": "8fdf56ff464ed4c088c0bb494c81da8adeb7a9c1b1a33e6a6a8d07c8d72017b7",
+    "policy": "Cascade uniquement dans l'entraînement"
+  },
+  "best_model_mnist_test": {
+    "acc": 0.983299970626831,
+    "loss": 0.054101575165987015
+  },
+  "final_model_mnist_test": {
+    "acc": 0.9836000204086304,
+    "loss": 0.05352845415472984
+  },
+  "history": {
+    "acc": [
+      0.7431870698928833,
+      0.9152957797050476,
+      0.9400961399078369,
+      0.9506099820137024,
+      0.9571787118911743,
+      0.9607982039451599,
+      0.9639389514923096,
+      0.9647241234779358,
+      0.9663136601448059,
+      0.9683628082275391,
+      0.9687458276748657,
+      0.9702395796775818,
+      0.9708141088485718,
+      0.9708907008171082,
+      0.9714269042015076,
+      0.9720397591590881,
+      0.9725951552391052
+    ],
+    "loss": [
+      0.8260161876678467,
+      0.2813900113105774,
+      0.1981700360774994,
+      0.1641802340745926,
+      0.1427098959684372,
+      0.13088466227054596,
+      0.1212436631321907,
+      0.11485347896814346,
+      0.10899044573307037,
+      0.10500111430883408,
+      0.10290937125682831,
+      0.09800814837217331,
+      0.09711132943630219,
+      0.09310104697942734,
+      0.09234919399023056,
+      0.09067269414663315,
+      0.08869913965463638
+    ],
+    "val_acc": [
+      0.882111132144928,
+      0.9625555276870728,
+      0.9698888659477234,
+      0.9756666421890259,
+      0.9776666760444641,
+      0.9789999723434448,
+      0.9811111092567444,
+      0.9823333621025085,
+      0.9819999933242798,
+      0.9814444184303284,
+      0.9829999804496765,
+      0.9831110835075378,
+      0.9834444522857666,
+      0.9842222332954407,
+      0.983222246170044,
+      0.984000027179718,
+      0.9829999804496765
+    ],
+    "val_loss": [
+      0.8219184875488281,
+      0.13543549180030823,
+      0.10158030688762665,
+      0.08597807586193085,
+      0.0781717598438263,
+      0.07305196672677994,
+      0.0682937428355217,
+      0.06427298486232758,
+      0.06415483355522156,
+      0.06344287842512131,
+      0.05935405194759369,
+      0.05784529447555542,
+      0.05861251428723335,
+      0.055555298924446106,
+      0.055002618581056595,
+      0.05563583970069885,
+      0.05602347105741501
+    ]
+  },
+  "files": {
+    "best_model": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_COLOR_MAP_cascade/best_model.keras",
+    "final_model": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_COLOR_MAP_cascade/final_model.keras",
+    "training_curves": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/resultats/recherche/entrainements/courbes/Best_COLOR_MAP_cascade_training_curves.png"
+  }
+}

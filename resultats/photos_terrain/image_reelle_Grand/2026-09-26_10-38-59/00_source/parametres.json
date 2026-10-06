@@ -1,0 +1,57 @@
+{
+  "format": "test_condition_reelle_v2",
+  "execution": {
+    "date_iso": "2026-09-26T10:38:59.144476+02:00",
+    "identifiant": "2026-09-26_10-38-59",
+    "experience": "test_terrain_Grand",
+    "commande": [
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/scripts/evaluation/test_condition_reelle.py"
+    ]
+  },
+  "entrees": {
+    "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/image_reelle_Grand.jpg",
+    "modele": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_2xcascade/best_model.keras",
+    "nom_modele": "best_relu_2xcascade",
+    "chiffre_reel": null,
+    "origine_chiffre_reel": "nom_fichier_ambigu_ou_sans_chiffre"
+  },
+  "detection": {
+    "diagnostics_sauvegardes": true,
+    "configuration": {
+      "proportion_fond": 0.04,
+      "taille_fond_minimum": 31,
+      "taille_fond_maximum": 151,
+      "proportion_regroupement": 0.0075,
+      "taille_regroupement_minimum": 3,
+      "proportion_largeur_minimum": 0.01,
+      "proportion_largeur_maximum": 0.16,
+      "proportion_hauteur_minimum": 0.014,
+      "proportion_hauteur_maximum": 0.2,
+      "proportion_aire_minimum": 0.0002,
+      "proportion_aire_maximum": 0.04,
+      "limite_basse_image": 0.995,
+      "seuil_otsu_faible": 30,
+      "percentile_contraste_faible": 99.5,
+      "proportion_aire_minimum_faible": 0.001,
+      "facteur_seuil_fort": 1.35,
+      "percentile_seuil_fort": 98,
+      "support_fort_minimum": 0.01,
+      "pixels_forts_minimum": 2
+    },
+    "seuil_otsu": 84.0,
+    "seuil_faible": 84.0,
+    "seuil_fort": 113.4,
+    "taille_fond": 121,
+    "taille_regroupement": 23,
+    "nombre_rectangles": 22
+  },
+  "pretraitement": {
+    "taille_entree": [
+      28,
+      28,
+      1
+    ],
+    "valeurs_modele": "niveaux de gris normalises entre 0 et 1",
+    "matrice_qc": "seuil 128, valeurs entieres 0 ou 1"
+  }
+}

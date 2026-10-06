@@ -1,0 +1,67 @@
+{
+  "format": "test_condition_reelle_v2",
+  "execution": {
+    "date_iso": "2026-10-06T08:57:31.795557+02:00",
+    "identifiant": "2026-10-06_08-57-31",
+    "experience": "Test_terrain_TM_V2_8_modeles",
+    "commande": [
+      "scripts/evaluation/test_condition_reelle.py",
+      "--image",
+      "donnees/brutes/terrain/historiques/Test_terrain_TM_V2.jpg",
+      "--modele",
+      "modeles/actifs/Best_COLOR_MAP_cascade/best_model.keras",
+      "--nom-modele",
+      "Best_COLOR_MAP_cascade",
+      "--nom-experience",
+      "Test_terrain_TM_V2_8_modeles",
+      "--chiffre-reel",
+      "inconnu"
+    ]
+  },
+  "entrees": {
+    "image_source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/Test_terrain_TM_V2.jpg",
+    "modele": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_COLOR_MAP_cascade/best_model.keras",
+    "nom_modele": "Best_COLOR_MAP_cascade",
+    "chiffre_reel": null,
+    "origine_chiffre_reel": "non_renseigne"
+  },
+  "detection": {
+    "diagnostics_sauvegardes": true,
+    "configuration": {
+      "proportion_fond": 0.04,
+      "taille_fond_minimum": 31,
+      "taille_fond_maximum": 151,
+      "proportion_regroupement": 0.0075,
+      "taille_regroupement_minimum": 3,
+      "proportion_largeur_minimum": 0.01,
+      "proportion_largeur_maximum": 0.16,
+      "proportion_hauteur_minimum": 0.014,
+      "proportion_hauteur_maximum": 0.2,
+      "proportion_aire_minimum": 0.0002,
+      "proportion_aire_maximum": 0.04,
+      "limite_basse_image": 0.995,
+      "seuil_otsu_faible": 30,
+      "percentile_contraste_faible": 99.5,
+      "proportion_aire_minimum_faible": 0.001,
+      "facteur_seuil_fort": 1.35,
+      "percentile_seuil_fort": 98,
+      "support_fort_minimum": 0.01,
+      "pixels_forts_minimum": 2
+    },
+    "seuil_otsu": 107.0,
+    "seuil_faible": 107.0,
+    "seuil_fort": 221.0,
+    "taille_fond": 53,
+    "taille_regroupement": 11,
+    "nombre_rectangles": 29
+  },
+  "pretraitement": {
+    "taille_entree": [
+      28,
+      28,
+      1
+    ],
+    "valeurs_modele": "niveaux de gris normalises entre 0 et 1",
+    "matrice_qc": "seuil 128, valeurs entieres 0 ou 1"
+  }
+}

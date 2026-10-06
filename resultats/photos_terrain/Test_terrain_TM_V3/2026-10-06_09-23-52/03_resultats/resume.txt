@@ -1,0 +1,60 @@
+TEST EN CONDITIONS REELLES
+===========================
+Date                 : 2026-10-06T09:23:52.164961+02:00
+Experience           : Test_terrain_TM_V3_8_modeles
+Image source         : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/Test_terrain_TM_V3.jpg
+Modele               : Best_COLOR_MAP
+Chemin du modele     : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_COLOR_MAP/best_model.keras
+Chiffre reel         : inconnu
+Origine valeur reelle: non_renseigne
+
+DETECTION
+---------
+Chiffres detectes    : 30
+Seuil Otsu           : 92.000
+Seuil faible         : 92.000
+Seuil fort           : 175.000
+Taille fond          : 41
+Taille regroupement  : 9
+
+RESULTATS
+---------
+Accuracy terrain     : non calculable (chiffre reel inconnu)
+Chiffre 001        : 9 (99.863%)
+Chiffre 002        : 8 (99.995%)
+Chiffre 003        : 6 (95.364%)
+Chiffre 004        : 3 (96.885%)
+Chiffre 005        : 3 (74.811%)
+Chiffre 006        : 5 (99.776%)
+Chiffre 007        : 2 (99.697%)
+Chiffre 008        : 8 (81.699%)
+Chiffre 009        : 0 (99.998%)
+Chiffre 010        : 7 (91.200%)
+Chiffre 011        : 0 (99.933%)
+Chiffre 012        : 2 (99.980%)
+Chiffre 013        : 3 (99.999%)
+Chiffre 014        : 7 (96.583%)
+Chiffre 015        : 8 (98.784%)
+Chiffre 016        : 5 (99.988%)
+Chiffre 017        : 7 (89.573%)
+Chiffre 018        : 9 (93.515%)
+Chiffre 019        : 6 (96.243%)
+Chiffre 020        : 8 (99.999%)
+Chiffre 021        : 8 (99.995%)
+Chiffre 022        : 9 (98.899%)
+Chiffre 023        : 6 (78.082%)
+Chiffre 024        : 3 (99.999%)
+Chiffre 025        : 5 (99.995%)
+Chiffre 026        : 4 (90.830%)
+Chiffre 027        : 2 (99.554%)
+Chiffre 028        : 0 (99.973%)
+Chiffre 029        : 8 (53.863%)
+Chiffre 030        : 4 (46.560%)
+
+REPERAGE DES SORTIES
+--------------------
+00_source        : parametres et chemins des entrees
+01_detection     : masques et composantes de detection
+02_pretraitement : un dossier QC et une matrice 0/1 par chiffre
+03_resultats     : image annotee, CSV et ce resume
+Dossier complet : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/resultats/photos_terrain/Test_terrain_TM_V3/2026-10-06_09-23-52

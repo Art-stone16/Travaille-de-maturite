@@ -1,0 +1,41 @@
+TEST EN CONDITIONS REELLES
+===========================
+Date                 : 2026-08-07T09:59:51.510423+02:00
+Experience           : test_terrain
+Image source         : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/image_reelle_9.JPG
+Modele               : Best_COLOR_MAP
+Chemin du modele     : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/Best_COLOR_MAP/best_model.keras
+Chiffre reel         : 9
+Origine valeur reelle: nom_fichier
+
+DETECTION
+---------
+Chiffres detectes    : 11
+Seuil Otsu           : 86.000
+Seuil faible         : 86.000
+Seuil fort           : 116.100
+Taille fond          : 121
+Taille regroupement  : 23
+
+RESULTATS
+---------
+Accuracy terrain     : 4/11 (36.36%)
+Chiffre 001        : 9 (91.158%)
+Chiffre 002        : 9 (76.609%)
+Chiffre 003        : 9 (80.517%)
+Chiffre 004        : 9 (85.391%)
+Chiffre 005        : 3 (81.779%)
+Chiffre 006        : 7 (82.286%)
+Chiffre 007        : 3 (63.188%)
+Chiffre 008        : 3 (97.737%)
+Chiffre 009        : 3 (76.356%)
+Chiffre 010        : 3 (50.616%)
+Chiffre 011        : 7 (99.757%)
+
+REPERAGE DES SORTIES
+--------------------
+00_source        : parametres et chemins des entrees
+01_detection     : masques et composantes de detection
+02_pretraitement : un dossier QC et une matrice 0/1 par chiffre
+03_resultats     : image annotee, CSV et ce resume
+Dossier complet : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/resultats/photos_terrain/image_reelle_9/2026-08-07_09-59-51

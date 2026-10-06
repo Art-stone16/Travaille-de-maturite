@@ -1,0 +1,235 @@
+{
+  "schema_version": 2,
+  "protocol_id": "sha256:73cc165a64ac7f7fde9f7e1cb0dc1402819adb376114074d28db8fbb5319cd31",
+  "protocol": {
+    "schema_version": 2,
+    "input": {
+      "dataset": "MNIST Keras + Cascade Top-N validé",
+      "dataset_file": "/Users/arthurperret/.keras/datasets/mnist.npz",
+      "dataset_sha256": "731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1",
+      "cascade": {
+        "enabled": true,
+        "directory": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy",
+        "x_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/x_train_cascade.npy",
+        "x_sha256": "8ad6d2105967c6c729faa9760f44435f83ff3dea144e7c2ea1b08f3dc22780d9",
+        "y_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/y_train_cascade.npy",
+        "y_sha256": "c2f4f81e434567b2d51e894f5e10a7cc060ac1b15226790d4c75b6272604175c",
+        "ids_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/ids_train_cascade.npy",
+        "ids_sha256": "8fdf56ff464ed4c088c0bb494c81da8adeb7a9c1b1a33e6a6a8d07c8d72017b7",
+        "manifest_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/manifest.csv",
+        "manifest_sha256": "b8c09eaaa71a89432668911696a290f3787210d7aa3247849cb03022a7d7aab8",
+        "samples": 1217,
+        "class_distribution": {
+          "0": 98,
+          "1": 100,
+          "2": 228,
+          "3": 102,
+          "4": 99,
+          "5": 103,
+          "6": 187,
+          "7": 100,
+          "8": 100,
+          "9": 100
+        },
+        "split_policy": "Cascade exclusivement entraînement"
+      },
+      "image_shape": [
+        28,
+        28,
+        1
+      ],
+      "normalization": "float32 divisé par 255",
+      "train_limit": null,
+      "test_limit": null,
+      "dataset_seed": 2026
+    },
+    "grid": {
+      "preset": "limite_128_criblage_6x5x5x2",
+      "filter_1": [
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "filter_2": [
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "dropout": [
+        0.0,
+        0.2,
+        0.4,
+        0.6,
+        0.8
+      ],
+      "conv_activation": [
+        "relu",
+        "softmax"
+      ],
+      "output_activation": "softmax",
+      "seeds": [
+        42
+      ]
+    },
+    "training": {
+      "epochs_max": 20,
+      "early_stopping_patience": 2,
+      "batch_size": 128,
+      "validation_split": 0.15,
+      "validation_policy": "validation MNIST historique prélevée avant ajout de Cascade ; Cascade exclusivement entraînement",
+      "learning_rate": 0.001,
+      "kernel_sizes": [
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "activation_policy": "même activation pour les deux Conv2D",
+      "optimizer": "Adam",
+      "loss": "SparseCategoricalCrossentropy"
+    },
+    "implementation": {
+      "generator_sha256": "3fc12441625b1b5df95727c069f103a8e54f67475ad55a43adbe454af7f37f2c",
+      "protocol_schema": "color-map-v2-content-addressed"
+    }
+  },
+  "experiment": {
+    "display_name": "limite_128_criblage_mnist_cascade_top_n_v1",
+    "folder_name": "limite_128_criblage_mnist_cascade_top_n_v1",
+    "created_at_utc": "2026-08-14T17:39:56+00:00",
+    "last_invocation_at_utc": "2026-08-14T17:39:56+00:00",
+    "command": [
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/.venv/bin/python",
+      "scripts/experiences/generer_color_map.py",
+      "--nom-experience",
+      "limite_128_criblage_mnist_cascade_top_n_v1",
+      "--preset-limite-128",
+      "--cascade-dir",
+      "donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy",
+      "--confirmer-grande-grille",
+      "--verbose",
+      "0"
+    ],
+    "mode": "training"
+  },
+  "input": {
+    "dataset": "MNIST Keras + Cascade Top-N validé",
+    "dataset_file": "/Users/arthurperret/.keras/datasets/mnist.npz",
+    "dataset_sha256": "731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1",
+    "cascade": {
+      "enabled": true,
+      "directory": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy",
+      "x_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/x_train_cascade.npy",
+      "x_sha256": "8ad6d2105967c6c729faa9760f44435f83ff3dea144e7c2ea1b08f3dc22780d9",
+      "y_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/y_train_cascade.npy",
+      "y_sha256": "c2f4f81e434567b2d51e894f5e10a7cc060ac1b15226790d4c75b6272604175c",
+      "ids_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/dataset_numpy/ids_train_cascade.npy",
+      "ids_sha256": "8fdf56ff464ed4c088c0bb494c81da8adeb7a9c1b1a33e6a6a8d07c8d72017b7",
+      "manifest_file": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/preparees/cascade/cascade_top_n_v1/manifest.csv",
+      "manifest_sha256": "b8c09eaaa71a89432668911696a290f3787210d7aa3247849cb03022a7d7aab8",
+      "samples": 1217,
+      "class_distribution": {
+        "0": 98,
+        "1": 100,
+        "2": 228,
+        "3": 102,
+        "4": 99,
+        "5": 103,
+        "6": 187,
+        "7": 100,
+        "8": 100,
+        "9": 100
+      },
+      "split_policy": "Cascade exclusivement entraînement"
+    },
+    "image_shape": [
+      28,
+      28,
+      1
+    ],
+    "normalization": "float32 divisé par 255",
+    "train_limit": null,
+    "test_limit": null,
+    "dataset_seed": 2026
+  },
+  "grid": {
+    "preset": "limite_128_criblage_6x5x5x2",
+    "filter_1": [
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "filter_2": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "dropout": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "conv_activation": [
+      "relu",
+      "softmax"
+    ],
+    "output_activation": "softmax",
+    "seeds": [
+      42
+    ],
+    "runs_planned_for_this_invocation": 300
+  },
+  "training": {
+    "epochs_max": 20,
+    "early_stopping_patience": 2,
+    "batch_size": 128,
+    "validation_split": 0.15,
+    "validation_policy": "validation MNIST historique prélevée avant ajout de Cascade ; Cascade exclusivement entraînement",
+    "learning_rate": 0.001,
+    "kernel_sizes": [
+      [
+        5,
+        5
+      ],
+      [
+        5,
+        5
+      ]
+    ],
+    "conv_activation_policy": "même activation pour les deux Conv2D",
+    "output_activation": "softmax",
+    "optimizer": "Adam",
+    "loss": "SparseCategoricalCrossentropy"
+  },
+  "implementation": {
+    "generator_sha256": "3fc12441625b1b5df95727c069f103a8e54f67475ad55a43adbe454af7f37f2c",
+    "script": "scripts/experiences/generer_color_map.py"
+  },
+  "outputs": {
+    "raw_results": "donnees/resultats_bruts.csv",
+    "aggregated_results": "donnees/resultats_agreges.csv",
+    "heatmaps_2d": "graphiques/heatmaps_2d_accuracy_moyenne.png",
+    "scatter_3d": "graphiques/nuage_3d_accuracy_moyenne.png",
+    "surfaces_3d_detaillees": "graphiques/surfaces_3d_detaillees",
+    "analysis_data": "donnees/analyse",
+    "correlation_figures": "graphiques/correlations",
+    "distribution_figures": "graphiques/distributions",
+    "catalog": "catalogue_sorties.csv"
+  }
+}

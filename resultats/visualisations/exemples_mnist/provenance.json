@@ -1,0 +1,22 @@
+{
+  "dataset": "MNIST",
+  "partition": "entrainement",
+  "selection": "Premiere image de chaque classe dans l'archive",
+  "indices_base_zero": {
+    "0": 1,
+    "1": 3,
+    "2": 5,
+    "3": 7,
+    "4": 2,
+    "5": 0,
+    "6": 13,
+    "7": 15,
+    "8": 17,
+    "9": 4
+  },
+  "resolution_originale": [
+    28,
+    28
+  ],
+  "affichage": "Niveaux de gris, fond noir, agrandissement sans lissage"
+}

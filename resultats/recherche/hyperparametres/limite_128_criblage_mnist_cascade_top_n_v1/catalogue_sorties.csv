@@ -1,0 +1,18 @@
+path,type,description,exists,catalogued_at_utc
+configuration.json,configuration,"Paramètres, provenance des entrées et chemins de la dernière invocation.",True,2026-08-15T01:04:33+00:00
+LISEZ_MOI.txt,documentation,Guide rapide de l'arborescence et de la reprise.,True,2026-08-15T01:04:33+00:00
+donnees/resultats_bruts.csv,données brutes,"Une ligne par entraînement, combinaison et graine.",True,2026-08-15T01:04:33+00:00
+donnees/resultats_agreges.csv,données agrégées,"Statistiques par combinaison de filter_1, filter_2 et dropout.",True,2026-08-15T01:04:33+00:00
+graphiques/heatmaps_2d_accuracy_moyenne.png,figure PNG,"Heatmaps 2D de l'accuracy moyenne, une facette par dropout.",True,2026-08-15T01:04:33+00:00
+graphiques/nuage_3d_accuracy_moyenne.png,figure PNG,"Nuage 3D des trois hyperparamètres, coloré par accuracy moyenne.",True,2026-08-15T01:04:33+00:00
+graphiques/surfaces_3d_detaillees/activation_relu.png,figure PNG détaillée,"Vue 3D agrandie des dropouts pour l'activation ReLU, optimisée pour la lecture à l'écran.",True,2026-08-15T01:04:33+00:00
+graphiques/surfaces_3d_detaillees/activation_softmax.png,figure PNG détaillée,"Vue 3D agrandie des dropouts pour l'activation Softmax, optimisée pour la lecture à l'écran.",True,2026-08-15T01:04:33+00:00
+donnees/analyse/configurations_analytiques.csv,données d'analyse,"Une ligne par configuration, transformations logarithmiques et incertitude nécessaires aux graphiques.",True,2026-08-15T01:04:33+00:00
+donnees/analyse/correlations_spearman.csv,données d'analyse,Corrélations descriptives de Spearman au grain configuration.,True,2026-08-15T01:04:33+00:00
+donnees/analyse/correlations_pearson.csv,données d'analyse,Corrélations descriptives de Pearson au grain configuration.,True,2026-08-15T01:04:33+00:00
+graphiques/correlations/scatter_accuracy_hyperparametres.png,figure PNG,Scatter plots accuracy-hyperparamètres avec activation distinguée par couleur et marque.,True,2026-08-15T01:04:33+00:00
+graphiques/correlations/scatter_cout_performance.png,figure PNG,"Relations coût, taille du modèle et accuracy moyenne.",True,2026-08-15T01:04:33+00:00
+graphiques/correlations/matrice_correlation_spearman.png,figure PNG,Matrice des corrélations descriptives de Spearman.,True,2026-08-15T01:04:33+00:00
+graphiques/distributions/histogrammes_accuracy.png,figure PNG,Histogrammes des accuracies brutes par activation.,True,2026-08-15T01:04:33+00:00
+graphiques/distributions/histogrammes_stabilite_duree.png,figure PNG,Histogrammes de dispersion et de durée des configurations.,True,2026-08-15T01:04:33+00:00
+donnees/analyse/catalogue_analyse.csv,catalogue,Inventaire détaillé des sorties de l'analyse descriptive.,True,2026-08-15T01:04:33+00:00

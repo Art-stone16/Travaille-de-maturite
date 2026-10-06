@@ -1,0 +1,9 @@
+key,path,type,description,exists,status,message,generated_at_utc,catalogued_at_utc
+analytical,donnees/analyse/configurations_analytiques.csv,données CSV,Une ligne par configuration et champs dérivés pour l'analyse.,True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+spearman,donnees/analyse/correlations_spearman.csv,données CSV,"Corrélations de rang descriptives, pour un seul protocole et par activation.",True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+pearson,donnees/analyse/correlations_pearson.csv,données CSV,Corrélations linéaires descriptives après transformations documentées.,True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+scatter_relationships,graphiques/correlations/scatter_accuracy_hyperparametres.png,figure PNG,Accuracy face aux trois hyperparamètres.,True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+scatter_cost,graphiques/correlations/scatter_cout_performance.png,figure PNG,"Accuracy face aux paramètres et à la durée, avec Pareto.",True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+correlation_matrix,graphiques/correlations/matrice_correlation_spearman.png,figure PNG,Matrice de Spearman globale et par activation.,True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+accuracy_histograms,graphiques/distributions/histogrammes_accuracy.png,figure PNG,Distribution des répétitions par activation et dropout.,True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00
+stability_histograms,graphiques/distributions/histogrammes_stabilite_duree.png,figure PNG,Distribution de l'écart-type et de la durée.,True,genere,,2026-08-15T01:04:33+00:00,2026-08-15T01:04:33+00:00

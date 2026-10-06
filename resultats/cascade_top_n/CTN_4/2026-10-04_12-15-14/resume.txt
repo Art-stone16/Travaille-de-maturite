@@ -1,0 +1,27 @@
+TEST CASCADE TOP-N
+==================
+Image utilisee : CTN_4.JPG
+Chemin source  : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/cascade_top_n/CTN_4.JPG
+Date du test   : 04.10.2026 a 12:15:14 CEST
+Modele         : best_softmax
+Chiffre attendu: 4
+
+DETECTION
+---------
+Nombre attendu : 100
+Nombre detecte : 99
+Seuils faible/fort : 82.0 / 127.0
+ATTENTION : le nombre detecte ne correspond pas au nombre attendu (ecart -1).
+
+CLASSEMENT GLOBAL
+-----------------
+Top 1 : chiffre 4 avec 42.75 %
+Top 2 : chiffre 8 avec 31.59 %
+Top 3 : chiffre 5 avec 7.20 %
+Top 4 : chiffre 7 avec 5.47 %
+Top 5 : chiffre 6 avec 4.78 %
+Top 6 : chiffre 9 avec 3.91 %
+Top 7 : chiffre 1 avec 3.59 %
+Top 8 : chiffre 0 avec 0.26 %
+Top 9 : chiffre 3 avec 0.24 %
+Top 10 : chiffre 2 avec 0.20 %

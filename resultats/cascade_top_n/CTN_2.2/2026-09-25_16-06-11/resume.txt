@@ -1,0 +1,27 @@
+TEST CASCADE TOP-N
+==================
+Image utilisee : CTN_2.2.jpg
+Chemin source  : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/cascade_top_n/CTN_2.2.jpg
+Date du test   : 25.09.2026 a 16:06:11 CEST
+Modele         : Best_relu_cascade
+Chiffre attendu: 2
+
+DETECTION
+---------
+Nombre attendu : 100
+Nombre detecte : 102
+Seuils faible/fort : 98.0 / 183.0
+ATTENTION : le nombre detecte ne correspond pas au nombre attendu (ecart +2).
+
+CLASSEMENT GLOBAL
+-----------------
+Top 1 : chiffre 2 avec 93.84 %
+Top 2 : chiffre 1 avec 1.75 %
+Top 3 : chiffre 9 avec 1.44 %
+Top 4 : chiffre 8 avec 0.94 %
+Top 5 : chiffre 3 avec 0.88 %
+Top 6 : chiffre 4 avec 0.50 %
+Top 7 : chiffre 7 avec 0.29 %
+Top 8 : chiffre 0 avec 0.19 %
+Top 9 : chiffre 6 avec 0.13 %
+Top 10 : chiffre 5 avec 0.04 %

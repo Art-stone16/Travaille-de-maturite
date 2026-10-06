@@ -1,0 +1,167 @@
+100
+92,75 %
+1138/1227
+75
+Couverture (%)
+CASCADE TOP N / RAPPORT DE TEST
+Bilan global des cascades Top N
+Campagne du 5 septembre 2026
+Synthèse des résultats
+Le chiffre attendu est classé premier dans 92,75 % des zones détectées (1138/1227). En élargissant
+aux cinq premières propositions, la couverture atteint 98,86 % (1213/1227), soit 75 zones
+supplémentaires.
+Périmètre : 12 exécutions, 12 feuilles distinctes, 1227 zones détectées pour 1201 chiffres attendus
+cumulés. Modèle : Best_relu_cascade_V2.
+Couverture cumulée du chiffre attendu
+95,93 %
+1177/1227
+97,39 %
+1195/1227
+98,86 %
+1213/1227
+50
+25
+0
+Top-1 Top-2 Top-3 Top-5
+Lecture : Top-N signifie que le chiffre attendu figure parmi les N classes les mieux classées pour
+une zone. Le dénominateur est le nombre de zones détectées, et non le nombre de chiffres attendus.
+Une couverture Top-5 élevée indique que la bonne classe reste souvent disponible parmi les propositions. Elle
+ne signifie pas que le système choisit automatiquement la bonne réponse. Les zones de bruit éventuelles sont
+incluses dans ces scores.
+Travail de maturité · Résultats descriptifs sur les zones détectées 1 / 5
+CASCADE TOP N / RAPPORT DE TEST
+Les écarts entre feuilles
+Campagne du 5 septembre 2026
+La feuille la moins bien classée en Top-1 est CTN_3 : 82,35 %. Le graphique sépare les réponses
+correctes dès le premier choix des gains apportés par les rangs suivants.
+Couverture par feuille et par rang
+Rang 1 Rangs 2-3 Rangs 4-5
+CTN 0
+CTN 1
+CTN 2
+CTN 2.2
+CTN 3
+CTN 4
+CTN 5
+CTN 6
+CTN 6.2
+CTN 7
+CTN 8
+CTN 9
+0 20 40 60 80 100
+Part des zones détectées (%)
+La partie non couverte jusqu’à 100 % correspond aux rangs 6 à 10. Les variantes CTN 2.2 et CTN 6.2 restent
+séparées : elles représentent des feuilles différentes. Chaque barre utilise son propre nombre de zones comme
+dénominateur.
+Priorité : examiner les découpes des feuilles les moins performantes pour déterminer si les erreurs viennent
+du classement, de la forme des chiffres ou du prétraitement.
+Travail de maturité · Résultats descriptifs sur les zones détectées 2 / 5
+CASCADE TOP N / RAPPORT DE TEST
+Comprendre les confusions
+Campagne du 5 septembre 2026
+La confusion la plus fréquente est 3 vers 2, avec 14 zones. Au total, 89 zones n’ont pas le chiffre
+attendu en premier choix. Les valeurs ci-dessous sont des effectifs ; la diagonale correspond aux
+réponses conformes à la classe de la feuille.
+Matrice de confusion - effectifs par zone
+0
+98 0 0 0 0 0 0 0 0 0
+1
+0 99 0 0 1 0 0 0 0 0
+2
+0 1 227 0 0 1 0 1 0 2
+Classe attendue de la feuille
+3
+1 0 14 84 0 0 0 1 1 1
+4
+0 3 0 0 87 1 4 1 1 2
+5
+0 0 5 1 1 97 0 1 0 0
+6
+9 3 1 0 0 3 170 2 1 0
+7
+0 1 2 0 1 0 0 96 0 0
+8
+7 0 0 0 1 1 0 0 92 0
+9
+4 0 2 3 3 0 1 0 0 88
+0 1 2 3 4 5 6 7 8 9
+Classe prédite en Top-1
+Confusions principales : 3 vers 2 : 14 ; 6 vers 0 : 9 ; 8 vers 0 : 7 ; 5 vers 2 : 5.
+Les feuilles de même classe sont regroupées ici, variantes et réexécutions comprises. Les classes 2 et 6
+disposent donc de davantage de zones ; en juillet, la classe 3 est aussi surreprésentée. Ces effectifs ne
+constituent pas une comparaison équilibrée entre classes.
+La classe attendue est attribuée à toutes les zones de la feuille. Une annotation manuelle est nécessaire
+pour distinguer les vrais chiffres des faux positifs de détection.
+Travail de maturité · Résultats descriptifs sur les zones détectées 3 / 5
+CASCADE TOP N / RAPPORT DE TEST
+Séparer détection et classement
+Campagne du 5 septembre 2026
+Le bilan de comptage est de 1227 zones pour 1201 chiffres attendus (écart net : +26). La somme des
+écarts absolus par exécution est de 50. Le total net masque donc des excès et des déficits selon
+les feuilles.
+Écart de comptage par feuille
+CTN 0
+-2
+CTN 1
++0
+CTN 2
++30
+CTN 2.2
++2
+CTN 3
++2
+CTN 4
+-1
+CTN 5
++2
+CTN 6
+-9
+CTN 6.2
+CTN 7
+CTN 8
+CTN 9
++0
++0
++1
++1
+−10 0 10 20 30
+Zones détectées - chiffres attendus
+Un excès peut provenir de fragments ou de bruit ; un déficit peut provenir de chiffres manqués ou
+fusionnés. Un écart nul ne garantit pas une détection parfaite : plusieurs types d’erreurs peuvent
+se compenser.
+Il serait trompeur de diviser les succès Top-1 par le nombre attendu pour annoncer une exactitude de bout en
+bout : certaines feuilles produisent plus de zones que de chiffres. La priorité est de vérifier les découpes
+de CTN_2 (+30 zones) et de CTN_6 (-9 zones), puis d’établir une correspondance entre chaque zone et chaque
+chiffre réel.
+Travail de maturité · Résultats descriptifs sur les zones détectées 4 / 5
+CASCADE TOP N / RAPPORT DE TEST
+Détail et conditions de lecture
+Campagne du 5 septembre 2026
+Chaque taux ci-dessous est calculé sur les zones détectées de l’exécution. Les colonnes Att. et Dét. donnent
+les effectifs attendus et détectés.
+Feuille / heure Att. Dét. Top-1 % Top-2 % Top-3 % Top-5 %
+CTN 0 100 98 100,00 100,00 100,00 100,00
+CTN 1 100 100 99,00 100,00 100,00 100,00
+CTN 2 100 130 100,00 100,00 100,00 100,00
+CTN 2.2 100 102 95,10 96,08 96,08 96,08
+CTN 3 100 102 82,35 91,18 95,10 99,02
+CTN 4 100 99 87,88 93,94 96,97 100,00
+CTN 5 103 105 92,38 93,33 94,29 97,14
+CTN 6 100 91 87,91 94,51 94,51 95,60
+CTN 6.2 98 98 91,84 95,92 97,96 100,00
+CTN 7 100 100 96,00 99,00 100,00 100,00
+CTN 8 100 101 91,09 92,08 97,03 99,01
+CTN 9 100 101 87,13 94,06 96,04 99,01
+Méthode et robustesse
+Les scores globaux sont pondérés par le nombre de zones : somme des succès divisée par somme des zones. Cette
+campagne comporte une exécution par feuille. Les variantes 2.2 et 6.2 sont conservées. Pour comparer à
+juillet, il faut retenir une seule exécution de CTN_3 dans la campagne initiale.
+Ces mesures décrivent les fichiers disponibles, sans démontrer une généralisation à de nouvelles écritures.
+Les zones d’une même feuille ne sont pas des essais indépendants. Aucun intervalle de confiance fondé sur
+cette indépendance n’est donc présenté.
+Suite proposée : annoter les zones ambiguës, vérifier que les feuilles de test sont absentes de
+l’entraînement, puis mesurer séparément la détection et la classification sur de nouvelles feuilles. La
+question restante est la performance sur des écritures jamais vues.
+Sources : predictions.csv et resume.txt de chaque exécution de la campagne, sous
+resultats/cascade_top_n/CTN_*. Calculs refaits à partir des prédictions individuelles.
+Travail de maturité · Résultats descriptifs sur les zones détectées 5 / 5

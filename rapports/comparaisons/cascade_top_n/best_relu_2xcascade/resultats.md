@@ -1,5 +1,7 @@
 # Résultats — best_relu_2xcascade
 
+**Contrôle sur les sources d’entraînement Cascade, sans indépendance.** Les 1 217 chiffres validés de ces feuilles ont alimenté le dataset. Les scores sur toutes les zones détectées incluent aussi les dix zones exclues. Le test final indépendant de la nouvelle expérience ×10 est MNIST test. Le modèle ×2 conservé utilise le protocole historique avec copies partagées entre entraînement et validation.
+
 12 feuilles · Tests du 2026-09-25 au 2026-09-25 · 1201 chiffres attendus · 1227 zones détectées · Écart net : +26.
 
 ## Résultats globaux

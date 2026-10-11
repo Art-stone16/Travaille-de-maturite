@@ -1,0 +1,87 @@
+{
+  "created_at_utc": "2026-10-07T11:23:54+00:00",
+  "protocol_id": "sha256:d442257431f4090cc81a589d028471b10bce3577da71b29c1fbdd78eae6d35d3",
+  "evaluation_id": "sha256:f87d4aff9b2a531eefb06c7380435b792d628e6a3e760d2abd63cee07f72f488",
+  "protocole": {
+    "schema_version": 2,
+    "dataset": "MNIST test",
+    "sous_ensemble_sha256": "67a40eea43b9afd3e3e74faf0435870c8570bd9f58ad6e71d1c4d7f860d20131",
+    "indices_source_sha256": "7637ec1619edaa5cb5ed0ce7eeb6e66c544230d4b9bc5ecea175d230cda58b80",
+    "nombre_images": 10000,
+    "selection": {
+      "limite_demandee": null,
+      "taille_source": 10000,
+      "taille_effective": 10000,
+      "sous_echantillonnage_applique": false,
+      "methode": "tous les exemples",
+      "graine": null
+    },
+    "normalisation": {
+      "description": "conversion float32, division par 255 si nécessaire, canal ajouté",
+      "division_255_appliquee": true
+    },
+    "classes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "metriques": {
+      "version": 2,
+      "definition": "one-vs-rest par classe",
+      "precision_zero_division": "0 si classe présente mais jamais prédite, NaN si classe absente et jamais prédite",
+      "balanced_accuracy": "moyenne one-vs-rest de la sensibilité et de la spécificité"
+    },
+    "intervalle": "Wilson bilatéral 95 % pour sensibilité et spécificité"
+  },
+  "dataset": {
+    "source": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/.cache/keras/datasets/mnist.npz",
+    "sous_ensemble_sha256": "67a40eea43b9afd3e3e74faf0435870c8570bd9f58ad6e71d1c4d7f860d20131",
+    "indices_csv": "donnees/indices_images_test.csv"
+  },
+  "modele": {
+    "chemin": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+    "sha256": "048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5",
+    "taille_octets": 706573,
+    "type_sortie_detecte": "probabilites_normalisees"
+  },
+  "options": {
+    "sauver_predictions": true,
+    "dpi": 180
+  },
+  "commande": [
+    "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/.venv/bin/python",
+    "scripts/evaluation/matrice_confusion.py",
+    "--modele",
+    "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+    "--mnist-path",
+    ".cache/keras/datasets/mnist.npz",
+    "--nom-evaluation",
+    "best_relu_10xcascade_copies_exactes_2026-10-07",
+    "--sauver-predictions"
+  ],
+  "resultat_principal": {
+    "images_test": 10000.0,
+    "accuracy_globale": 0.991,
+    "rappel_pondere": 0.991,
+    "sensibilite_macro": 0.9908379370436373,
+    "specificite_macro": 0.9989987539315821,
+    "precision_macro": 0.9910884722607187,
+    "f1_macro": 0.9909479161726864,
+    "balanced_accuracy_ovr_macro": 0.9949183454876096
+  },
+  "versions": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit-learn": "1.9.0",
+    "keras": "3.14.1",
+    "tensorflow": "2.21.0"
+  }
+}

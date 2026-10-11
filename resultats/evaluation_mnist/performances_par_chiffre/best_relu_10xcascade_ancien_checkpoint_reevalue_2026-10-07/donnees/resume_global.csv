@@ -1,0 +1,2 @@
+images_test,accuracy_globale,rappel_pondere,sensibilite_macro,specificite_macro,precision_macro,f1_macro,balanced_accuracy_ovr_macro
+10000,0.9910000000,0.9910000000,0.9908149736,0.9989988816,0.9910912215,0.9909313028,0.9949069276

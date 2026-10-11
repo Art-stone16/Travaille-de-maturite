@@ -1,0 +1,66 @@
+{
+  "image_source": "donnees/brutes/terrain/historiques/Test_terrain_TM_V2.jpg",
+  "sha256_image": "13c920e871215c3b6fd864ba2485782799f7c8245a2a23aca243d5cd5b36612e",
+  "nombre_chiffres_photo": 30,
+  "nombre_detectes": 29,
+  "annotation": "Lecture visuelle de la photo et du diagnostic des composantes: trois lignes de 0 à 9. Les 30 candidats, dont le 4 rejeté, sont triés par y; groupes de 10 triés par x.",
+  "non_detectes": [
+    {
+      "numero": "",
+      "ligne": 3,
+      "colonne": 5,
+      "chiffre_reel": 4,
+      "detecte": 0,
+      "raison_rejet": "hauteur",
+      "origine_chiffre_reel": "lecture_visuelle_photo_3_lignes_0_a_9",
+      "x": 1544,
+      "y": 914,
+      "largeur": 162,
+      "hauteur": 318
+    }
+  ],
+  "limite_hauteur_pixels": 260.40000000000003,
+  "nombre_modeles": 8,
+  "executions": [
+    {
+      "modele": "best_relu_10xcascade",
+      "execution": "2026-10-06_08-57-12",
+      "sha256_modele": "57749abc0f0453da0e332e6bb58c082292ca758d387ae0ecb9a0ef7461500129"
+    },
+    {
+      "modele": "best_relu_2xcascade",
+      "execution": "2026-10-06_08-57-16",
+      "sha256_modele": "fe5d446c3f3bb8a617bd6611fae939a9b00073a555ab9ba10fd441019e8c8748"
+    },
+    {
+      "modele": "Best_relu_cascade_V2",
+      "execution": "2026-10-06_08-57-02",
+      "sha256_modele": "08cc8cc62b492b31a28263591597b9ca3a390b5f6753d1cd7d0e06f6a72e7682"
+    },
+    {
+      "modele": "Best_relu_cascade",
+      "execution": "2026-10-06_08-56-57",
+      "sha256_modele": "1573474a471484b1ae5ed2f21eddada5c5be3501e9f624c3d135597666baa264"
+    },
+    {
+      "modele": "Best_COLOR_MAP_cascade",
+      "execution": "2026-10-06_08-57-31",
+      "sha256_modele": "0f1382081a5173571e606843548bff38bf2cf769f8f71d6629dedbc5d8b04809"
+    },
+    {
+      "modele": "best_softmax",
+      "execution": "2026-10-06_08-57-22",
+      "sha256_modele": "681bb4914febb438c5328138a741f54573ac95ba09d9ad8864e8f9c74bbc1b09"
+    },
+    {
+      "modele": "best_relu",
+      "execution": "2026-10-06_08-57-07",
+      "sha256_modele": "d5c36a229fb0b926c4eaac16178a5345948453c868216dd8cf1d6ef7110675a0"
+    },
+    {
+      "modele": "Best_COLOR_MAP",
+      "execution": "2026-10-06_08-57-26",
+      "sha256_modele": "a0abcc2de9ea8c96087f81c4f4d5e0a981c69cc1b93e3f2cf0346b5102d547d1"
+    }
+  ]
+}

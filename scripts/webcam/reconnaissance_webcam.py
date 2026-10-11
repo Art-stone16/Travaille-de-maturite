@@ -13,6 +13,7 @@ Touches :
     r          : démarrer ou arrêter l'enregistrement vidéo annoté
 
 Cliquer sur « Modele » dans l'image pour choisir l'un des six modèles.
+Les vidéos sont regroupées dans « comparaisons_modeles », par session.
 """
 
 from __future__ import annotations
@@ -294,15 +295,14 @@ def sauvegarder_capture(
 def creer_enregistreur_video(
     image: np.ndarray,
     dossier_racine: Path,
-    nom_modele: str,
     date_session: datetime,
     numero: int,
     fps: float,
 ):
-    """Crée un fichier MP4 adapté aux dimensions exactes de l'affichage."""
+    """Crée un MP4 dans le dossier commun aux comparaisons de modèles."""
     dossier = (
         dossier_racine
-        / terrain.nettoyer_nom_dossier(nom_modele)
+        / "comparaisons_modeles"
         / date_session.strftime("%Y-%m-%d_%H-%M-%S")
     )
     dossier.mkdir(parents=True, exist_ok=True)
@@ -522,7 +522,6 @@ def webcam_live(args) -> None:
                     enregistreur_video, chemin_video = creer_enregistreur_video(
                         image_affichee,
                         args.sortie,
-                        nom_modele,
                         date_session,
                         numero_video,
                         fps_video,

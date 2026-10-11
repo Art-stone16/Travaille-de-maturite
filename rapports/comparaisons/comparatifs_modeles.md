@@ -20,3 +20,5 @@ La colonne « Données de cascade » indique si le modèle a été entraîné av
 Le nombre de paramètres est le total renvoyé par `model.count_params()` : paramètres entraînables et non entraînables du modèle, y compris ceux de BatchNormalization. Le dropout indique la proportion désactivée pendant l’entraînement.
 
 Des modèles peuvent avoir la même architecture et le même nombre de paramètres tout en ayant des poids et des résultats différents.
+
+Le 7 octobre 2026, le ×10 a été réentraîné avec dix exemplaires exacts par image Cascade, sans augmentation. Son architecture et son nombre de paramètres restent ceux du tableau. Les scripts ×2 et ×10 partagent désormais une validation MNIST séparée et une graine globale 42. Le ×2 actif conserve son entraînement historique.

@@ -16,6 +16,7 @@ from scripts import _bootstrap  # noqa: F401
 
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -84,6 +85,10 @@ def arguments() -> argparse.Namespace:
         type=Path,
         default=env_config.SORTIES_VISUALISATIONS / "motifs_classes",
         help="Dossier de destination.",
+    )
+    parser.add_argument(
+        "--modeles-a-recalculer", nargs="+", choices=[nom for nom, _ in MODEL_PATHS],
+        help="Recalculer seulement ces modèles et réutiliser les cartes sauvegardées des autres.",
     )
     return parser.parse_args()
 
@@ -259,6 +264,12 @@ def main() -> None:
     (env_config.PROJECT_ROOT / ".cache/matplotlib").mkdir(parents=True, exist_ok=True)
 
     lots, indices, archive = charger_mnist(options.echantillons_par_classe)
+    ancienne_provenance = None
+    if options.modeles_a_recalculer:
+        ancienne_provenance = json.loads((options.sortie / "provenance.json").read_text())
+        if (ancienne_provenance["indices_mnist"] != indices or
+                ancienne_provenance["echantillons_par_classe"] != options.echantillons_par_classe):
+            raise ValueError("Les cartes conservées doivent utiliser les mêmes images MNIST.")
     noms: list[str] = []
     cartes_normalisees: list[np.ndarray] = []
     limites: dict[str, float] = {}
@@ -267,6 +278,13 @@ def main() -> None:
         if not chemin.is_file():
             raise FileNotFoundError(chemin)
         print(f"[{numero}/7] {nom}", flush=True)
+        if options.modeles_a_recalculer and nom not in options.modeles_a_recalculer:
+            with np.load(options.sortie / f"donnees_{nom}.npz", allow_pickle=False) as donnees:
+                cartes = donnees["gradients_normalises"]
+            noms.append(nom)
+            cartes_normalisees.append(cartes)
+            limites[nom] = ancienne_provenance["limites_brutes_percentile_99"][nom]
+            continue
         model = charger_modele(chemin)
         cartes_brutes = calculer_cartes(model, lots)
         cartes, limite = normaliser_par_modele(cartes_brutes)
@@ -307,6 +325,10 @@ def main() -> None:
         "indices_mnist": indices,
         "modeles": {nom: str(chemin.relative_to(env_config.PROJECT_ROOT)) for nom, chemin in MODEL_PATHS},
         "limites_brutes_percentile_99": limites,
+        "modele_sha256": {nom: hashlib.sha256(chemin.read_bytes()).hexdigest() for nom, chemin in MODEL_PATHS},
+        "archive_mnist_sha256": hashlib.sha256(archive.read_bytes()).hexdigest(),
+        "modeles_recalcules": options.modeles_a_recalculer or [nom for nom, _ in MODEL_PATHS],
+        "statut": "visualisation_des_motifs_sur_MNIST_train_pas_evaluation_independante",
     }
     (options.sortie / "provenance.json").write_text(
         json.dumps(provenance, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

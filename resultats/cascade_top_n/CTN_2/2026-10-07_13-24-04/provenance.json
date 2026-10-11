@@ -1,0 +1,10 @@
+{
+  "modele": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+  "modele_sha256": "048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5",
+  "image": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/cascade_top_n/CTN_2.jpg",
+  "image_sha256": "ce88c08a8d8041fc96061528f16e06e010d5b6b12b6fc35784f5a8b3bc6b7c34",
+  "chiffre_attendu": 2,
+  "nombre_attendu": 100,
+  "evaluation_independante": false,
+  "statut": "controle_sur_sources_entrainement_cascade"
+}

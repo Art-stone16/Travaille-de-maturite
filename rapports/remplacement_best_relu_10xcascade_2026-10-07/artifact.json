@@ -1,0 +1,530 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Remplacement de best_relu_10xcascade — 7 octobre 2026",
+    "description": "Méthode, contrôles, résultats et éléments du TM à actualiser.",
+    "generatedAt": "2026-10-07T14:02:57+02:00",
+    "sources": [
+      {
+        "id": "bilan_verifie",
+        "label": "Bilan recalculé depuis les données et poids enregistrés",
+        "path": "rapports/remplacement_best_relu_10xcascade_2026-10-07/resultats_verifies.json",
+        "query": {
+          "engine": "Python",
+          "language": "python",
+          "executed_at": "2026-10-07T14:02:57+02:00",
+          "description": "Agrège les CSV MNIST, CTN et terrain ; vérifie les annotations et la conservation des autres modèles.",
+          "sql": "from scripts.evaluation.bilan_remplacement_relu_10x import calculer\nbilan = calculer()",
+          "tables_used": [
+            "predictions_test.csv",
+            "metriques_par_classe.csv",
+            "predictions.csv",
+            "resultats_terrain.csv",
+            "annotations_reference.csv"
+          ],
+          "filters": [
+            "MNIST test complet ; aucun sous-échantillonnage",
+            "CTN : douze feuilles dont deux variantes, toutes les zones du protocole historique",
+            "Terrain : annotations historiques conservées, non-détection comptée comme échec"
+          ],
+          "metric_definitions": [
+            "accuracy = prédictions exactes / images évaluées",
+            "sensibilité = TP / (TP + FN)",
+            "CTN Top-N = rang attendu ≤ N / toutes les zones détectées"
+          ]
+        }
+      },
+      {
+        "id": "classes_sql",
+        "label": "metriques_mnist",
+        "path": "rapports/remplacement_best_relu_10xcascade_2026-10-07/extrait_verifie.sqlite",
+        "query": {
+          "engine": "SQLite",
+          "language": "sql",
+          "sql": "SELECT * FROM metriques_mnist ORDER BY classe;",
+          "executed_at": "2026-10-07T14:02:57+02:00",
+          "tables_used": [
+            "metriques_mnist"
+          ],
+          "description": "Extrait vérifié des résultats du nouveau modèle ×10.",
+          "metric_definitions": [
+            "sensibilite = TP / support ; pertes issues de history sans transformation"
+          ],
+          "filters": [
+            "Toutes les classes MNIST test ; toutes les époques observées"
+          ]
+        }
+      },
+      {
+        "id": "courbes_sql",
+        "label": "courbes_entrainement",
+        "path": "rapports/remplacement_best_relu_10xcascade_2026-10-07/extrait_verifie.sqlite",
+        "query": {
+          "engine": "SQLite",
+          "language": "sql",
+          "sql": "SELECT * FROM courbes_entrainement ORDER BY epoque;",
+          "executed_at": "2026-10-07T14:02:57+02:00",
+          "tables_used": [
+            "courbes_entrainement"
+          ],
+          "description": "Extrait vérifié des résultats du nouveau modèle ×10.",
+          "metric_definitions": [
+            "sensibilite = TP / support ; pertes issues de history sans transformation"
+          ],
+          "filters": [
+            "Toutes les classes MNIST test ; toutes les époques observées"
+          ]
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "sensibilite",
+        "title": "Sensibilité MNIST par chiffre",
+        "description": "Nouveau meilleur checkpoint ; dix classes, 10 000 images MNIST test. Les effectifs de classe sont conservés dans les données.",
+        "type": "bar",
+        "dataset": "classes",
+        "encodings": {
+          "x": {
+            "field": "classe"
+          },
+          "y": {
+            "field": "sensibilite"
+          }
+        },
+        "options": {
+          "orientation": "vertical",
+          "grouping": "single"
+        },
+        "sourceId": "classes_sql"
+      },
+      {
+        "id": "validation",
+        "title": "Perte de validation MNIST par époque",
+        "description": "Nouveau ×10 ; 9 000 images de validation, 11 époques observées. Le checkpoint retenu est l’époque 9.",
+        "type": "line",
+        "dataset": "courbes",
+        "encodings": {
+          "x": {
+            "field": "epoque"
+          },
+          "y": {
+            "field": "val_loss"
+          }
+        },
+        "sourceId": "courbes_sql"
+      }
+    ],
+    "blocks": [
+      {
+        "id": "titre",
+        "type": "markdown",
+        "body": "# Remplacement de best_relu_10xcascade — 7 octobre 2026"
+      },
+      {
+        "id": "resume",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Modèle ×10 remplacé et évaluations régénérées\n\nLe modèle actif utilise dix exemplaires exacts par chiffre Cascade : un original et neuf copies identiques. Le meilleur checkpoint atteint 99,10 % sur les 10 000 images MNIST test, soit 9 910 prédictions correctes et 90 erreurs. Les anciens poids, scripts et résultats sont archivés. Les autres modèles actifs sont conservés. Les contrôles CTN utilisent les sources d’entraînement et doivent être lus séparément des évaluations indépendantes."
+      },
+      {
+        "id": "definitions",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Périmètre et dénominateurs\n\nMNIST test est le jeu officiel de 10 000 images, sans Cascade ; accuracy = nombre de prédictions exactes / 10 000. Pour chaque chiffre, la sensibilité mesure la proportion de vrais chiffres correctement reconnus ; la spécificité mesure la proportion des autres chiffres non confondus avec lui. Les intervalles par chiffre sont les intervalles de Wilson à 95 % du script existant.\n\nCTN Top-N = nombre de zones où le chiffre de la feuille se trouve parmi les N premiers choix / 1 227 zones détectées. Les 1 217 zones validées ont servi à l’entraînement ; dix zones ont été exclues. Les douze feuilles totalisent 1 201 chiffres déclarés attendus : cette différence de comptage ne donne pas un nombre exact de faux positifs. Pour les photos annotées, le taux sur la photo utilise tous les chiffres annotés ; un chiffre non détecté est un échec."
+      },
+      {
+        "id": "methode",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Validation séparée et copies exactes\n\nLa version ×2 historique mélangeait les copies avant la validation : 307 originaux étaient communs aux deux partitions, et 357 copies étaient réservées à la validation. Cette fuite n’a pas été reproduite. Les deux scripts appellent désormais la même routine, avec des facteurs respectifs de 2 et de 10. Une permutation de graine 42 réserve d’abord 9 000 images MNIST à la validation ; toutes les copies Cascade sont ensuite ajoutées au train. Les 1 217 matrices ont été comparées aux lignes du manifeste et aux étiquettes. Les empreintes des images Cascade n’ont aucun recouvrement avec MNIST validation ou test.\n\nArchitecture : Conv2D 64 filtres 5×5 ReLU, BatchNormalization, MaxPooling 2×2, Conv2D 64 filtres 3×3 ReLU, BatchNormalization, MaxPooling 2×2, Flatten, Dropout 0,6, Dense 10 softmax. Total : 55 114 paramètres. Adam à 0,001, SparseCategoricalCrossentropy, batch 128, 30 époques maximum. Checkpoint sur val_loss ; EarlyStopping sur val_loss, patience 2, sans restauration automatique des meilleurs poids. La graine globale 42 fixe Python, NumPy et Keras/TensorFlow ; les opérations déterministes sont demandées. Le test utilise explicitement best_model.keras.\n\n| Partition | Nouveau ×10 |\n| --- | --- |\n| MNIST entraînement | 51000 |\n| Cascade originaux | 1217 |\n| Copies supplémentaires | 10953 |\n| Cascade entraînement total | 12170 |\n| Entraînement total | 63170 |\n| MNIST validation | 9000 |\n| Cascade validation / test | 0 / 0 |\n| MNIST test | 10000 |\n| Époques réalisées / retenue | 11 / 9 |\n\nRépartition des originaux par chiffre 0 à 9 : 98, 100, 228, 102, 99, 103, 187, 100, 100, 100. Chaque effectif est multiplié par dix dans le train ×10."
+      },
+      {
+        "id": "graph_validation",
+        "type": "chart",
+        "chartId": "validation"
+      },
+      {
+        "id": "mnist",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## MNIST : meilleur checkpoint et état final distingués\n\n| État | Corrects | Erreurs | Accuracy |\n| --- | --- | --- | --- |\n| Ancien ×10 augmenté, meilleur checkpoint | 9910 | 90 | 99,10 % |\n| Nouveau ×10 exact, meilleur checkpoint | 9910 | 90 | 99,10 % |\n\nL’état final du nouveau ×10 atteint 99,23 %, avec une loss 0.032277. Le meilleur checkpoint a une loss 0.028750. L’ancien score publié de 99,11 % et sa loss 0,030425 concernaient l’état final. L’ancien meilleur checkpoint a été réévalué ici sur les mêmes 10 000 entrées : son accuracy agrégée est aussi de 99,10 %, mais les erreurs et métriques par chiffre diffèrent. "
+      },
+      {
+        "id": "classes",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Métriques MNIST du nouveau modèle par chiffre\n\n| Chiffre | Effectif | Corrects | FN | Sensibilité | Spécificité | Précision | F1 |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| 0 | 980 | 978 | 2 | 99,80 % | 99,92 % | 99,29 % | 99,54 % |\n| 1 | 1135 | 1134 | 1 | 99,91 % | 99,86 % | 98,95 % | 99,43 % |\n| 2 | 1032 | 1015 | 17 | 98,35 % | 99,96 % | 99,61 % | 98,98 % |\n| 3 | 1010 | 1005 | 5 | 99,50 % | 99,81 % | 98,34 % | 98,92 % |\n| 4 | 982 | 974 | 8 | 99,19 % | 99,91 % | 99,19 % | 99,19 % |\n| 5 | 892 | 879 | 13 | 98,54 % | 99,92 % | 99,21 % | 98,88 % |\n| 6 | 958 | 944 | 14 | 98,54 % | 99,94 % | 99,47 % | 99,00 % |\n| 7 | 1028 | 1018 | 10 | 99,03 % | 99,88 % | 98,93 % | 98,98 % |\n| 8 | 974 | 963 | 11 | 98,87 % | 99,94 % | 99,48 % | 99,18 % |\n| 9 | 1009 | 1000 | 9 | 99,11 % | 99,84 % | 98,62 % | 98,86 % |\n\nLe chiffre 2 a ici la sensibilité la plus faible (1 015/1 032). Les matrices en effectifs et normalisées, les dix scores de chaque image et les intervalles par chiffre sont exportés dans le dossier MNIST."
+      },
+      {
+        "id": "graph_classes",
+        "type": "chart",
+        "chartId": "sensibilite"
+      },
+      {
+        "id": "cascade",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## CTN : contrôles sur les sources d’entraînement\n\n| Expérience | Top-1 | Top-2 | Top-3 | Top-5 | Top-1 sur validés |\n| --- | --- | --- | --- | --- | --- |\n| Ancien ×10 augmenté | 1209/1227 (98,53 %) | 1219/1227 (99,35 %) | 1221/1227 (99,51 %) | 1222/1227 (99,59 %) | 1207/1217 |\n| Nouveau ×10 exact | 1215/1227 (99,02 %) | 1219/1227 (99,35 %) | 1219/1227 (99,35 %) | 1221/1227 (99,51 %) | 1214/1217 |\n\nCes résultats mesurent la reconnaissance de données issues des mêmes feuilles que l’entraînement. Les dix zones exclues sont détaillées séparément dans les données du bilan. Les taux complets restent ceux du protocole historique pour permettre la comparaison ; ils ne deviennent pas des scores indépendants.\n\n| Chiffre | Zones | Top-1 | Top-3 | Top-5 |\n| --- | --- | --- | --- | --- |\n| 0 | 98 | 100,00 % | 100,00 % | 100,00 % |\n| 1 | 100 | 100,00 % | 100,00 % | 100,00 % |\n| 2 | 232 | 98,28 % | 98,28 % | 98,28 % |\n| 3 | 102 | 100,00 % | 100,00 % | 100,00 % |\n| 4 | 99 | 98,99 % | 100,00 % | 100,00 % |\n| 5 | 105 | 97,14 % | 98,10 % | 100,00 % |\n| 6 | 189 | 99,47 % | 99,47 % | 99,47 % |\n| 7 | 100 | 100,00 % | 100,00 % | 100,00 % |\n| 8 | 101 | 98,02 % | 100,00 % | 100,00 % |\n| 9 | 101 | 99,01 % | 99,01 % | 99,01 % |"
+      },
+      {
+        "id": "terrain",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Les cinq protocoles terrain sont rejoués\n\n| Photo | Modèle | Détectés | Corrects / photo | Réussite photo |\n| --- | --- | --- | --- | --- |\n| Test_terrain_TM | Nouveau ×10 exact | 27 | 27/27 | 100,00 % |\n| Test_terrain_TM_V2 | Nouveau ×10 exact | 29 | 29/30 | 96,67 % |\n| Test_terrain_TM_V3 | Nouveau ×10 exact | 30 | 30/30 | 100,00 % |\n| image_reelle_Grand | Nouveau ×10 exact | 22 | Non calculable | Annotations absentes |\n| test_terrain | Nouveau ×10 exact | 31 | Non calculable | Annotations absentes |\n\nLes 139 zones des cinq tests ×10 ont les mêmes rectangles et les mêmes entrées 28×28 que leurs exécutions historiques. Les images annotées, contrôles en niveaux de gris, matrices binaires de contrôle, CSV et résumés ont été régénérés. Les trois annotations du TM sont conservées à l’identique ; TM_V2 garde le 4 non détecté de la dernière ligne. Les photos terrain sont distinctes des douze sources Cascade ; l’identité des auteurs des écritures ne peut pas être vérifiée. Les deux photos non annotées permettent de comparer les prédictions et le prétraitement, mais ne permettent pas de calculer un taux de réussite fiable."
+      },
+      {
+        "id": "preservation",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Archive, chemins actifs et résultats conservés\n\nArchive : `archives/remplacement_best_relu_10xcascade_2026-10-07/`. Elle contient le script original, les poids best/final, les métadonnées, les cinq tests terrain, les douze tests CTN, les courbes, motifs et anciens comparatifs. Les anciens dossiers d’exécution ×10 ont été retirés des résultats actifs après vérification des copies archivées. Les anciennes lignes ×10 du journal terrain y sont aussi archivées.\n\nLe nouveau modèle a été enregistré provisoirement, rechargé, puis installé sous `modeles/actifs/best_relu_10xcascade/best_model.keras` et `final_model.keras`. Les empreintes enregistrées dans les tests MNIST, CTN, terrain et motifs correspondent au fichier actif. Les 18 fichiers des autres modèles et 5 693 sorties individuelles sont identiques ; leurs lignes dans les trois comparatifs terrain sont également identiques. Les douze montages CTN à huit modèles, les rapports CTN et terrain et la comparaison de motifs ont été actualisés. Le ×2 actif conserve ses poids historiques."
+      },
+      {
+        "id": "fichiers",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Fichiers modifiés et résultats régénérés\n\n- `scripts/entrainement/train_best_relu_10xcascade.py` et `train_best_relu_2xcascade.py` : appels à la routine commune ; seul le facteur varie.\n- `src/reconnaissance_chiffres/entrainement_cascade.py` : copies exactes, séparation des partitions, contrôles, entraînement et sauvegardes.\n- `tests/test_injection_cascade.py` : dix occurrences par original, labels, validation identique et exclusion de Cascade. Les 43 tests du dépôt passent.\n- `scripts/evaluation/test_cascade_top_n.py`, `test_condition_reelle.py` et `src/reconnaissance_chiffres/rapports.py` : empreintes, statut des contrôles et rapports.\n- `scripts/evaluation/comparer_test_terrain_tm_v3.py` : accepte les trois schémas terrain, conserve les annotations et les lignes des sept autres modèles.\n- `scripts/evaluation/reevaluer_best_relu_10xcascade.py` et `bilan_remplacement_relu_10x.py` : installation, relecture des protocoles, vérifications et bilan reproductible.\n- `scripts/visualisation/visualiser_motifs_classes.py` : recalcul sélectif du ×10, réutilisation des autres cartes et provenance.\n- `modeles/actifs/best_relu_10xcascade/` : nouveaux best/final, métadonnées, indices de partition et historique CSV.\n- `README.md`, `.gitignore`, `modeles/catalogue.md`, comparatifs des scripts et des modèles : documentation du remplacement et conservation des poids archivés.\n- Sorties : deux évaluations MNIST complètes (ancien checkpoint et nouveau), douze CTN ×10, cinq terrains ×10, leurs comparatifs, douze montages CTN et deux illustrations de motifs.\n- L’inventaire exhaustif des fichiers créés, modifiés ou déplacés est enregistré dans `fichiers_modifies.json`. Les chemins et correspondances avant/après des tests sont dans l’archive."
+      },
+      {
+        "id": "limites",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Limites de reproduction et de comparaison\n\n- Aucune étude de stabilité enregistrée ne cible le ×10. L’étude présente utilise 16/32 filtres, noyaux 5×5/5×5, dropout 0,4 et les graines 42 à 46 : elle est conservée. Aucun résultat de stabilité ×10 n’est inventé.\n- L’initialisation aléatoire des anciennes expériences ×2/×10 n’était pas enregistrée ; leur entraînement exact n’est pas reproductible à partir du dépôt. Les poids archivés permettent de rejouer leurs prédictions.\n- Le nouveau ×10 a été entraîné avec une seule graine ; aucune étude de stabilité supplémentaire n’a été réalisée.\n- Il n’existe pas de jeu Cascade indépendant dans le dataset préparé : tous les 1 217 exemples inclus sont marqués train. Aucune évaluation finale Cascade indépendante ne peut donc être produite avec ces fichiers.\n- Les fichiers de matrices MNIST de l’ancien ×10 n’étaient pas présents. Une évaluation complète de son checkpoint archivé a été effectuée pour rendre la comparaison actuelle explicite.\n- `test_terrain.jpg` et `image_reelle_Grand.jpg` n’ont pas d’annotations par chiffre : leurs métriques d’exactitude sont indisponibles.\n- Le manuscrit du TM n’est pas présent dans le dépôt. Les numéros de figures, tableaux et pages ne peuvent pas être établis.\n- Le rapport HTML est validé structurellement et contient une représentation lisible sans JavaScript. La vérification visuelle automatisée du lecteur HTML n’a pas pu être exécutée : le Chromium de vérification est absent et le Chrome installé n’a pas démarré dans ce runtime. Les figures PNG d’entraînement et MNIST ont été inspectées séparément."
+      },
+      {
+        "id": "obsolete",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Éléments du TM à actualiser si tu les as repris\n\n1. La méthode ×10 avec rotations ±8° et translations ±1,5 pixel, ainsi que toute légende parlant de neuf variantes augmentées. La nouvelle méthode est un original et neuf copies identiques.\n2. L’ancienne description de la validation : mélange MNIST/Cascade avant réservation des 15 %. Les nouveaux effectifs sont 63 170 en train et 9 000 en validation MNIST ; les 12 170 entrées Cascade sont toutes en train.\n3. L’ancien score MNIST final ×10 : 99,11 %, loss 0,030425308 ; et toute confusion entre ce score et best_model.keras. Les nouvelles valeurs sont 99,10 % pour best et 99,23 % pour final.\n4. Les courbes ×10 de 14 époques : elles sont remplacées par 11 époques, checkpoint retenu à l’époque 9. La courbe ×2 active reste historique.\n5. La ligne ×10 des tableaux CTN : Top-1 98,53 %, Top-2 99,35 %, Top-3 99,51 %, Top-5 99,59 %. Les tableaux par chiffre et de confusions, ainsi que le classement des modèles, ont été régénérés. Les anciens et nouveaux CTN doivent être identifiés comme contrôles sur les sources d’entraînement.\n6. Toutes les images annotées et confidences ×10 des douze feuilles CTN, les douze montages à huit modèles et les cinq photos terrain. Les trois scores TM ×10 restent 27/27, 29/30 et 30/30, mais leurs confidences et fichiers d’exécution ont changé.\n7. La planche `planche_06_best_relu_10xcascade.png`, ses données de gradients et `comparaison_7_modeles.png`. Les cartes des six autres modèles sont conservées.\n8. Toute conclusion attribuant au seul facteur ×2/×10 un écart entre les modèles actifs historiques. Le ×2 actif conserve son protocole historique.\n\nLes nombres de paramètres et l’architecture du ×10 restent valables. Les PDF CTN archivés de juillet et du 5 septembre 2026 précèdent l’ancien ×10 du 25 septembre et ne sont pas concernés par son remplacement."
+      },
+      {
+        "id": "suite",
+        "type": "markdown",
+        "sourceId": "bilan_verifie",
+        "body": "## Résultats disponibles pour mettre à jour le TM\n\nUtiliser les nouveaux CSV, matrices et illustrations du ×10, en gardant la séparation entre MNIST test, contrôles CTN et terrain annoté. Le bilan et les scripts fournissent la provenance des chiffres sans modifier le manuscrit. Pour répondre à une question de stabilité, il faudrait une nouvelle expérience sur plusieurs graines ; pour mesurer la généralisation Cascade, il faudrait de nouvelles feuilles indépendantes avec des annotations."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "status": "ready",
+    "generatedAt": "2026-10-07T14:02:57+02:00",
+    "datasets": {
+      "classes": [
+        {
+          "classe": 0,
+          "support": 980,
+          "predictions_classe": 985,
+          "tp": 978,
+          "fn": 2,
+          "fp": 7,
+          "tn": 9013,
+          "sensibilite": 0.9979591837,
+          "sensibilite_ic95_bas": 0.9925895976,
+          "sensibilite_ic95_haut": 0.999440156,
+          "specificite": 0.9992239468,
+          "specificite_ic95_bas": 0.9983988296,
+          "specificite_ic95_haut": 0.9996240236,
+          "precision": 0.992893401,
+          "f1": 0.9954198473,
+          "accuracy_ovr": 0.9991,
+          "balanced_accuracy_ovr": 0.9985915652,
+          "fnr": 0.0020408163,
+          "fpr": 0.0007760532
+        },
+        {
+          "classe": 1,
+          "support": 1135,
+          "predictions_classe": 1146,
+          "tp": 1134,
+          "fn": 1,
+          "fp": 12,
+          "tn": 8853,
+          "sensibilite": 0.9991189427,
+          "sensibilite_ic95_bas": 0.9950262458,
+          "sensibilite_ic95_haut": 0.9998444548,
+          "specificite": 0.9986463621,
+          "specificite_ic95_bas": 0.9976352857,
+          "specificite_ic95_haut": 0.9992254701,
+          "precision": 0.9895287958,
+          "f1": 0.9943007453,
+          "accuracy_ovr": 0.9987,
+          "balanced_accuracy_ovr": 0.9988826524,
+          "fnr": 0.0008810573,
+          "fpr": 0.0013536379
+        },
+        {
+          "classe": 2,
+          "support": 1032,
+          "predictions_classe": 1019,
+          "tp": 1015,
+          "fn": 17,
+          "fp": 4,
+          "tn": 8964,
+          "sensibilite": 0.9835271318,
+          "sensibilite_ic95_bas": 0.9737778578,
+          "sensibilite_ic95_haut": 0.9896900469,
+          "specificite": 0.9995539697,
+          "specificite_ic95_bas": 0.9988536186,
+          "specificite_ic95_haut": 0.9998265343,
+          "precision": 0.9960745829,
+          "f1": 0.9897610922,
+          "accuracy_ovr": 0.9979,
+          "balanced_accuracy_ovr": 0.9915405507,
+          "fnr": 0.0164728682,
+          "fpr": 0.0004460303
+        },
+        {
+          "classe": 3,
+          "support": 1010,
+          "predictions_classe": 1022,
+          "tp": 1005,
+          "fn": 5,
+          "fp": 17,
+          "tn": 8973,
+          "sensibilite": 0.995049505,
+          "sensibilite_ic95_bas": 0.9884638653,
+          "sensibilite_ic95_haut": 0.9978836462,
+          "specificite": 0.99810901,
+          "specificite_ic95_bas": 0.996973534,
+          "specificite_ic95_haut": 0.9988189803,
+          "precision": 0.9833659491,
+          "f1": 0.9891732283,
+          "accuracy_ovr": 0.9978,
+          "balanced_accuracy_ovr": 0.9965792575,
+          "fnr": 0.004950495,
+          "fpr": 0.00189099
+        },
+        {
+          "classe": 4,
+          "support": 982,
+          "predictions_classe": 982,
+          "tp": 974,
+          "fn": 8,
+          "fp": 8,
+          "tn": 9010,
+          "sensibilite": 0.9918533605,
+          "sensibilite_ic95_bas": 0.9840072821,
+          "sensibilite_ic95_haut": 0.9958662983,
+          "specificite": 0.9991128853,
+          "specificite_ic95_bas": 0.99825032,
+          "specificite_ic95_haut": 0.9995504108,
+          "precision": 0.9918533605,
+          "f1": 0.9918533605,
+          "accuracy_ovr": 0.9984,
+          "balanced_accuracy_ovr": 0.9954831229,
+          "fnr": 0.0081466395,
+          "fpr": 0.0008871147
+        },
+        {
+          "classe": 5,
+          "support": 892,
+          "predictions_classe": 886,
+          "tp": 879,
+          "fn": 13,
+          "fp": 7,
+          "tn": 9101,
+          "sensibilite": 0.985426009,
+          "sensibilite_ic95_bas": 0.9752255354,
+          "sensibilite_ic95_haut": 0.9914633709,
+          "specificite": 0.9992314449,
+          "specificite_ic95_bas": 0.9984142913,
+          "specificite_ic95_haut": 0.9996276567,
+          "precision": 0.9920993228,
+          "f1": 0.9887514061,
+          "accuracy_ovr": 0.998,
+          "balanced_accuracy_ovr": 0.9923287269,
+          "fnr": 0.014573991,
+          "fpr": 0.0007685551
+        },
+        {
+          "classe": 6,
+          "support": 958,
+          "predictions_classe": 949,
+          "tp": 944,
+          "fn": 14,
+          "fp": 5,
+          "tn": 9037,
+          "sensibilite": 0.9853862213,
+          "sensibilite_ic95_bas": 0.9756201125,
+          "sensibilite_ic95_haut": 0.9912752022,
+          "specificite": 0.999447025,
+          "specificite_ic95_bas": 0.9987060742,
+          "specificite_ic95_haut": 0.9997637797,
+          "precision": 0.9947312961,
+          "f1": 0.9900367069,
+          "accuracy_ovr": 0.9981,
+          "balanced_accuracy_ovr": 0.9924166231,
+          "fnr": 0.0146137787,
+          "fpr": 0.000552975
+        },
+        {
+          "classe": 7,
+          "support": 1028,
+          "predictions_classe": 1029,
+          "tp": 1018,
+          "fn": 10,
+          "fp": 11,
+          "tn": 8961,
+          "sensibilite": 0.9902723735,
+          "sensibilite_ic95_bas": 0.9821865911,
+          "sensibilite_ic95_haut": 0.9947076705,
+          "specificite": 0.9987739634,
+          "specificite_ic95_bas": 0.9978057546,
+          "specificite_ic95_haut": 0.9993152442,
+          "precision": 0.9893100097,
+          "f1": 0.9897909577,
+          "accuracy_ovr": 0.9979,
+          "balanced_accuracy_ovr": 0.9945231685,
+          "fnr": 0.0097276265,
+          "fpr": 0.0012260366
+        },
+        {
+          "classe": 8,
+          "support": 974,
+          "predictions_classe": 968,
+          "tp": 963,
+          "fn": 11,
+          "fp": 5,
+          "tn": 9021,
+          "sensibilite": 0.9887063655,
+          "sensibilite_ic95_bas": 0.9798906792,
+          "sensibilite_ic95_haut": 0.9936822772,
+          "specificite": 0.9994460448,
+          "specificite_ic95_bas": 0.9987037817,
+          "specificite_ic95_haut": 0.999763361,
+          "precision": 0.9948347107,
+          "f1": 0.9917610711,
+          "accuracy_ovr": 0.9984,
+          "balanced_accuracy_ovr": 0.9940762051,
+          "fnr": 0.0112936345,
+          "fpr": 0.0005539552
+        },
+        {
+          "classe": 9,
+          "support": 1009,
+          "predictions_classe": 1014,
+          "tp": 1000,
+          "fn": 9,
+          "fp": 14,
+          "tn": 8977,
+          "sensibilite": 0.9910802775,
+          "sensibilite_ic95_bas": 0.9831351621,
+          "sensibilite_ic95_haut": 0.9953002992,
+          "specificite": 0.9984428873,
+          "specificite_ic95_bas": 0.9973878276,
+          "specificite_ic95_haut": 0.9990722035,
+          "precision": 0.9861932939,
+          "f1": 0.9886307464,
+          "accuracy_ovr": 0.9977,
+          "balanced_accuracy_ovr": 0.9947615824,
+          "fnr": 0.0089197225,
+          "fpr": 0.0015571127
+        }
+      ],
+      "courbes": [
+        {
+          "epoque": 1,
+          "acc": 0.8965964913368225,
+          "loss": 0.3836801052093506,
+          "val_acc": 0.9654444456100464,
+          "val_loss": 0.1300784796476364,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 2,
+          "acc": 0.963621973991394,
+          "loss": 0.12360425293445587,
+          "val_acc": 0.9828888773918152,
+          "val_loss": 0.055648814886808395,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 3,
+          "acc": 0.9727718830108643,
+          "loss": 0.088858462870121,
+          "val_acc": 0.9837777614593506,
+          "val_loss": 0.055262308567762375,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 4,
+          "acc": 0.9771410226821899,
+          "loss": 0.07578334957361221,
+          "val_acc": 0.9842222332954407,
+          "val_loss": 0.04921550676226616,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 5,
+          "acc": 0.9809719920158386,
+          "loss": 0.06313914805650711,
+          "val_acc": 0.9874444603919983,
+          "val_loss": 0.0412614680826664,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 6,
+          "acc": 0.9826816320419312,
+          "loss": 0.056039001792669296,
+          "val_acc": 0.9865555763244629,
+          "val_loss": 0.0507865771651268,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 7,
+          "acc": 0.9835681319236755,
+          "loss": 0.05448158457875252,
+          "val_acc": 0.9878888726234436,
+          "val_loss": 0.040718141943216324,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 8,
+          "acc": 0.9846129417419434,
+          "loss": 0.05076363682746887,
+          "val_acc": 0.9893333315849304,
+          "val_loss": 0.037899572402238846,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 9,
+          "acc": 0.9850878715515137,
+          "loss": 0.04594816267490387,
+          "val_acc": 0.9896666407585144,
+          "val_loss": 0.03334564343094826,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 10,
+          "acc": 0.9866234064102173,
+          "loss": 0.0445401631295681,
+          "val_acc": 0.9891111254692078,
+          "val_loss": 0.03450435772538185,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        },
+        {
+          "epoque": 11,
+          "acc": 0.9872565865516663,
+          "loss": 0.040406327694654465,
+          "val_acc": 0.9890000224113464,
+          "val_loss": 0.039669401943683624,
+          "mnist_validation": 9000,
+          "cascade_train": 12170
+        }
+      ]
+    }
+  }
+}

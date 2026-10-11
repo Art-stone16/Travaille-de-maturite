@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/scripts/evaluation/comparer_test_terrain_tm_v3.py", line 124, in <module>
+    main()
+  File "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/scripts/evaluation/comparer_test_terrain_tm_v3.py", line 120, in main
+    actualiser(args.dossier, args.modele_actualise)
+  File "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/scripts/evaluation/comparer_test_terrain_tm_v3.py", line 85, in actualiser
+    ecrire(root / 'comparaison_8_modeles.csv', scores)
+  File "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/scripts/evaluation/comparer_test_terrain_tm_v3.py", line 30, in ecrire
+    writer.writerows(rows)
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/csv.py", line 157, in writerows
+    return self.writer.writerows(map(self._dict_to_list, rowdicts))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/csv.py", line 149, in _dict_to_list
+    raise ValueError("dict contains fields not in fieldnames: "
+ValueError: dict contains fields not in fieldnames: 'erreurs_reconnaissance', 'accuracy_photo_pourcent', 'detail_erreurs_reconnaissance', 'accuracy_detectes_pourcent'

@@ -1,0 +1,91 @@
+{
+  "mnist_source_train": 60000,
+  "mnist_train": 51000,
+  "mnist_validation": 9000,
+  "mnist_test": 10000,
+  "cascade_originaux": 1217,
+  "cascade_copies_exactes": 10953,
+  "cascade_total": 12170,
+  "train_total": 63170,
+  "validation_total": 9000,
+  "cascade_validation": 0,
+  "cascade_test": 0,
+  "repartition_cascade_originaux": [
+    98,
+    100,
+    228,
+    102,
+    99,
+    103,
+    187,
+    100,
+    100,
+    100
+  ],
+  "repartition_cascade_train": [
+    980,
+    1000,
+    2280,
+    1020,
+    990,
+    1030,
+    1870,
+    1000,
+    1000,
+    1000
+  ]
+}
+Model: "sequential"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ conv2d (Conv2D)                 │ (None, 24, 24, 64)     │         1,664 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization             │ (None, 24, 24, 64)     │           256 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ max_pooling2d (MaxPooling2D)    │ (None, 12, 12, 64)     │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ conv2d_1 (Conv2D)               │ (None, 10, 10, 64)     │        36,928 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_1           │ (None, 10, 10, 64)     │           256 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ max_pooling2d_1 (MaxPooling2D)  │ (None, 5, 5, 64)       │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ flatten (Flatten)               │ (None, 1600)           │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 1600)           │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense (Dense)                   │ (None, 10)             │        16,010 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 55,114 (215.29 KB)
+ Trainable params: 54,858 (214.29 KB)
+ Non-trainable params: 256 (1.00 KB)
+Epoch 1/30
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791371943.861151 1564399 node_def_util.cc:682] NodeDef mentions attribute use_unbounded_threadpool which is not in the op definition: Op<name=MapDataset; signature=input_dataset:variant, other_arguments: -> handle:variant; attr=f:func; attr=Targuments:list(type),min=0; attr=output_types:list(type),min=1; attr=output_shapes:list(shape),min=1; attr=use_inter_op_parallelism:bool,default=true; attr=preserve_cardinality:bool,default=false; attr=force_synchronous:bool,default=false; attr=metadata:string,default=""> This may be expected if your graph generating binary is newer  than this binary. Unknown attributes will be ignored. NodeDef: {{node ParallelMapDatasetV2/_15}}
+E0000 00:00:1791371959.517186 1564399 node_def_util.cc:682] NodeDef mentions attribute use_unbounded_threadpool which is not in the op definition: Op<name=MapDataset; signature=input_dataset:variant, other_arguments: -> handle:variant; attr=f:func; attr=Targuments:list(type),min=0; attr=output_types:list(type),min=1; attr=output_shapes:list(shape),min=1; attr=use_inter_op_parallelism:bool,default=true; attr=preserve_cardinality:bool,default=false; attr=force_synchronous:bool,default=false; attr=metadata:string,default=""> This may be expected if your graph generating binary is newer  than this binary. Unknown attributes will be ignored. NodeDef: {{node ParallelMapDatasetV2/_15}}
+494/494 - 16s - 33ms/step - acc: 0.8966 - loss: 0.3837 - val_acc: 0.9654 - val_loss: 0.1301
+Epoch 2/30
+494/494 - 16s - 32ms/step - acc: 0.9636 - loss: 0.1236 - val_acc: 0.9829 - val_loss: 0.0556
+Epoch 3/30
+494/494 - 16s - 32ms/step - acc: 0.9728 - loss: 0.0889 - val_acc: 0.9838 - val_loss: 0.0553
+Epoch 4/30
+494/494 - 16s - 32ms/step - acc: 0.9771 - loss: 0.0758 - val_acc: 0.9842 - val_loss: 0.0492
+Epoch 5/30
+494/494 - 16s - 32ms/step - acc: 0.9810 - loss: 0.0631 - val_acc: 0.9874 - val_loss: 0.0413
+Epoch 6/30
+494/494 - 16s - 32ms/step - acc: 0.9827 - loss: 0.0560 - val_acc: 0.9866 - val_loss: 0.0508
+Epoch 7/30
+494/494 - 17s - 34ms/step - acc: 0.9836 - loss: 0.0545 - val_acc: 0.9879 - val_loss: 0.0407
+Epoch 8/30
+494/494 - 17s - 34ms/step - acc: 0.9846 - loss: 0.0508 - val_acc: 0.9893 - val_loss: 0.0379
+Epoch 9/30
+494/494 - 17s - 34ms/step - acc: 0.9851 - loss: 0.0459 - val_acc: 0.9897 - val_loss: 0.0333
+Epoch 10/30
+494/494 - 16s - 33ms/step - acc: 0.9866 - loss: 0.0445 - val_acc: 0.9891 - val_loss: 0.0345
+Epoch 11/30
+494/494 - 16s - 33ms/step - acc: 0.9873 - loss: 0.0404 - val_acc: 0.9890 - val_loss: 0.0397
+E0000 00:00:1791372121.069504 1564399 node_def_util.cc:682] NodeDef mentions attribute use_unbounded_threadpool which is not in the op definition: Op<name=MapDataset; signature=input_dataset:variant, other_arguments: -> handle:variant; attr=f:func; attr=Targuments:list(type),min=0; attr=output_types:list(type),min=1; attr=output_shapes:list(shape),min=1; attr=use_inter_op_parallelism:bool,default=true; attr=preserve_cardinality:bool,default=false; attr=force_synchronous:bool,default=false; attr=metadata:string,default=""> This may be expected if your graph generating binary is newer  than this binary. Unknown attributes will be ignored. NodeDef: {{node ParallelMapDatasetV2/_15}}
+{"mnist_best": [0.028749991208314896, 0.9909999966621399], "mnist_final": [0.03227716311812401, 0.9922999739646912], "meilleure_epoque": 9}

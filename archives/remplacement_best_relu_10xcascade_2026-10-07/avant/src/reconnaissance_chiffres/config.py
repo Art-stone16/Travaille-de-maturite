@@ -1,0 +1,39 @@
+"""Chemins partagés du projet, indépendants du répertoire de lancement."""
+
+import os
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_CACHE = PROJECT_ROOT / ".cache"
+PROJECT_CACHE.mkdir(parents=True, exist_ok=True)
+
+SORTIES_ROOT = PROJECT_ROOT / "resultats"
+SORTIES_RECHERCHE_MODELE = SORTIES_ROOT / "recherche"
+SORTIES_HYPERPARAMETRES = SORTIES_RECHERCHE_MODELE / "hyperparametres"
+SORTIES_STABILITE = SORTIES_RECHERCHE_MODELE / "stabilite"
+SORTIES_RECHERCHE_ARCHITECTURES = SORTIES_RECHERCHE_MODELE / "architectures"
+SORTIES_ENTRAINEMENTS_MANUELS = SORTIES_RECHERCHE_MODELE / "entrainements"
+SORTIES_EVALUATION_MODELE = SORTIES_ROOT / "evaluation_mnist"
+SORTIES_PERFORMANCES_PAR_CHIFFRE = SORTIES_EVALUATION_MODELE / "performances_par_chiffre"
+SORTIES_VISUALISATIONS = SORTIES_ROOT / "visualisations"
+SORTIES_CHIFFRES_MOYENS = SORTIES_VISUALISATIONS / "chiffres_moyens"
+SORTIES_TESTS_PHOTOS = SORTIES_ROOT
+SORTIES_TESTS_TERRAIN = SORTIES_ROOT / "photos_terrain"
+SORTIES_CASCADE_TOP_N = SORTIES_ROOT / "cascade_top_n"
+SORTIES_WEBCAM = SORTIES_ROOT / "webcam"
+
+DONNEES_BRUTES = PROJECT_ROOT / "donnees" / "brutes"
+DONNEES_PREPAREES = PROJECT_ROOT / "donnees" / "preparees"
+DONNEES_TESTS_TERRAIN = DONNEES_BRUTES / "terrain"
+DONNEES_CASCADE_TOP_N = DONNEES_BRUTES / "cascade_top_n"
+MODELES_VALIDES = PROJECT_ROOT / "modeles" / "actifs"
+MODELES_EN_COURS = SORTIES_ENTRAINEMENTS_MANUELS / "modeles"
+MODELES_RECHERCHE_ARCHITECTURES = SORTIES_RECHERCHE_ARCHITECTURES / "modeles"
+RAPPORTS_COMPARAISONS = PROJECT_ROOT / "rapports" / "comparaisons"
+RAPPORTS_CASCADE = RAPPORTS_COMPARAISONS / "cascade_top_n"
+ARCHIVES_PDF = PROJECT_ROOT / "archives" / "pdf"
+
+os.environ.setdefault("KERAS_BACKEND", "tensorflow")
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
+os.environ.setdefault("XDG_CACHE_HOME", str(PROJECT_CACHE))
+os.environ.setdefault("MPLCONFIGDIR", str(PROJECT_CACHE / "matplotlib"))

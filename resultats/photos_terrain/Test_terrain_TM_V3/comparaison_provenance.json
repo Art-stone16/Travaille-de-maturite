@@ -13,8 +13,8 @@
     },
     {
       "modele": "best_relu_10xcascade",
-      "execution": "2026-10-06_09-23-39",
-      "sha256_modele": "57749abc0f0453da0e332e6bb58c082292ca758d387ae0ecb9a0ef7461500129"
+      "execution": "2026-10-07_13-24-42",
+      "sha256_modele": "048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5"
     },
     {
       "modele": "best_relu_2xcascade",
@@ -46,5 +46,11 @@
       "execution": "2026-10-06_09-23-52",
       "sha256_modele": "a0abcc2de9ea8c96087f81c4f4d5e0a981c69cc1b93e3f2cf0346b5102d547d1"
     }
-  ]
+  ],
+  "actualisation": {
+    "date": "2026-10-07",
+    "modele": "best_relu_10xcascade",
+    "annotations_conservees": true,
+    "autres_modeles_conserves": true
+  }
 }

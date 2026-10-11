@@ -15,6 +15,7 @@ from scripts import _bootstrap  # noqa: F401
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -930,6 +931,12 @@ def main(argv=None):
         dossier_execution,
         diagnostics_actifs,
     )
+    chemin_parametres = dossiers["source"] / "parametres.json"
+    parametres = json.loads(chemin_parametres.read_text(encoding="utf-8"))
+    parametres["entrees"]["modele_sha256"] = hashlib.sha256(args.modele.read_bytes()).hexdigest()
+    parametres["entrees"]["image_sha256"] = hashlib.sha256(args.image.read_bytes()).hexdigest()
+    chemin_parametres.write_text(json.dumps(parametres, ensure_ascii=False, indent=2) + "\n",
+                                encoding="utf-8")
     resume = creer_resume(
         args,
         nom_modele,

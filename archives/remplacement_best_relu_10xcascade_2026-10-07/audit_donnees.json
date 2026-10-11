@@ -1,0 +1,26 @@
+{
+  "originaux": 1217,
+  "copies_exactes": 10953,
+  "total_cascade": 12170,
+  "classes": [
+    98,
+    100,
+    228,
+    102,
+    99,
+    103,
+    187,
+    100,
+    100,
+    100
+  ],
+  "ids_uniques": 1217,
+  "images_uniques": 1217,
+  "manifest_aligne": true,
+  "matrices_identiques": true,
+  "blocs_images_labels_identiques": true,
+  "cascade_mnist_test_hashes_communs": 0,
+  "cascade_mnist_train_hashes_communs": 0,
+  "fuite_historique_x2_originaux_train_validation": 307,
+  "copies_historique_x2_validation": 357
+}

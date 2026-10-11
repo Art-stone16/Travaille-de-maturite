@@ -6,6 +6,7 @@
 *.keras
 !modeles/**/*.keras
 !archives/modeles/**/*.keras
+!archives/remplacement_best_relu_10xcascade_2026-10-07/**/*.keras
 
 # Données préparées localement : reconstruction/validation avant entraînement
 donnees/preparees/synthetiques/

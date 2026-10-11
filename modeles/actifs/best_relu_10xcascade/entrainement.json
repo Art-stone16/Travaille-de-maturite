@@ -1,81 +1,163 @@
 {
-  "modele_reference": "Best_relu_cascade_V2",
-  "mnist_train": 60000,
+  "protocole": "relu_cascade_copies_exactes_validation_mnist_v2",
+  "modele_reference": "best_relu_2xcascade (script corrigé, poids historiques conservés)",
+  "nom_modele": "best_relu_10xcascade",
+  "facteur_repetition": 10,
+  "augmentation": null,
+  "mnist_source_train": 60000,
+  "mnist_train": 51000,
+  "mnist_validation": 9000,
+  "mnist_test": 10000,
   "cascade_originaux": 1217,
-  "cascade_variantes_augmentees": 10953,
+  "cascade_copies_exactes": 10953,
   "cascade_total": 12170,
-  "augmentation": {
-    "rotation_max_deg": 8,
-    "translation_max_px": 1.5,
-    "seed": 42
+  "train_total": 63170,
+  "validation_total": 9000,
+  "cascade_validation": 0,
+  "cascade_test": 0,
+  "repartition_cascade_originaux": [
+    98,
+    100,
+    228,
+    102,
+    99,
+    103,
+    187,
+    100,
+    100,
+    100
+  ],
+  "repartition_cascade_train": [
+    980,
+    1000,
+    2280,
+    1020,
+    990,
+    1030,
+    1870,
+    1000,
+    1000,
+    1000
+  ],
+  "reglages": {
+    "graine": 42,
+    "deterministic_ops": true,
+    "validation_split_mnist": 0.15,
+    "batch_size": 128,
+    "epochs_max": 30,
+    "early_stopping": {
+      "monitor": "val_loss",
+      "patience": 2,
+      "restore_best_weights": false
+    },
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "SparseCategoricalCrossentropy",
+    "shuffle": true
   },
-  "validation_split": 0.15,
-  "mnist_test_loss": 0.030425308272242546,
-  "mnist_test_accuracy": 0.991100013256073,
+  "sources": {
+    "mnist": {
+      "chemin": "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/.cache/keras/datasets/mnist.npz",
+      "sha256": "731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1"
+    },
+    "cascade": {
+      "x_train_cascade.npy": "8ad6d2105967c6c729faa9760f44435f83ff3dea144e7c2ea1b08f3dc22780d9",
+      "ids_train_cascade.npy": "8fdf56ff464ed4c088c0bb494c81da8adeb7a9c1b1a33e6a6a8d07c8d72017b7",
+      "y_train_cascade.npy": "c2f4f81e434567b2d51e894f5e10a7cc060ac1b15226790d4c75b6272604175c"
+    },
+    "routine_sha256": "740773828b608e210aed0f8f6a94ea4189505092e4c624e8c60cbee0d23a3ad1",
+    "indices_split_sha256": "3636148918cea63d2e86d29e0e1290cc3e841a1ddd3c38a14592012a9961563a"
+  },
+  "controle_fuite": {
+    "cascade_validation_empreintes_communes": 0,
+    "cascade_test_empreintes_communes": 0
+  },
+  "epochs_realises": 11,
+  "meilleure_epoque": 9,
+  "mnist_test_loss": 0.028749991208314896,
+  "mnist_test_accuracy": 0.9909999966621399,
+  "etat_evalue": "best_model.keras",
+  "mnist_test_final": {
+    "loss": 0.03227716311812401,
+    "accuracy": 0.9922999739646912
+  },
+  "verification_rechargement": {
+    "best_model.keras": {
+      "sha256": "048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5",
+      "forme_predictions": [
+        32,
+        10
+      ],
+      "predictions_finies": true,
+      "rechargement_identique": true
+    },
+    "final_model.keras": {
+      "sha256": "3b221aa37c1b5ee3ef405abec4ed2ef6cbc5136ed26408b0ce671a13f38b4ffa",
+      "forme_predictions": [
+        32,
+        10
+      ],
+      "predictions_finies": true,
+      "rechargement_identique": true
+    }
+  },
+  "versions": {
+    "keras": "3.14.1",
+    "tensorflow": "2.21.0",
+    "numpy": "2.4.6"
+  },
   "history": {
     "acc": [
-      0.8900625705718994,
-      0.9577627778053284,
-      0.9672502875328064,
-      0.9713582396507263,
-      0.9751564860343933,
-      0.977748453617096,
-      0.978318989276886,
-      0.9808131456375122,
-      0.9814977645874023,
-      0.9817423224449158,
-      0.9837962985038757,
-      0.9841875433921814,
-      0.98488849401474,
-      0.9858013987541199
+      0.8965964913368225,
+      0.963621973991394,
+      0.9727718830108643,
+      0.9771410226821899,
+      0.9809719920158386,
+      0.9826816320419312,
+      0.9835681319236755,
+      0.9846129417419434,
+      0.9850878715515137,
+      0.9866234064102173,
+      0.9872565865516663
     ],
     "loss": [
-      0.40226590633392334,
-      0.14774294197559357,
-      0.10858868807554245,
-      0.0928458571434021,
-      0.0815739780664444,
-      0.07248369604349136,
-      0.07139667868614197,
-      0.06364065408706665,
-      0.057784777134656906,
-      0.058570750057697296,
-      0.052585963159799576,
-      0.051033589988946915,
-      0.04737141728401184,
-      0.0440678671002388
+      0.3836801052093506,
+      0.12360425293445587,
+      0.088858462870121,
+      0.07578334957361221,
+      0.06313914805650711,
+      0.056039001792669296,
+      0.05448158457875252,
+      0.05076363682746887,
+      0.04594816267490387,
+      0.0445401631295681,
+      0.040406327694654465
     ],
     "val_acc": [
-      0.9048586487770081,
-      0.9732126593589783,
-      0.9809717535972595,
-      0.981618344783783,
-      0.982819139957428,
-      0.9827267527580261,
-      0.9858673810958862,
-      0.9860520958900452,
-      0.984019935131073,
-      0.9878994822502136,
-      0.9878994822502136,
-      0.9898392558097839,
-      0.9888231754302979,
-      0.9869757890701294
+      0.9654444456100464,
+      0.9828888773918152,
+      0.9837777614593506,
+      0.9842222332954407,
+      0.9874444603919983,
+      0.9865555763244629,
+      0.9878888726234436,
+      0.9893333315849304,
+      0.9896666407585144,
+      0.9891111254692078,
+      0.9890000224113464
     ],
     "val_loss": [
-      0.2974669635295868,
-      0.08894769847393036,
-      0.060986366122961044,
-      0.061200208961963654,
-      0.05653753876686096,
-      0.05394354462623596,
-      0.04496128484606743,
-      0.04056815803050995,
-      0.04837152734398842,
-      0.036343660205602646,
-      0.040050990879535675,
-      0.0332496352493763,
-      0.03795170783996582,
-      0.038194719702005386
+      0.1300784796476364,
+      0.055648814886808395,
+      0.055262308567762375,
+      0.04921550676226616,
+      0.0412614680826664,
+      0.0507865771651268,
+      0.040718141943216324,
+      0.037899572402238846,
+      0.03334564343094826,
+      0.03450435772538185,
+      0.039669401943683624
     ]
   }
 }

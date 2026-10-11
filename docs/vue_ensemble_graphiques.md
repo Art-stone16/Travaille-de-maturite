@@ -7,6 +7,8 @@ correspond pas à 5 177 graphiques ou mesures indépendantes. Les photographies
 sources de `donnees/`, les archives et les rapports Markdown sont hors de ce
 périmètre.
 
+Actualisation du 7 octobre 2026 : le ×10 utilise désormais des copies exactes. Ses courbes, motifs, sorties CTN, sorties terrain et comparatifs ont été régénérés ; deux évaluations MNIST complètes ont été ajoutées. L'inventaire chiffré ci-dessous reste le relevé historique du 6 octobre. Le [compte rendu du remplacement](../rapports/remplacement_best_relu_10xcascade_2026-10-07/compte_rendu.md) décrit les nouveaux fichiers et les limites d'indépendance des tests CTN.
+
 | Emplacement dans `resultats/` | Images | Contenu |
 |---|---:|---|
 | `recherche/hyperparametres/` | 27 | Cartes, surfaces, nuages de points, corrélations et histogrammes |

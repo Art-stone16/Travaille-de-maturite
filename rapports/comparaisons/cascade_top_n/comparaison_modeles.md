@@ -4,7 +4,7 @@
 
 | Modèle | Feuilles | Attendus | Zones | Top-1 | Top-2 | Top-3 | Top-5 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [best_relu_10xcascade](best_relu_10xcascade/resultats.md) | 12 | 1201 | 1227 | 98,53 % | 99,35 % | 99,51 % | 99,59 % |
+| [best_relu_10xcascade](best_relu_10xcascade/resultats.md) | 12 | 1201 | 1227 | 99,02 % | 99,35 % | 99,35 % | 99,51 % |
 | [best_relu_2xcascade](best_relu_2xcascade/resultats.md) | 12 | 1201 | 1227 | 96,33 % | 98,94 % | 99,10 % | 99,51 % |
 | [Best_relu_cascade_V2](Best_relu_cascade_V2/resultats.md) | 12 | 1201 | 1227 | 92,75 % | 95,93 % | 97,39 % | 98,86 % |
 | [Best_relu_cascade](Best_relu_cascade/resultats.md) | 12 | 1201 | 1227 | 91,12 % | 95,11 % | 97,15 % | 98,37 % |
@@ -13,13 +13,13 @@
 | [best_softmax](best_softmax/resultats.md) | 12 | 1201 | 1227 | 71,72 % | 86,88 % | 93,15 % | 97,31 % |
 | [Best_COLOR_MAP](Best_COLOR_MAP/resultats.md) | 12 | 1201 | 1227 | 65,44 % | 82,64 % | 89,49 % | 96,74 % |
 
-Modèles classés par précision globale Top-1 décroissante.
+Modèles classés par précision globale Top-1 décroissante. **Les résultats ×2 et ×10 portent sur les sources du dataset d’entraînement Cascade ; ils ne mesurent pas une généralisation indépendante.** Le ×10 actif utilise désormais dix copies exactes et une validation MNIST séparée. Le ×2 enregistré conserve son entraînement historique ; leur différence de score ne peut donc pas être attribuée au seul facteur de répétition.
 
 ## Précision Top-1 par chiffre
 
 | Modèle | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| best_relu_10xcascade | 100,00 % | 100,00 % | 98,28 % | 99,02 % | 96,97 % | 99,05 % | 96,30 % | 100,00 % | 99,01 % | 99,01 % |
+| best_relu_10xcascade | 100,00 % | 100,00 % | 98,28 % | 100,00 % | 98,99 % | 97,14 % | 99,47 % | 100,00 % | 98,02 % | 99,01 % |
 | best_relu_2xcascade | 100,00 % | 100,00 % | 98,28 % | 94,12 % | 93,94 % | 97,14 % | 93,65 % | 99,00 % | 94,06 % | 93,07 % |
 | Best_relu_cascade_V2 | 100,00 % | 99,00 % | 97,84 % | 82,35 % | 87,88 % | 92,38 % | 89,95 % | 96,00 % | 91,09 % | 87,13 % |
 | Best_relu_cascade | 100,00 % | 97,00 % | 97,84 % | 81,37 % | 86,87 % | 88,57 % | 89,42 % | 89,00 % | 89,11 % | 85,15 % |

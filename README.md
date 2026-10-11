@@ -5,6 +5,8 @@ réseau de neurones convolutif. Le projet permet d'entraîner et comparer des
 modèles, d'étudier leurs hyperparamètres, puis de les évaluer sur MNIST et sur
 des photographies réelles.
 
+Le modèle `best_relu_10xcascade` a été remplacé le 7 octobre 2026 par un entraînement avec dix exemplaires exacts par chiffre Cascade. Le [compte rendu du remplacement](rapports/remplacement_best_relu_10xcascade_2026-10-07/compte_rendu.md) donne les effectifs, évaluations, limites et éléments à actualiser dans le TM. Les scripts ×2 et ×10 utilisent une routine commune avec validation MNIST séparée ; le ×2 actif garde ses poids historiques.
+
 ## Installation
 
 Depuis la racine du dépôt :

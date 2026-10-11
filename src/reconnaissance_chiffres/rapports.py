@@ -4,6 +4,7 @@ Usage : python scripts/visualisation/generer_rapports_cascade_md.py
 """
 from pathlib import Path
 import os
+import json
 
 from . import config
 from collections import Counter, defaultdict
@@ -47,6 +48,9 @@ def charger(source):
         cle = (modele, path.parent.parent.name)
         execution = dict(path=path, feuille=cle[1], date=path.parent.name,
                          attendu=attendu, lignes=lignes)
+        provenance_path = path.parent / 'provenance.json'
+        if provenance_path.exists():
+            execution['provenance'] = json.loads(provenance_path.read_text())
         if cle not in derniers or execution['date'] > derniers[cle]['date']:
             derniers[cle] = execution
     groupes = defaultdict(list)
@@ -101,6 +105,15 @@ def generer(source=SOURCE, sortie=None):
                    tableau(['Chiffre', 'Zones', 'Corrects Top-1', 'Top-1', 'Top-3', 'Top-5'],
                            [[c, len(ls), score(ls,1), *[pourcentage(score(ls,n),len(ls)) for n in (1,3,5)]]
                             for c, ls in par_chiffre.items()])]
+        if (modele in {'best_relu_10xcascade', 'best_relu_2xcascade'} or
+                any(e.get('provenance', {}).get('evaluation_independante') is False for e in executions)):
+            note = ('**Contrôle sur les sources d’entraînement Cascade, sans indépendance.** '
+                    'Les 1 217 chiffres validés de ces feuilles ont alimenté le dataset. '
+                    'Les scores sur toutes les zones détectées incluent aussi les dix zones exclues. '
+                    'Le test final indépendant des expériences corrigées est MNIST test.')
+            if modele == 'best_relu_2xcascade':
+                note += ' Le modèle ×2 actif conservé utilise le protocole historique avec copies partagées entre entraînement et validation.'
+            parties.insert(1, note)
         disponibles = [c for c in par_chiffre if par_chiffre[c]]
         if disponibles:
             taux = {c: score(par_chiffre[c],1)/len(par_chiffre[c]) for c in disponibles}
@@ -128,7 +141,12 @@ def generer(source=SOURCE, sortie=None):
                tableau(['Modèle', 'Feuilles', 'Attendus', 'Zones', 'Top-1', 'Top-2', 'Top-3', 'Top-5'],
                        [[f'[{m}]({m}/resultats.md)', len(donnees[m][2]), sum(e['attendu'] for e in donnees[m][2]),
                          len(donnees[m][0]), *[pourcentage(score(donnees[m][0],n),len(donnees[m][0])) for n in (1,2,3,5)]] for m in ordre]),
-               'Modèles classés par précision globale Top-1 décroissante.', '## Précision Top-1 par chiffre',
+               'Modèles classés par précision globale Top-1 décroissante. '
+               '**Les résultats ×2 et ×10 portent sur les sources du dataset d’entraînement Cascade ; '
+               'ils ne mesurent pas une généralisation indépendante.** '
+               'Le ×10 actif utilise désormais dix copies exactes et une validation MNIST séparée. '
+               'Le ×2 enregistré conserve son entraînement historique ; leur différence de score '
+               'ne peut donc pas être attribuée au seul facteur de répétition.', '## Précision Top-1 par chiffre',
                tableau(['Modèle'] + list(range(10)),
                        [[m] + [pourcentage(score(donnees[m][1][c],1),len(donnees[m][1][c])) for c in range(10)] for m in ordre]),
                '## Méthode', METHODE,

@@ -1,0 +1,231 @@
+[
+  {
+    "type": "MNIST test best",
+    "evaluation_independante": true,
+    "images": 10000,
+    "dossier": "resultats/evaluation_mnist/performances_par_chiffre/best_relu_10xcascade_copies_exactes_2026-10-07"
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_0",
+    "ancien": "resultats/cascade_top_n/CTN_0/2026-09-25_15-55-52",
+    "nouveau": "resultats/cascade_top_n/CTN_0/2026-10-07_13-23-57",
+    "zones": 98,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_1",
+    "ancien": "resultats/cascade_top_n/CTN_1/2026-09-25_15-55-56",
+    "nouveau": "resultats/cascade_top_n/CTN_1/2026-10-07_13-24-02",
+    "zones": 100,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_2",
+    "ancien": "resultats/cascade_top_n/CTN_2/2026-09-25_15-55-58",
+    "nouveau": "resultats/cascade_top_n/CTN_2/2026-10-07_13-24-04",
+    "zones": 130,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_2.2",
+    "ancien": "resultats/cascade_top_n/CTN_2.2/2026-09-25_15-55-59",
+    "nouveau": "resultats/cascade_top_n/CTN_2.2/2026-10-07_13-24-05",
+    "zones": 102,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_3",
+    "ancien": "resultats/cascade_top_n/CTN_3/2026-09-25_15-56-00",
+    "nouveau": "resultats/cascade_top_n/CTN_3/2026-10-07_13-24-06",
+    "zones": 102,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_4",
+    "ancien": "resultats/cascade_top_n/CTN_4/2026-09-25_15-56-04",
+    "nouveau": "resultats/cascade_top_n/CTN_4/2026-10-07_13-24-10",
+    "zones": 99,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_5",
+    "ancien": "resultats/cascade_top_n/CTN_5/2026-09-25_15-56-07",
+    "nouveau": "resultats/cascade_top_n/CTN_5/2026-10-07_13-24-13",
+    "zones": 105,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_6",
+    "ancien": "resultats/cascade_top_n/CTN_6/2026-09-25_15-56-08",
+    "nouveau": "resultats/cascade_top_n/CTN_6/2026-10-07_13-24-14",
+    "zones": 91,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_6.2",
+    "ancien": "resultats/cascade_top_n/CTN_6.2/2026-09-25_15-56-11",
+    "nouveau": "resultats/cascade_top_n/CTN_6.2/2026-10-07_13-24-16",
+    "zones": 98,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_7",
+    "ancien": "resultats/cascade_top_n/CTN_7/2026-09-25_15-56-11",
+    "nouveau": "resultats/cascade_top_n/CTN_7/2026-10-07_13-24-17",
+    "zones": 100,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_8",
+    "ancien": "resultats/cascade_top_n/CTN_8/2026-09-25_15-56-15",
+    "nouveau": "resultats/cascade_top_n/CTN_8/2026-10-07_13-24-20",
+    "zones": 101,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Cascade Top-N",
+    "feuille": "CTN_9",
+    "ancien": "resultats/cascade_top_n/CTN_9/2026-09-25_15-56-19",
+    "nouveau": "resultats/cascade_top_n/CTN_9/2026-10-07_13-24-25",
+    "zones": 101,
+    "evaluation_independante": false,
+    "rectangles_identiques": true
+  },
+  {
+    "type": "Terrain",
+    "image": "Test_terrain_TM",
+    "ancien": "resultats/photos_terrain/Test_terrain_TM/2026-10-06_08-49-29",
+    "nouveau": "resultats/photos_terrain/Test_terrain_TM/2026-10-07_13-24-30",
+    "zones": 27,
+    "pretraitement_identique": true,
+    "source_distincte_cascade": true,
+    "annotations_disponibles": true,
+    "commande": [
+      "scripts/evaluation/test_condition_reelle.py",
+      "--image",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/Test_terrain_TM.jpg",
+      "--modele",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+      "--nom-modele",
+      "best_relu_10xcascade",
+      "--nom-experience",
+      "Test_terrain_TM_8_modeles",
+      "--chiffre-reel",
+      "inconnu"
+    ]
+  },
+  {
+    "type": "Terrain",
+    "image": "Test_terrain_TM_V2",
+    "ancien": "resultats/photos_terrain/Test_terrain_TM_V2/2026-10-06_08-57-12",
+    "nouveau": "resultats/photos_terrain/Test_terrain_TM_V2/2026-10-07_13-24-37",
+    "zones": 29,
+    "pretraitement_identique": true,
+    "source_distincte_cascade": true,
+    "annotations_disponibles": true,
+    "commande": [
+      "scripts/evaluation/test_condition_reelle.py",
+      "--image",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/Test_terrain_TM_V2.jpg",
+      "--modele",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+      "--nom-modele",
+      "best_relu_10xcascade",
+      "--nom-experience",
+      "Test_terrain_TM_V2_8_modeles",
+      "--chiffre-reel",
+      "inconnu"
+    ]
+  },
+  {
+    "type": "Terrain",
+    "image": "Test_terrain_TM_V3",
+    "ancien": "resultats/photos_terrain/Test_terrain_TM_V3/2026-10-06_09-23-39",
+    "nouveau": "resultats/photos_terrain/Test_terrain_TM_V3/2026-10-07_13-24-42",
+    "zones": 30,
+    "pretraitement_identique": true,
+    "source_distincte_cascade": true,
+    "annotations_disponibles": true,
+    "commande": [
+      "scripts/evaluation/test_condition_reelle.py",
+      "--image",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/Test_terrain_TM_V3.jpg",
+      "--modele",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+      "--nom-modele",
+      "best_relu_10xcascade",
+      "--nom-experience",
+      "Test_terrain_TM_V3_8_modeles",
+      "--chiffre-reel",
+      "inconnu"
+    ]
+  },
+  {
+    "type": "Terrain",
+    "image": "image_reelle_Grand",
+    "ancien": "resultats/photos_terrain/image_reelle_Grand/2026-09-26_10-39-13",
+    "nouveau": "resultats/photos_terrain/image_reelle_Grand/2026-10-07_13-24-47",
+    "zones": 22,
+    "pretraitement_identique": true,
+    "source_distincte_cascade": true,
+    "annotations_disponibles": false,
+    "commande": [
+      "scripts/evaluation/test_condition_reelle.py",
+      "--image",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/image_reelle_Grand.jpg",
+      "--modele",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+      "--nom-modele",
+      "best_relu_10xcascade",
+      "--nom-experience",
+      "test_terrain_Grand",
+      "--chiffre-reel",
+      "inconnu"
+    ]
+  },
+  {
+    "type": "Terrain",
+    "image": "test_terrain",
+    "ancien": "resultats/photos_terrain/test_terrain/2026-09-25_15-58-26",
+    "nouveau": "resultats/photos_terrain/test_terrain/2026-10-07_13-24-55",
+    "zones": 31,
+    "pretraitement_identique": true,
+    "source_distincte_cascade": true,
+    "annotations_disponibles": false,
+    "commande": [
+      "scripts/evaluation/test_condition_reelle.py",
+      "--image",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/donnees/brutes/terrain/historiques/test_terrain.jpg",
+      "--modele",
+      "/Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras",
+      "--nom-modele",
+      "best_relu_10xcascade",
+      "--nom-experience",
+      "comparaison_2x_10x",
+      "--chiffre-reel",
+      "inconnu"
+    ]
+  }
+]

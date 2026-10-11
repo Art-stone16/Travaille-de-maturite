@@ -1,0 +1,30 @@
+ÉVALUATION PAR CLASSE MNIST
+=============================
+
+Modèle : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/modeles/actifs/best_relu_10xcascade/best_model.keras
+Empreinte SHA-256 : 048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5
+Source MNIST : /Users/arthurperret/Library/Mobile Documents/com~apple~CloudDocs/Dev/Travaille-de-maturit-/.cache/keras/datasets/mnist.npz
+Protocol ID : sha256:d442257431f4090cc81a589d028471b10bce3577da71b29c1fbdd78eae6d35d3
+Evaluation ID : sha256:f87d4aff9b2a531eefb06c7380435b792d628e6a3e760d2abd63cee07f72f488
+
+OÙ TROUVER LES RÉSULTATS
+------------------------
+- donnees/matrice_confusion_effectifs.csv : erreurs exactes entre chaque paire de chiffres.
+- donnees/metriques_par_classe.csv : TP, FN, FP, TN, sensibilité, spécificité,
+  précision, F1, accuracy one-vs-rest et balanced accuracy one-vs-rest.
+- donnees/indices_images_test.csv : correspondance avec les indices MNIST d'origine.
+- donnees/resume_global.csv : métriques globales et moyennes macro.
+- graphiques/ : figures construites à partir des CSV exportés.
+
+COMMENT LIRE LES MÉTRIQUES
+--------------------------
+- Sensibilité : parmi les vrais chiffres c, proportion reconnue comme c.
+- Spécificité : parmi les autres chiffres, proportion non confondue avec c.
+- FNR : proportion des vrais c manqués. FPR : fausses alertes pour c.
+- Accuracy one-vs-rest : souvent très haute parce qu'environ 90 % des images
+  sont négatives pour une classe. Pour comparer les chiffres, privilégier la
+  sensibilité, la spécificité, la balanced accuracy one-vs-rest, la précision et le F1.
+
+Les intervalles de Wilson mesurent l'incertitude liée au nombre d'images du jeu
+de test pour cette évaluation. Ils ne mesurent pas la variabilité entre plusieurs
+entraînements : cette dernière doit être étudiée avec plusieurs graines.

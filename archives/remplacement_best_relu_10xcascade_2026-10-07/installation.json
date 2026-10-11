@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-07T13:23:49.510130+02:00",
+  "actif": "modeles/actifs/best_relu_10xcascade",
+  "provisoire": "resultats/recherche/entrainements/remplacement_best_relu_10xcascade_2026-10-07/modele_provisoire",
+  "ancien_sha256": "57749abc0f0453da0e332e6bb58c082292ca758d387ae0ecb9a0ef7461500129",
+  "nouveau_sha256": "048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5",
+  "verification_rechargement_avant_et_apres": true
+}

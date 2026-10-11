@@ -1,0 +1,13 @@
+{
+  "operations_modele_et_evaluations": "terminees",
+  "verification_finale": "verification_finale.json",
+  "evaluations": "evaluations_reexecutees.json",
+  "rapport": "rapports/remplacement_best_relu_10xcascade_2026-10-07/compte_rendu.md",
+  "limites": [
+    "deux photos sans annotations",
+    "aucun jeu Cascade indépendant existant",
+    "aucune étude de stabilité ×10 enregistrée",
+    "manuscrit du TM absent",
+    "HTML validé structurellement, vérification navigateur indisponible"
+  ]
+}

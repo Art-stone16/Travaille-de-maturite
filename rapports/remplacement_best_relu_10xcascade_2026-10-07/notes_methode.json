@@ -1,0 +1,37 @@
+{
+  "audience": "technical",
+  "mode": "html",
+  "sections": [
+    "resume",
+    "definitions",
+    "methode",
+    "mnist",
+    "classes",
+    "cascade",
+    "terrain",
+    "preservation",
+    "fichiers",
+    "limites",
+    "obsolete",
+    "suite"
+  ],
+  "structure": "Résumé, définitions, protocole, résultats, contrôles, limites, éléments obsolètes et suite. Les définitions sont avancées pour éviter des dénominateurs ambigus.",
+  "chart_map": [
+    {
+      "id": "sensibilite",
+      "famille": "bar",
+      "question": "Quels chiffres sont le moins bien reconnus dans MNIST test ?",
+      "source": "metriques_par_classe.csv",
+      "palette": "Palette native commune, distinction par position et labels."
+    },
+    {
+      "id": "validation",
+      "famille": "line",
+      "question": "À quelle époque la perte de validation est-elle minimale ?",
+      "points": 11,
+      "source": "entrainement.json",
+      "palette": "Une série native, sans légende redondante."
+    }
+  ],
+  "omissions": "Comparaison des deux versions ×10 sous forme de table exacte. Les illustrations exportées du projet gardent leurs protocoles et styles historiques."
+}

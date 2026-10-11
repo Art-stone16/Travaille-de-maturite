@@ -10,6 +10,8 @@ from scripts import _bootstrap  # noqa: F401
 
 import argparse
 import csv
+import hashlib
+import json
 import re
 from datetime import datetime
 from pathlib import Path
@@ -402,6 +404,35 @@ def executer_test(modele):
         date_test,
     )
     resume_path.write_text(resume + "\n", encoding="utf-8")
+
+    # Les feuilles du dataset Cascade sont des contrôles d'entraînement pour
+    # les deux expériences de répétition, jamais un test final indépendant.
+    metadata_path = MODEL_PATH.parent / "entrainement.json"
+    metadata = json.loads(metadata_path.read_text()) if metadata_path.exists() else {}
+    source_dataset = env_config.DONNEES_CASCADE_TOP_N / IMAGE_PATH.name
+    meme_source = (source_dataset.is_file() and
+                   hashlib.sha256(source_dataset.read_bytes()).digest() ==
+                   hashlib.sha256(IMAGE_PATH.read_bytes()).digest())
+    controle_entrainement = meme_source and (
+        MODEL_NAME in {"best_relu_2xcascade", "best_relu_10xcascade"}
+        or metadata.get("cascade_originaux", 0) > 0)
+    provenance = {
+        "modele": str(MODEL_PATH.resolve()),
+        "modele_sha256": hashlib.sha256(MODEL_PATH.read_bytes()).hexdigest(),
+        "image": str(IMAGE_PATH.resolve()),
+        "image_sha256": hashlib.sha256(IMAGE_PATH.read_bytes()).hexdigest(),
+        "chiffre_attendu": CHIFFRE_ATTENDU,
+        "nombre_attendu": NOMBRE_ATTENDU,
+        "evaluation_independante": False if controle_entrainement else None,
+        "statut": ("controle_sur_sources_entrainement_cascade" if controle_entrainement
+                   else "independance_non_verifiee"),
+        "protocole_entrainement": metadata.get("protocole", "historique_non_documente"),
+    }
+    (dossier_execution / "provenance.json").write_text(
+        json.dumps(provenance, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if controle_entrainement:
+        with resume_path.open("a", encoding="utf-8") as fichier:
+            fichier.write("\nContrôle sur les sources d'entraînement Cascade : ce test n'est pas une évaluation indépendante.\n")
 
     print(resume)
     print(f"\nDossier complet du test: {dossier_execution}")

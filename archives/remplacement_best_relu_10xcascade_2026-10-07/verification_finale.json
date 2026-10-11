@@ -1,0 +1,13 @@
+{
+  "modele_actif_sha256": "048791c7c796386f27571bc67777299c6272369572b77553682b91c5762c84f5",
+  "mnist_nouveau_modele_verifie": true,
+  "ctn_nouveau_modele_verifie": 12,
+  "terrain_nouveau_modele_verifie": 5,
+  "motifs_nouveau_modele_verifie": true,
+  "journal_autres_modeles_inchange": true,
+  "journal_nouveau_10x_lignes": 139,
+  "tests_automatises": 43,
+  "notebook_cellules_executees": 3,
+  "compilations_et_rechargements_valides": true,
+  "resolution_regeneration_comparatif": "Adaptation du schéma CSV historique TM ; écritures atomiques, données restaurées depuis archive puis comparatifs validés."
+}

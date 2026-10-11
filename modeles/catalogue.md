@@ -1,6 +1,6 @@
 # Catalogue des modèles actifs
 
-Les huit modèles utilisés pour les comparaisons sont regroupés sous `actifs/`. Leurs noms et leurs poids sont conservés.
+Les huit modèles utilisés pour les comparaisons sont regroupés sous `actifs/`. Leurs noms sont conservés. Le ×10 a été remplacé le 7 octobre 2026 par un entraînement avec copies exactes ; les autres poids sont conservés. L'ancien ×10 et ses résultats sont dans [l'archive du remplacement](../archives/remplacement_best_relu_10xcascade_2026-10-07/README.md).
 
 [Configurations et paramètres des modèles](../rapports/comparaisons/comparatifs_modeles.md)
 

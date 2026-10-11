@@ -1,0 +1,14 @@
+fichier,type,description
+configuration.json,json,"Paramètres, provenance, empreinte du modèle et protocole."
+LISEZ_MOI.txt,txt,Guide de lecture de cette évaluation.
+donnees/matrice_confusion_effectifs.csv,csv,Matrice de confusion 10×10 en effectifs.
+donnees/matrice_confusion_normalisee_par_classe_reelle.csv,csv,Matrice normalisée par classe réelle (sensibilité).
+donnees/matrice_confusion_normalisee_par_classe_predite.csv,csv,Matrice normalisée par classe prédite (lecture de la précision).
+donnees/metriques_par_classe.csv,csv,Métriques one-vs-rest et IC 95 % pour chaque chiffre.
+donnees/resume_global.csv,csv,Résumé global et moyennes macro.
+donnees/indices_images_test.csv,csv,Indices des images dans le jeu de test MNIST source.
+donnees/predictions_test.csv,csv,Prédictions et scores du modèle image par image.
+graphiques/matrice_confusion_effectifs.png,png,Matrice de confusion en effectifs.
+graphiques/matrice_confusion_normalisee_reel.png,png,Matrice de confusion normalisée par ligne.
+graphiques/sensibilite_specificite_par_classe.png,png,Sensibilité et spécificité avec IC Wilson 95 %.
+graphiques/taux_erreurs_par_classe.png,png,Taux de faux négatifs et faux positifs.
